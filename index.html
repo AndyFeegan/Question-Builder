@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresha · Discovery Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0d14; --surf:#14141f; --surf2:#1c1c2b;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --text:#f0eee8; --muted:#7a7890; --muted2:#45435a;
+  --accent:#00e0a0;
+  --t1:#60a5fa; --t1d:rgba(96,165,250,0.12);
+  --t2:#fbbf24; --t2d:rgba(251,191,36,0.12);
+  --t3:#f87171; --t3d:rgba(248,113,113,0.12);
+  --t4:#34d399; --t4d:rgba(52,211,153,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+button{cursor:pointer;font-family:inherit}
+textarea{font-family:inherit;caret-color:var(--accent)}
+
+/* ── LAYOUT ── */
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:236px;min-width:236px;background:var(--surf);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.side-top{padding:18px 14px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.logo{font-weight:700;font-size:15px;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+.mode-row{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border-radius:8px;padding:3px;gap:2px}
+.mode-btn{padding:7px 0;border:none;border-radius:6px;background:transparent;color:var(--muted);font-size:12px;font-weight:500;transition:all .15s;text-align:center}
+.mode-btn.active{background:var(--surf2);color:var(--text)}
+
+.side-sect{padding:12px 14px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.side-lbl{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted2);margin-bottom:10px}
+.client-btn{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:8px;border:1px solid transparent;background:transparent;width:100%;margin-bottom:2px;transition:all .15s;text-align:left}
+.client-btn:hover{background:var(--surf2)}
+.client-btn.active{background:rgba(0,224,160,0.08);border-color:rgba(0,224,160,0.2)}
+.client-icon{font-size:15px;flex-shrink:0}
+.client-name{font-size:12px;font-weight:500;color:var(--text);line-height:1.2}
+.client-sub{font-size:11px;color:var(--muted);font-weight:300}
+
+.topic-list{flex:1;overflow-y:auto;padding:8px 6px 20px}
+.topic-item{display:flex;align-items:flex-start;gap:9px;padding:8px;border-radius:8px;cursor:pointer;border-left:2px solid transparent;margin-bottom:1px;transition:all .15s}
+.topic-item:hover{background:var(--surf2)}
+.topic-item.active{background:rgba(0,224,160,0.08);border-left-color:var(--accent)}
+.topic-n{font-size:10px;font-weight:700;color:var(--muted2);width:16px;flex-shrink:0;margin-top:2px}
+.topic-item.active .topic-n{color:var(--accent)}
+.topic-ns{font-size:12px;font-weight:500;color:var(--muted);line-height:1.4}
+.topic-item.active .topic-ns{color:var(--text)}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{padding:14px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--surf)}
+.topbar-eye{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+.topbar-title{font-size:20px;font-weight:600;color:var(--text);letter-spacing:-0.3px;line-height:1.2}
+.persona-badge{display:flex;align-items:center;gap:8px;background:var(--surf2);border:1px solid var(--border2);border-radius:100px;padding:6px 14px;font-size:12px;color:var(--muted)}
+.persona-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.persona-name{color:var(--text);font-weight:500}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;padding:22px 24px 40px}
+
+/* ── BUILD MODE ── */
+.intro-box{background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:18px;font-size:13px;color:var(--muted);line-height:1.65;font-weight:300}
+.fw-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+.fw-pill{border-radius:9px;padding:10px 12px}
+.fw-label{font-weight:700;font-size:12px;margin-bottom:3px}
+.fw-desc{font-size:11px;color:var(--muted);line-height:1.4;font-weight:300}
+
+.q-block{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px;background:var(--surf);transition:border-color .2s}
+.q-block:focus-within{border-color:var(--border2)}
+.q-head{display:flex;align-items:center;gap:10px;padding:9px 14px 7px;border-bottom:1px solid var(--border)}
+.q-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.3px}
+.q-prompt{font-size:12px;color:var(--muted);font-weight:300}
+.q-input-row{display:flex;align-items:flex-start;gap:8px;padding:10px 14px 12px}
+.q-ta{flex:1;background:transparent;border:none;font-size:14px;color:var(--text);resize:none;min-height:44px;line-height:1.55;outline:none}
+.q-ta::placeholder{color:var(--muted2)}
+
+/* Feedback */
+.q-fb{border-top:1px solid var(--border);padding:14px 16px;background:rgba(0,0,0,0.18);display:none}
+.q-fb.show{display:block}
+.fb-scores{display:flex;gap:7px;margin-bottom:9px;flex-wrap:wrap}
+.fb-chip{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid}
+.fb-text{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px;font-weight:300}
+.fb-model-box{background:rgba(0,224,160,0.05);border:1px solid rgba(0,224,160,0.15);border-radius:8px;padding:11px 13px}
+.fb-model-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.fb-model-q{font-size:13px;color:rgba(0,224,160,.85);line-height:1.55;font-style:italic}
+
+.print-bar{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding:13px 16px;background:var(--surf);border:1px solid var(--border);border-radius:12px}
+.print-btn{padding:8px 16px;background:var(--surf2);border:1px solid var(--border2);color:var(--text);border-radius:7px;font-size:12px;font-weight:600}
+.print-btn:hover{background:rgba(255,255,255,0.06)}
+
+.mic-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:transparent;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px;transition:all .18s;color:var(--muted)}
+.mic-btn:hover{background:var(--surf2)}
+.mic-btn.recording{background:rgba(248,113,113,0.15);border-color:var(--t3);animation:micpulse 1s infinite}
+@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.3)}50%{box-shadow:0 0 0 5px rgba(248,113,113,0)}}
+
+/* ── PRACTICE MODE ── */
+.practice-wrap{display:flex;flex-direction:column;height:100%}
+.setup-card{background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.setup-title{font-weight:600;font-size:14px;margin-bottom:3px}
+.setup-sub{font-size:12px;color:var(--muted);font-weight:300}
+.start-btn{padding:10px 22px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-size:13px;font-weight:700;transition:all .15s}
+.start-btn:hover{background:#00c88e}
+.start-btn.sec{background:var(--surf2);color:var(--text);border:1px solid var(--border2)}
+.start-btn.sec:hover{background:rgba(255,255,255,0.06)}
+
+.ft-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:18px}
+.ft-step{padding:9px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surf);text-align:center;transition:all .2s}
+.ft-step.active{background:var(--surf2)}
+.ft-step.done{opacity:.35}
+.ft-step-lbl{font-size:11px;font-weight:700;margin-bottom:2px}
+.ft-step-desc{font-size:10px;color:var(--muted);font-weight:300}
+
+.thread{flex:1;overflow-y:auto;padding-bottom:16px}
+.msg{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;animation:fadeup .3s ease both}
+@keyframes fadeup{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.msg.rep{justify-content:flex-end}
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px;background:var(--surf2);border:1px solid var(--border2)}
+.avatar.coach{background:rgba(0,224,160,.08);border-color:rgba(0,224,160,.2)}
+.msg-body{max-width:86%}
+.msg-name{font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:5px}
+.msg-name.prospect{color:var(--t2)}
+.msg-name.coach{color:var(--accent)}
+.bubble{padding:11px 14px;border-radius:10px;line-height:1.6;font-weight:300;border:1px solid var(--border);background:var(--surf);color:var(--text)}
+.bubble.prospect{font-size:15px}
+.bubble.coach{background:rgba(0,224,160,.04);border-color:rgba(0,224,160,.12);font-size:13px;color:rgba(240,238,232,.85)}
+.bubble.rep-bubble{font-size:14px}
+.rep-t-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+
+.coach-scores{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.c-chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid}
+.coach-fb{font-size:13px;color:rgba(240,238,232,.72);line-height:1.6;margin-bottom:0;font-weight:300}
+.coach-model{margin-top:10px}
+.coach-model-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.coach-model-q{font-size:13px;color:var(--accent);font-style:italic;line-height:1.55}
+
+.dots{display:flex;gap:4px;padding:2px 0}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:dp 1.2s infinite ease-in-out}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes dp{0%,80%,100%{transform:scale(.6);opacity:.3}40%{transform:scale(1);opacity:1}}
+
+.input-area{background:var(--surf);border:1px solid var(--border);border-radius:12px;overflow:hidden;flex-shrink:0;margin-top:12px}
+.input-head{display:flex;align-items:center;gap:10px;padding:9px 14px 7px;border-bottom:1px solid var(--border)}
+.input-row{display:flex;gap:8px;padding:10px 12px 12px}
+.p-ta{flex:1;background:transparent;border:none;font-size:14px;color:var(--text);resize:none;min-height:44px;line-height:1.55;outline:none}
+.p-ta::placeholder{color:var(--muted2)}
+.send-btn{padding:8px 18px;background:var(--accent);color:var(--bg);border:none;border-radius:7px;font-size:13px;font-weight:700;align-self:flex-end;white-space:nowrap;transition:all .15s}
+.send-btn:hover{background:#00c88e}
+.send-btn:disabled{background:var(--surf2);color:var(--muted);cursor:not-allowed}
+.skip-btn{padding:8px 13px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:7px;font-size:12px;align-self:flex-end}
+.skip-btn:hover{border-color:var(--border2);color:var(--text)}
+
+.summary-card{background:var(--surf);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:8px}
+.summary-head{padding:15px 20px;border-bottom:1px solid var(--border);background:var(--surf2)}
+.summary-title{font-size:18px;font-weight:600;margin-bottom:3px;letter-spacing:-.3px}
+.summary-sub{font-size:12px;color:var(--muted);font-weight:300}
+.summary-scores{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)}
+.sum-score{padding:15px 20px;text-align:center;border-right:1px solid var(--border)}
+.sum-val{font-size:28px;font-weight:700;margin-bottom:4px}
+.sum-lbl{font-size:11px;color:var(--muted)}
+.summary-body{padding:20px}
+.sum-fb-title{font-weight:600;font-size:13px;margin-bottom:8px}
+.sum-fb-text{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:16px}
+.sum-btns{display:flex;gap:10px;flex-wrap:wrap}
+
+@media(max-width:680px){
+  .sidebar{display:none}
+  .fw-bar{grid-template-columns:repeat(2,1fr)}
+  .ft-bar{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════════
+
+const TOPICS = [
+  {num:1,title:"Fill the Calendar",desc:"How are they creating new demand? Website, Google, social, referrals, and the Fresha marketplace — and where they feel the gaps.",
+   prompts:["How are they currently driving new client demand?","Where does that struggle or feel unpredictable?","What does an empty slot actually cost them?","What would a full, predictable diary look like?"]},
+  {num:2,title:"Convert Interest into Bookings",desc:"Where are potential clients dropping off? Missed calls, slow response, clunky booking, low online conversion.",
+   prompts:["How do interested clients get from finding them to actually booking?","Where do enquiries or potential bookings get lost?","What is the revenue impact of those lost conversions?","What would a frictionless booking journey look like?"]},
+  {num:3,title:"Protect Booked Time",desc:"No-shows, late cancellations, weak policies, lack of deposits or stored cards all erode revenue already earned on paper.",
+   prompts:["How do they currently handle no-shows and cancellations?","Where does the current approach leave them exposed?","What does an empty slot really cost — revenue, time, morale?","What no-show rate or recovery would feel acceptable?"]},
+  {num:4,title:"Maximise Revenue per Slot",desc:"Empty gaps, underused staff, poor peak/off-peak management, and low average ticket.",
+   prompts:["How do they think about revenue across the whole week?","Where are they underutilising what they already have?","What does the gap between their busiest and quietest periods cost?","What would consistently better utilisation do for the business?"]},
+  {num:5,title:"Retain & Rebook Clients",desc:"Repeat visits, rebooking discipline, reminders, follow-up, personalised client experience.",
+   prompts:["What does their process look like for getting clients to return?","Where does rebooking fall through the cracks?","What does losing a regular client actually cost over a year?","What would their ideal retention system look like?"]},
+  {num:6,title:"Get Paid Smoothly",desc:"Checkout friction, delayed payment, reconciliation hassle, saved card usage, payment speed.",
+   prompts:["Walk me through how payment currently works at end of service.","Where does the payment process create delays or friction?","What does payment admin cost them in time each week?","What would a completely frictionless checkout look like?"]},
+  {num:7,title:"Run the Team Consistently",desc:"Schedules, permissions, payroll/commission admin, productivity, manager visibility.",
+   prompts:["How do they currently manage scheduling and team visibility?","Where does coordination or communication break down?","What does team-related admin cost in time, errors, or disputes?","What would a well-run team operation free them up to do?"]},
+  {num:8,title:"Grow Retail & Add-on Revenue",desc:"Inventory control, stockouts, upsell behaviour, product attachment.",
+   prompts:["How are retail products or add-on services currently recommended?","Where does the upsell opportunity get missed or fall inconsistent?","What does the gap between best and worst performers cost in margin?","What would consistent add-on revenue change for the business?"]},
+  {num:9,title:"See the Business Clearly",desc:"Reporting, location comparisons, performance visibility, decision speed.",
+   prompts:["How do they currently track how the business is performing?","Where are they making decisions without the right information?","What does slow or inaccurate data cost them in missed decisions?","What would a real-time view of the business actually enable?"]}
+];
+
+const CLIENTS = {
+  salon: {name:"Salon Owner",icon:"✂️",sub:"Single location"},
+  multi: {name:"Multi-location",icon:"🏢",sub:"Group or franchise"},
+  solo:  {name:"Solo / Chair renter",icon:"🙋",sub:"Independent operator"},
+  spa:   {name:"Spa & Wellness",icon:"🧖",sub:"Treatments & therapists"},
+  barber:{name:"Barbershop",icon:"💈",sub:"Walk-in & booked"}
+};
+
+const PERSONAS = ["Friendly","Sceptical","Busy"];
+const NAMES = {
+  salon:["Sarah","Marcus","Priya","Jade"],
+  multi:["Daniel","Natasha","Ben","Zara"],
+  solo: ["Mo","Lisa","Jack","Aisha"],
+  spa:  ["Clara","Tom","Anya","Dev"],
+  barber:["Reece","Tariq","Dani","Sam"]
+};
+
+const OPENINGS = {
+  Friendly:["Hi, good to meet you — I've always got time for a chat. Things are going well but there's definitely areas I'd love to tighten up.","Sure, come in. We've been busy lately but I know there are things we could do better — what did you want to go through?","Of course. I'm pretty happy with how things are running but I'm always open to ideas. What's on your mind?"],
+  Sceptical:["Look, I'll be honest — I've had a few of these conversations before and nothing's really changed anything. But go ahead, I'll hear you out.","We're actually doing fine at the moment. I'm not really looking to switch anything up but I said I'd have the call so here we are.","I'll give you ten minutes. We've looked at other systems and they never quite fit how we work. So what makes this different?"],
+  Busy:["Hi — sorry, it's been one of those mornings. I've got about ten minutes before my next client so let's keep this moving.","Yeah hi, I can talk but I'm keeping an eye on the time. What did you want to cover?","Alright, I'm here. Just to let you know I've got someone coming in shortly so I'll need to keep this brief."]
+};
+
+// ── ROLEPLAY RESPONSES: [clientKey][topicIdx][t-step 0-3] ──
+const RESPONSES = {
+  salon: [
+    // Topic 1 - Fill the Calendar
+    ["Most of our new clients come through word of mouth honestly — a recommendation from a regular. We do a bit on Instagram but I couldn't tell you if it actually brings anyone in.",
+     "The Instagram thing is the problem — I post when I remember, which isn't that regular. And I've no idea how to get on Google properly. I know we're missing people there.",
+     "Honestly? Probably more than I'd like to admit. If even one quiet Tuesday became a full day, that's maybe £300 I'm not seeing. Multiply that across the month and it adds up.",
+     "If I had a steady stream without it all depending on me posting or someone happening to mention us — that would take a lot of pressure off. I could actually focus on the work."],
+    // Topic 2 - Convert Interest
+    ["They call, they DM us on Instagram, some find us on Google. It's a bit all over the place really — no one route.",
+     "The DMs are the worst. I see them when I'm in the middle of a client and by the time I reply they've gone somewhere else. I've lost bookings that way for sure.",
+     "I genuinely don't know the number but it bothers me. Even if it's two or three a week slipping through — that's a decent chunk of revenue walking out the door.",
+     "If someone could look us up and book straight away without having to wait for me to reply — that would be huge. Half my DMs are just people asking if we're free Saturday."],
+    // Topic 3 - Protect Booked Time
+    ["We ask for a deposit on new clients but honestly we're not very consistent with it. Regulars we just trust, which doesn't always work out.",
+     "Last-minute cancellations are the killer. Someone texts at 8am saying they can't make their 10am — there's no way I'm filling that. The slot just goes.",
+     "A no-show costs me the appointment value plus I've turned down walk-ins for that slot. On a bad week it's maybe £150, £200 gone. It's demoralising more than anything.",
+     "If I could at least hold a card — so people think twice before cancelling last minute — that would change things. Right now there are no consequences so why would they bother?"],
+    // Topic 4 - Maximise Revenue
+    ["Saturday is rammed, Monday and Tuesday are patchy. I've tried putting on deals for quieter days but they don't seem to shift much.",
+     "The Tuesday lunch slot is almost always empty. And my junior stylist is often just waiting around when the senior is fully booked. It's not efficient.",
+     "A slow Tuesday costs probably £200 versus a full day. Over a month of slow Tuesdays that's close to a grand I'm not making. It's my least efficient day by far.",
+     "If I could get Tuesday to look more like Saturday — even 70% of it — I could probably justify keeping the junior on full time rather than worrying about the hours."],
+    // Topic 5 - Retain & Rebook
+    ["We try to rebook at the end of the appointment but it's hit and miss. Some clients rebook on the spot, others say they'll call and then we don't hear from them.",
+     "There's no system for following up. If a regular hasn't been in for eight weeks I wouldn't know until I happened to think about them.",
+     "Losing a regular who comes in every six weeks — that's maybe £400 to £500 a year walking out the door. And you usually only notice when it's too late to do anything.",
+     "If clients got a reminder automatically — something that said it's been a while, want to book in? — I'd probably get half of them back without having to do anything."],
+    // Topic 6 - Get Paid
+    ["Card machine, cash, sometimes bank transfer for bigger jobs. End of day I reconcile manually, cross-check the till with the card machine receipts.",
+     "The bank transfers are the problem — clients sometimes forget, I have to chase, it feels awkward. And reconciling takes about half an hour every evening.",
+     "Half an hour a day, five days a week — that's two and a half hours of admin every week just on payments. I'd rather be doing literally anything else.",
+     "If everything came through one place and the numbers just matched at the end of the day — I can't tell you how much calmer that would make closing up."],
+    // Topic 7 - Run the Team
+    ["I've got three stylists and we do the rota on a shared WhatsApp. It mostly works but it gets messy when someone wants a day off or swaps a shift.",
+     "When someone's off sick the whole WhatsApp group goes mad. Half the time clients aren't told until they turn up. It's embarrassing.",
+     "Commission I do on a spreadsheet at the end of the month. It takes me about three hours and I've had two disputes in the last year about whether figures were right.",
+     "If the team could see their own schedule and commission in real time — less questions coming to me, less WhatsApp chaos. I could actually manage instead of just firefighting."],
+    // Topic 8 - Retail
+    ["We stock some aftercare products, mainly the brands we use. The stylists mention them sometimes but there's no real approach to it.",
+     "It depends entirely on who the client has. Some of my team are great at recommending, others never mention it. And we've run out of stock a few times which looks terrible.",
+     "My best stylist for retail probably does four or five times what the others do. That gap is wasted margin every single week.",
+     "If recommending product was part of the service conversation naturally — not a hard sell, just part of what we do — I think retail could be a proper revenue stream rather than an afterthought."],
+    // Topic 9 - Reporting
+    ["I check the till at the end of the day and I have a rough idea of how the week's gone. Monthly I pull it together in a spreadsheet to see where we are.",
+     "If I want to know which stylist is performing best or which services are most popular I have to dig through the spreadsheet manually. I don't do it as often as I should.",
+     "I made a decision last year to drop a service because I thought it wasn't profitable. Turns out I was wrong — it was actually popular but I was just looking at the wrong numbers.",
+     "If I could open something and see exactly where the money is coming from, which days and which staff — I'd be able to make better calls. Right now it's mostly gut feel."]
+  ],
+
+  multi: [
+    // Topic 1 - Fill the Calendar
+    ["Each location does its own thing — one is on Google, one relies on walk-in. There's no joined-up approach across the group.",
+     "The inconsistency is the issue. One site is always busy, the other two are patchy and I can't tell you why. We're not doing anything differently as far as I can see.",
+     "A quiet location costs me in fixed overheads — rent, wages — against lower income. I've got one site that probably costs me £4,000 a month to run and brings in £5,000. That's too tight.",
+     "If I could see what was working at the busy site and replicate it across the others — that would be worth a lot. Right now it's just guesswork."],
+    // Topic 2 - Convert Interest
+    ["Each site has its own booking number and some have online booking set up, some don't. It's not consistent at all.",
+     "The sites without online booking lose enquiries after hours. People search us at 9pm, can't book, go somewhere else. I know it's happening but I can't quantify it.",
+     "If even one site is losing five bookings a week after hours that's maybe £500 a week gone. Across three sites that starts to be a real number.",
+     "If all three sites had the same frictionless booking experience I could actually run a proper marketing campaign and know it would convert. Right now I'm embarrassed to spend on ads."],
+    // Topic 3 - Protect Booked Time
+    ["Policy varies by site — one manager is strict, another is more relaxed. We don't have a group-wide standard.",
+     "I found out last month that one of my sites has a 20% no-show rate on new clients. The manager hadn't told me. I only found out because I asked to see the data.",
+     "At 20% no-show on new clients across that site — that's one in five appointments just gone. At average ticket price that could be four or five thousand pounds a month.",
+     "If I could set policy once and have it enforced across all three sites automatically — no deposit exceptions, no staff making calls they shouldn't be — that would change everything."],
+    // Topic 4 - Maximise Revenue
+    ["Saturday is strong across all sites. Mid-week varies. I have no visibility of utilisation rate by site without asking each manager to pull figures.",
+     "I think I've got staff on at quiet times at some locations but I can't see it from here. By the time I find out the cost has already happened.",
+     "If one site is running at 50% utilisation on a Wednesday — that's dead wages against empty chairs. Probably costs me £300-400 in labour that day with no return.",
+     "If I could see utilisation by site, day, and stylist in real time — I could actually manage this rather than reacting. Right now I'm a month behind on everything."],
+    // Topic 5 - Retain & Rebook
+    ["Each site handles it differently. Some rebook at the chair, some send a text. There's no group standard.",
+     "Clients who visit one location and then move house — they might be near another of our sites but we have no way of knowing or contacting them.",
+     "A client who visits monthly across their lifetime is worth thousands to the group. When they lapse — even across all our sites — we have no visibility that it's happened.",
+     "A shared client database across all three sites so any location can see their history and reach out — that would actually make us feel like a group rather than three separate businesses."],
+    // Topic 6 - Get Paid
+    ["Each site has a different till system. Reconciliation is done separately by each manager and sent to me weekly.",
+     "Consolidating the three reports takes me or my PA half a day every week. And the formats are all different so it's not a quick job.",
+     "Half a day a week is 26 days a year of my time or my PA's time. That's a meaningful cost — salary-wise easily £3,000 to £4,000 a year just in reconciliation time.",
+     "If I got one dashboard showing me what came in across all three sites yesterday — I'd be able to spot problems immediately instead of finding out a week later."],
+    // Topic 7 - Run the Team
+    ["Managers handle their own rotas and I trust them to do it. But I've had situations where I find out after the fact that cover wasn't organised properly.",
+     "I can't see individual staff performance across sites without asking managers to send me data. And they don't always frame it the same way so it's hard to compare.",
+     "I promoted someone last year who I thought was a strong performer. Turned out their numbers were average — I just hadn't seen the data from the other sites clearly.",
+     "If I could see every team member's performance across all sites in one view — not just revenue but utilisation, retention, punctuality — I'd manage the group much more confidently."],
+    // Topic 8 - Retail
+    ["Retail is kind of left to individual managers. One site is good at it, the others not so much. No consistency.",
+     "I can't see retail performance per site in any easy way. I think one site barely sells anything but I don't have the data to challenge it properly.",
+     "If my best retail site did £800 a month and the others do £200 — that's £1,200 a month I should be making across the group that I'm not. That's £14,000 a year.",
+     "If I could benchmark retail performance site by site and set targets — then actually track them — retail could become a proper contributor to group revenue rather than an accident."],
+    // Topic 9 - Reporting
+    ["I get weekly reports from each manager. It takes me a couple of hours each week to read and compare them. The formats aren't consistent so it's harder than it should be.",
+     "If I want to compare like-for-like performance across sites I have to build my own spreadsheet. I do it monthly but it's always slightly out of date by the time I finish.",
+     "I've definitely made decisions with incomplete data. I moved resource to a site I thought was struggling — turns out it was actually having its best month. I just hadn't seen the numbers yet.",
+     "If I could open one screen and see all three sites side by side — revenue, utilisation, team performance — updated daily, I could actually run this as a group not as three separate guesses."]
+  ],
+
+  solo: [
+    // Topic 1 - Fill the Calendar
+    ["Word of mouth mainly. I get a lot from Instagram too — I post regularly and get enquiries but it's inconsistent. Some weeks I'm full, others I'm chasing.",
+     "The inconsistency is the problem. I can't predict which weeks will be quiet so I can't plan properly. And I feel awkward doing promo posts — doesn't feel very me.",
+     "A quiet week for me is maybe £400 less than a full week. When it happens two or three times a month I start to stress about the fixed costs — my chair rent, products, kit.",
+     "If I had a steadier pipeline that didn't depend on me posting or hoping someone recommends me — I could relax a bit and actually focus on the work I love doing."],
+    // Topic 2 - Convert Interest
+    ["People DM me on Instagram mostly, or text my personal number. I try to reply quickly but when I'm doing a colour or a cut I can miss them.",
+     "I know I lose people when I'm slow to respond. I've had people DM and then when I reply an hour later they've already booked someone else. It happens more than I'd like.",
+     "If I lose two or three bookings a week like that — at my average price that's maybe £150 to £200 a week just gone. Over a year that's a big number.",
+     "If people could just book themselves in when they want — without needing to wait for me to reply — I'd fill so many more gaps, especially the last-minute ones."],
+    // Topic 3 - Protect Booked Time
+    ["I don't take deposits — I always felt awkward asking, like it would put people off. So I just trust people to turn up.",
+     "I get probably two or three no-shows a month. Sometimes they text an hour before, sometimes nothing. I sit there with a free slot I can't fill and feel terrible about it.",
+     "Two or three no-shows a month at my prices — that's maybe £150 to £200 I'm not making. And I've already blocked that time so I can't do anything else with it.",
+     "If I could take a small deposit automatically when someone books — just something to hold the appointment — I think most of the no-shows would disappear. People just need a reason to show up."],
+    // Topic 4 - Maximise Revenue
+    ["I work four days and I try to fill every slot. I do offer different services but I don't really think about pricing differently for different times.",
+     "My Wednesday morning is almost always quiet. I've tried offering a discount but then I feel like I'm devaluing my work. So I just sit with the gap.",
+     "A quiet Wednesday morning is probably a £120 slot empty. If that happens every week that's close to £500 a month I'm not making. For me that's significant.",
+     "If I had a smart way to fill those quieter slots — maybe visibility to last-minute clients or a waitlist — without it feeling like a sale — that would actually help."],
+    // Topic 5 - Retain & Rebook
+    ["I try to rebook at the end of the appointment. Most of my regulars are brilliant but some say they'll message me and then I don't hear for months.",
+     "I have no system for following up. If someone hasn't booked in six weeks I wouldn't know unless I physically went through my messages looking.",
+     "A regular client spending £60 to £70 every six weeks — that's maybe £600 a year. When they just drift away without warning that's a big hole in my income.",
+     "If people got a gentle reminder when it's been a while — just something automatic, not pushy — I think I'd keep a lot more of them without having to be the one chasing."],
+    // Topic 6 - Get Paid
+    ["Card reader, cash, and bank transfer — depends on the client. I send invoices manually for some people which is embarrassing really.",
+     "The invoicing takes ages and chasing late payments is awkward when it's someone you've built a relationship with. I hate that part.",
+     "I have about four or five clients who pay late every month. Chasing them takes time and it's uncomfortable. One of them owes me for two months right now.",
+     "If payment was just done at the time of the appointment automatically — like a saved card — I'd never have to chase anyone again. That would remove so much stress."],
+    // Topic 7 - Run the Team
+    ["It's just me so team isn't really the issue — but I do work with an apprentice one day a week and organising that is more admin than it should be.",
+     "The apprentice situation means I have to track their hours, check what they did, make sure I'm meeting the training requirements. It's on top of everything else.",
+     "Probably an hour a week on admin related to the apprentice — which doesn't sound like much but when every hour could be a paying client it adds up.",
+     "If admin like that was just handled — logged automatically, easy to review — I could spend that hour doing what I'm actually good at."],
+    // Topic 8 - Retail
+    ["I sell a few products — mainly what I use on clients. I mention them if I think it'd help but I don't push it.",
+     "Sometimes I forget to mention products at the end of a service because I'm focused on finishing well and the client is in a rush to go. The moment passes.",
+     "I probably mention retail to maybe a third of clients. If the other two thirds heard about the right product for them — even half of them bought it — that's a meaningful add to my monthly income.",
+     "If there was a natural way to make product recommendation part of the service conversation — not salesy, just helpful — I'd be much more consistent. Right now it's purely when I remember."],
+    // Topic 9 - Reporting
+    ["I check what I've made at the end of each day and that's about it. I do a proper tally at the end of the month for tax but that's more necessity than insight.",
+     "I have no idea which services make me the most per hour, or which days are most profitable. I just try to stay busy and hope it adds up.",
+     "I underpriced a service for a whole year because I never analysed my time properly. When I finally worked it out I was making less per hour on that service than anything else.",
+     "If I could see at a glance — this service is your best earner, this day is your most efficient — I'd make better decisions about what to take on and what to charge."]
+  ],
+
+  spa: [
+    // Topic 1 - Fill the Calendar
+    ["We have a website with online booking and we're on a couple of directories. Bookings come in but we have quiet patches mid-week that I'd like to fill.",
+     "Mid-week is consistently quiet. We're nearly full Friday to Sunday but Monday, Tuesday, Wednesday — especially mornings — it's sparse. The marketing we're doing isn't reaching those gaps.",
+     "A quiet treatment room mid-week — if the room should be generating £300 a day and it's doing £80 — over a month that's thousands. And my overheads don't stop for quiet days.",
+     "If I could run targeted last-minute offers or fill the mid-week gaps through a marketplace without devaluing the full experience — that would be transformative for cash flow."],
+    // Topic 2 - Convert Interest
+    ["We get calls and online enquiries. The online booking works well for regular treatments but for packages or bespoke experiences people tend to call and we miss some of those.",
+     "Calls that come in during treatments go to voicemail. We call back but by then — especially for gift purchases — they've often gone elsewhere. Gift bookings are really sensitive to response time.",
+     "Gift bookings are high value — average £120 — and seasonal. If we're missing even five a month over November and December that's £600 to £1,200 of gift revenue gone.",
+     "If enquiries could convert through an online journey — even for bespoke packages — without needing a callback, we'd catch so many more of those seasonal gift bookings."],
+    // Topic 3 - Protect Booked Time
+    ["We take deposits for packages but not for single treatments. No-shows on single treatments do happen and we can't always recover the room.",
+     "Same-day cancellations on a treatment room mean that room generates nothing for that slot. We can't fill it with a walk-in like a salon might — the preparation and set-up time makes it hard.",
+     "A 60-minute treatment room that sits empty costs us not just the treatment revenue but also the therapist's time, the product used in preparation, the overheads. It's more expensive than it looks.",
+     "If deposits were standard across all bookings — even small ones for single treatments — I think cancellation behaviour would change. People think twice when there's something at stake."],
+    // Topic 4 - Maximise Revenue
+    ["We're good at filling the busy periods. The challenge is the therapists' time between appointments — the 20-minute gaps when they're just waiting.",
+     "We have a lot of micro-gaps — 15 to 30 minutes between treatments — that can't fit a full service. So therapists are on the clock but not generating revenue.",
+     "If I have four therapists with 30 minutes of dead time each — that's two hours of paid labour producing nothing. Daily that could be £100 to £150 in wasted staff cost.",
+     "If we could offer express treatments, scalp massages, hand treatments — something that fits the gaps — we could turn downtime into revenue without rescheduling anything."],
+    // Topic 5 - Retain & Rebook
+    ["We ask clients to rebook at reception. Some do, many say they'll call. We don't have an automated follow-up so it depends on who's on reception that day.",
+     "We have a lot of clients who come for a one-off birthday or gift experience and never come back — even though they loved it. We're not doing anything to bring them back.",
+     "A first-time client who had a great experience — if we converted even a third of them to a second visit that's a significant uplift in revenue without any new client acquisition cost.",
+     "If new clients automatically got a follow-up — a thank you and an offer to rebook — within 48 hours, I think a meaningful number would come back. Right now we just hope they do."],
+    // Topic 6 - Get Paid
+    ["Card payments at reception, some packages are pre-paid. End of day the till needs to reconcile against the bookings and it takes a while.",
+     "Pre-paid packages create tracking complexity — knowing what's been used, what's outstanding. We do it in a spreadsheet and it's got wrong before.",
+     "When package tracking goes wrong — client says they have two sessions left, we have one — someone has to back down. It damages trust and it's happened twice this year.",
+     "If package usage tracked itself and the client could see their balance — fewer disputes, less admin, and clients would trust that we're on top of things."],
+    // Topic 7 - Run the Team
+    ["I have seven therapists across different specialisms. Scheduling is complex — matching therapist skill to treatment request, managing room allocation, tracking hours.",
+     "When I get a last-minute booking for a specific treatment I have to manually check who's trained, who's free, and which room is set up. It can take ten minutes to confirm a booking.",
+     "Ten minutes per complex booking — if I have ten of those a day, that's an hour and a half of pure admin. And I still make mistakes sometimes, which is embarrassing.",
+     "If the system knew each therapist's qualifications, availability, and room requirements and could match them automatically — I'd get time back and clients would get confirmed faster."],
+    // Topic 8 - Retail
+    ["We have a retail area with professional products and aftercare. Therapists recommend at the end of treatments but it's inconsistent.",
+     "The recommendation happens maybe half the time. After a deep tissue massage the client is relaxed and we hesitate to push retail — but actually the moment is perfect for it if done right.",
+     "If every client post-treatment was offered the right aftercare product — even a 20% conversion at our average retail price of £35 — across 200 treatments a month that's £1,400 we're not making.",
+     "If retail was positioned as care continuation rather than sales — the right product, framed right, offered every time — I think clients would appreciate it and it would add real revenue."],
+    // Topic 9 - Reporting
+    ["I review weekly figures on a Saturday. I look at revenue, number of treatments, average transaction. I don't have great visibility of room utilisation or therapist productivity.",
+     "I want to know which therapists are most productive and which treatments have the best margin — but pulling that out of our current system takes time I don't always have.",
+     "I made a decision to invest in training for a new treatment last year based on gut feel. Six months in it's underperforming. If I'd had better data I might have chosen differently.",
+     "If I could see therapist productivity, treatment margin, and room utilisation in one dashboard — I'd be able to invest in training and equipment much more confidently."]
+  ],
+
+  barber: [
+    // Topic 1 - Fill the Calendar
+    ["Mainly walk-in and word of mouth. We have some regulars who book but most people just come in. We're busy Saturday but quiet Monday and Tuesday.",
+     "The walk-in model works but it means I can't plan the week. I never know if Monday will be dead or decent. It makes staffing really difficult.",
+     "A dead Monday with two barbers on — I'm paying wages for downtime. If walk-in doesn't pick up I might do £200 in takings against £180 in staff cost. That's not a business.",
+     "If I could shift even 30% of clients to pre-booking — predictable revenue, better staffing, fewer slow starts to the week — the business would feel much more stable."],
+    // Topic 2 - Convert Interest
+    ["We get walk-ins, calls, and some DMs. The DMs I'm hopeless at — they come in when I'm cutting and by the time I see them the person has gone somewhere else.",
+     "Instagram DMs are the worst — I know I'm losing bookings there. People ask if we're busy, I don't reply for an hour, they walk past and see the queue and just leave.",
+     "I'd guess I'm losing five or six bookings a week from slow responses. At my prices that's £150 to £200 a week. Over a year — actually that's a lot.",
+     "If clients could see our live availability and book online without needing to DM me — especially the ones who don't want to walk in and queue — that would capture a whole segment I'm missing."],
+    // Topic 3 - Protect Booked Time
+    ["Bookings are pretty casual — people book over text or call and they know they can cancel without any issue. We've always been relaxed about it.",
+     "No-shows on booked slots are annoying because I've turned away walk-ins for that slot. Especially on a busy Saturday — I lose a guaranteed paying customer for someone who doesn't show.",
+     "On a Saturday a missed booked slot might cost me a cut and a beard — £45 to £55. And I've told a walk-in to come back who then goes to someone else. It's a double loss.",
+     "Even just a reminder the day before would probably reduce no-shows significantly. Most people aren't malicious — they just forget. A text would sort most of it."],
+    // Topic 4 - Maximise Revenue
+    ["Saturdays are solid but Monday to Wednesday is unpredictable. I'm staffing for the weekend level and carrying that cost through the slow days.",
+     "My second barber is underused Tuesday and Wednesday. He's good — I don't want to cut his hours — but the work isn't there to justify him being full-time those days.",
+     "Carrying a barber who's only 50% utilised for two days a week — that's probably £200 a week in wages not matched by revenue. Over the year that's significant.",
+     "If I could drive bookings into those mid-week slots specifically — a loyalty deal for mid-week, something like that — I could justify keeping the team without the dead time."],
+    // Topic 5 - Retain & Rebook
+    ["Regulars just come back — they know their schedule. But I've got clients I haven't seen in months and I've no way of reaching them.",
+     "I've got no system for keeping track of who's been in. Some clients come every three weeks, some every three months. I can't tell the difference until I see them walk in.",
+     "A regular on a six-week cycle is worth maybe £600 to £800 a year. When they drift — maybe they moved, maybe they tried somewhere else — I don't even know until a year later.",
+     "If there was a way to ping lapsed clients automatically — even just a we haven't seen you in a while message — I'd probably get some of them back without doing anything myself."],
+    // Topic 6 - Get Paid
+    ["Cash and card. End of day it gets totalled up but it's fairly manual. I use a basic app but it doesn't connect to anything.",
+     "I pay barbers partly on commission and working out what each one is owed at the end of the week takes me about an hour with a spreadsheet.",
+     "That hour every week is 52 hours a year on commission admin. And I've made errors before which caused friction with the team. It's not a good use of my time.",
+     "If commission tracked automatically based on what each barber did — I could see it in real time and they could too — there'd be no disputes and I'd get that hour back every week."],
+    // Topic 7 - Run the Team
+    ["I've got three barbers and I do the rota. WhatsApp for shift changes. It works but it's chaotic when someone calls in sick.",
+     "When someone's off sick I'm texting round trying to find cover, texting clients to warn them, trying to manage the walk-in queue. It's all happening at once.",
+     "A sick day in the chair costs me the revenue from that chair — maybe £250 to £300 — plus the stress of managing it. And if I can't get cover, the waiting clients leave.",
+     "If shift changes, cover requests, and client notifications could all happen through one place — less chaos, less stress, less chance of clients walking because we look disorganised."],
+    // Topic 8 - Retail
+    ["We stock some barber products — pomade, wax, beard oil. Barbers mention them occasionally but there's no proper approach.",
+     "It depends on the barber. One of my guys is great at it — he recommends something to nearly every client and they buy. The others barely mention it.",
+     "The difference between my best and worst for retail is probably £150 to £200 a month. If I could get everyone to my best barber's level that's real money.",
+     "If recommending the right product was just part of the service — natural, not pushy — and everyone did it consistently, retail could be a proper second revenue line for the shop."],
+    // Topic 9 - Reporting
+    ["End of day I know what we've taken. Weekly I have a rough view. Beyond that I don't really analyse much — I go on feel.",
+     "I don't track which services are most profitable or which barber has the best repeat rate. I'd like to but I don't have an easy way to see it.",
+     "I kept a service on the menu for two years that wasn't really making money because I never looked at the numbers properly. When I finally did I cut it and nobody even noticed.",
+     "If I could see weekly: revenue by barber, best services, quietest slots — I'd actually run the business instead of just being in it. Right now I make most decisions by instinct."]
+  ]
+};
+
+// ── COACHING: model questions per topic × T-step ──
+const MODEL_QS = [
+  // Topic 1
+  ["Walk me through where your new clients are coming from at the moment — all the different routes.",
+   "Which of those channels feels the most unpredictable or hardest to control week to week?",
+   "When you have an unexpectedly quiet week — what does that translate to in real terms for you?",
+   "If you had a channel that filled those gaps consistently without depending on you — what would that free you up to do?"],
+  // Topic 2
+  ["When someone discovers you — on Google, Instagram, wherever — what does their journey to actually booking look like?",
+   "At what point in that journey do you feel people drop off or go somewhere else?",
+   "If you had to estimate the bookings that don't happen because of response time or friction — what would that be worth monthly?",
+   "What would it mean to the business if a client could book at 10pm without you needing to be involved?"],
+  // Topic 3
+  ["Walk me through your current approach to no-shows and cancellations — what do you have in place?",
+   "When a same-day cancellation comes in, what happens to that slot?",
+   "If you tracked last month's no-shows and put a number on it — what would it be?",
+   "What would it mean to the business if that number was half what it is now?"],
+  // Topic 4
+  ["How do you currently think about the revenue you're generating across the whole week — not just the busy days?",
+   "Where in the week do you consistently feel like you have more capacity than demand?",
+   "If you looked at the cost of those quieter periods — wages, overheads — against what comes in, what does that gap look like?",
+   "If you could bring those quieter slots up to even 70% of your peak — what would that change for the business?"],
+  // Topic 5
+  ["What does your current process look like for getting clients to come back after their first visit?",
+   "How would you know if a regular client hadn't been in for eight weeks?",
+   "If you think about a client who's been coming monthly for two years and then just stops — what does that represent over a year?",
+   "If rebooking happened automatically — a reminder, a prompt — without you having to do anything, what would that do for your monthly revenue?"],
+  // Topic 6
+  ["Walk me through how end of day looks — taking payment, closing up, reconciling what came in.",
+   "Where in that process does it take longer than it should or create uncertainty?",
+   "If you added up the time spent on payment admin across a week — what would that number be?",
+   "If payment reconciled itself and you could see the day's figures instantly — what would you do with that time?"],
+  // Topic 7
+  ["How do you currently manage the team's schedule and make sure everyone knows where they need to be?",
+   "When something changes last minute — a sick day, a shift swap — what does that process look like?",
+   "What does that kind of disruption cost you — in time, in client experience, in your own stress?",
+   "If scheduling, communication, and commission all ran through one place — what would that free you up to focus on?"],
+  // Topic 8
+  ["How does retail or product recommendation currently work as part of the client experience?",
+   "How consistent is that across your whole team — is everyone doing it or does it depend on who the client has?",
+   "If you compared your best retail performer to your lowest — what does that gap represent in monthly margin?",
+   "If retail was a natural part of every client interaction — not a push, just part of the service — what could that add to the business?"],
+  // Topic 9
+  ["How do you currently get a picture of how the business is performing — what do you look at and when?",
+   "When you want to understand why a week was good or bad, how easy is it to find the answer?",
+   "Are there decisions you're making slowly — or not at all — because the data isn't clear or fast enough?",
+   "If you had a real-time view of performance — revenue, utilisation, team — what would you act on first?"]
+];
+
+// ════════════════════════════════════════════════════════════
+// SMART COACHING ENGINE — no AI needed
+// Reads what the rep actually wrote and evaluates it across
+// 6 dimensions using 30+ heuristic rules
+// ════════════════════════════════════════════════════════════
+function analyseQuestion(raw) {
+  if (!raw || raw.trim().length < 2) return null;
+  const q   = raw.trim();
+  const t   = q.toLowerCase();
+  const words = t.split(/\s+/);
+  const wc  = words.length;
+
+  // ── PROBLEM: Not a question at all ──
+  const isStatement   = !q.includes("?") && !t.match(/^(walk|tell|describe|explain|help me|share|talk me)/);
+  const hasQ          = q.includes("?");
+
+  // ── PROBLEM: Closed yes/no openers ──
+  const closedOpeners = /^(do you|did you|have you|has your|is your|are you|was your|were you|can you|could you|would you|will you|do they|did they|have they|has the|is the|are the|do most|did most)/;
+  const isClosed      = closedOpeners.test(t);
+
+  // ── PROBLEM: Leading — rep assumes the answer ──
+  const leadingPatterns = [
+    /^(so you|so you're|so your|so basically|so it sounds|i imagine|i assume|i bet|i guess|you must|you probably|you likely|that must|that sounds like|sounds like you|it sounds like|i'm sure|clearly|obviously|no doubt)/,
+    /(don't you think|right\?$|isn't it\?$|wouldn't you say|you'd agree|surely)/,
+    /(must be (hard|difficult|frustrating|a pain|tough|stressful))/,
+    /(bet that('s| is) (annoying|frustrating|hard|difficult))/
+  ];
+  const isLeading = leadingPatterns.some(p => p.test(t));
+
+  // ── PROBLEM: Pitching disguised as a question ──
+  const pitchPatterns = [
+    /(fresha|our (platform|system|software|tool|product)|we (can|could|would)|have you (heard|tried|seen|considered|thought about) (fresha|us|our))/,
+    /(what if i told you|what if we could|imagine if|how would.*feel if we)/,
+    /(our (clients|customers) (typically|usually|often|find|see|get))/
+  ];
+  const isPitching = pitchPatterns.some(p => p.test(t));
+
+  // ── PROBLEM: Too vague / lazy ──
+  const vaguePatterns = [
+    /^(how('s| is) (that|it|business|everything|things) (going|working|been)\??$)/,
+    /^(tell me about your business\.?\??$)/,
+    /^(what('s| is) your (biggest|main|number one) (challenge|problem|issue|pain point)\??$)/,
+    /^(any (problems|issues|challenges) (with|around|about)\??\s*$)/,
+    /^(so what are your (thoughts|feelings|plans)\??\s*$)/
+  ];
+  const isVague = vaguePatterns.some(p => p.test(t)) || (wc <= 4 && hasQ);
+
+  // ── PROBLEM: Too short to be meaningful ──
+  const tooShort = wc < 5;
+
+  // ── PROBLEM: Multi-question — two questions in one ──
+  const questionMarks = (q.match(/\?/g) || []).length;
+  const isMulti = questionMarks >= 2;
+
+  // ── PROBLEM: Answers own question ──
+  const selfAnswers = [
+    /(or (is it|do you|are you|would you|have you)|or (maybe|perhaps|possibly) (you|it|they).*\?)/,
+    /(\?.*\bor\b.*\?)/
+  ];
+  const selfAnswering = selfAnswers.some(p => p.test(t));
+
+  // ── PROBLEM: Future-focused too early (Tomorrow Q asked like Today) ──
+  // (We flag this but don't penalise heavily)
+
+  // ── POSITIVE: Good open openers ──
+  const openOpeners = /^(walk me (through|us)|tell me (how|what|about|more)|how (do you|does|did|would|are)|what (does|do|did|would|is|are|happens|would)|where (does|do|did|are|would)|when (does|do|did)|why (do|does|did|would)|describe|explain|help me understand|talk me through|what('s| is) (the|your|a|an)|how (much|many|long|often|quickly))/;
+  const isOpen = openOpeners.test(t);
+
+  // ── POSITIVE: Gap-oriented language ──
+  const gapWords = /(impact|cost|affect|mean|change|different|better|ideal|vision|imagine|result|consequence|lose|lost|miss|gap|fall.?short|struggle|challenge|difficult|break.?down|slip.?through|drain|hurt|waste|bleed)/;
+  const hasGapLanguage = gapWords.test(t);
+
+  // ── POSITIVE: Invites story / specifics ──
+  const storyInvite = /(walk me through|talk me through|describe what|tell me more|what does that look like|what does a typical|give me an example|paint me a picture|in your own words)/;
+  const invitesStory = storyInvite.test(t);
+
+  // ── POSITIVE: Quantification attempt ──
+  const quantify = /(how much|how many|what does that cost|put a number|in real terms|in (£|\$|revenue|money)|per (week|month|year|day)|translate|what would that be worth)/;
+  const asksForNumber = quantify.test(t);
+
+  // ── POSITIVE: Prospect-centred language ──
+  const prospectCentred = /\b(you|your|they|their|the business|for (you|them|the team))\b/.test(t);
+
+  // ── SCORE EACH DIMENSION ─────────────────────────────────
+
+  // OPENNESS (1-10): Can the prospect give a rich answer?
+  let open = 5;
+  if (isOpen)        open += 3;
+  if (invitesStory)  open += 1;
+  if (isClosed)      open -= 3;
+  if (isVague)       open -= 1;
+  if (isMulti)       open -= 1;
+  if (tooShort)      open -= 2;
+  open = Math.max(1, Math.min(10, open));
+
+  // GAP STRENGTH (1-10): Does it move toward surfacing a gap?
+  let gap = 4;
+  if (isOpen)         gap += 1;
+  if (hasGapLanguage) gap += 3;
+  if (asksForNumber)  gap += 2;
+  if (invitesStory)   gap += 1;
+  if (isPitching)     gap -= 4;
+  if (isLeading)      gap -= 2;
+  if (isVague)        gap -= 2;
+  if (isClosed)       gap -= 1;
+  gap = Math.max(1, Math.min(10, gap));
+
+  // LEADING RISK (1-10): 10 = very leading/pushy
+  let lead = 2;
+  if (isLeading)      lead += 5;
+  if (isPitching)     lead += 4;
+  if (selfAnswering)  lead += 2;
+  if (isClosed)       lead += 1;
+  if (isOpen && !isLeading) lead -= 1;
+  lead = Math.max(1, Math.min(10, lead));
+
+  // ── BUILD FEEDBACK MESSAGE ───────────────────────────────
+  // Priority order: worst problem first, then encouragement
+  let issues = [];
+  let fb = "";
+
+  if (tooShort && !isOpen) {
+    issues.push("Too brief — the prospect doesn't know what territory you're exploring. Add context.");
+  }
+  if (isStatement) {
+    issues.push("This reads as a statement, not a question — the prospect doesn't know you want an answer. Reframe as a question.");
+  }
+  if (isPitching) {
+    issues.push("You're pitching, not discovering. Remove any reference to Fresha or what you can offer — stay in their world.");
+  }
+  if (isLeading) {
+    issues.push("You're leading the witness — you've assumed their answer. Ask it without the assumption and let them tell you.");
+  }
+  if (isClosed) {
+    issues.push("Closed opener (do/did/is/are) — this gets a yes or no. Swap it for 'Walk me through…', 'How do you…' or 'What does… look like'.");
+  }
+  if (isVague) {
+    issues.push("Too generic — 'what's your biggest challenge' gets a rehearsed answer. Get specific to this topic.");
+  }
+  if (isMulti) {
+    issues.push("Two questions in one — pick the most important and ask only that. Two questions lets them answer the easier one.");
+  }
+  if (selfAnswering) {
+    issues.push("You're offering them the answer — 'or is it X?' lets them just agree. Ask it openly and wait.");
+  }
+
+  if (issues.length === 0) {
+    // All clear — give positive specific feedback
+    if (asksForNumber && hasGapLanguage) {
+      fb = "Strong — you're pushing toward real impact. Good gap question.";
+    } else if (invitesStory) {
+      fb = "Good — inviting them to walk you through it gets a much richer answer than a direct question.";
+    } else if (isOpen && hasGapLanguage) {
+      fb = "Solid — open and gap-oriented. Make sure you stay quiet after asking it.";
+    } else if (isOpen) {
+      fb = "Open and neutral — good foundation. Push further toward the cost or impact if you can.";
+    } else {
+      fb = "Reasonable question. Check it genuinely opens space rather than narrowing it.";
+    }
+  } else {
+    fb = issues[0];
+    // Add a second issue if there are multiple serious ones
+    if (issues.length > 1 && (isPitching || isLeading || isClosed)) {
+      fb += " Also: " + issues[1];
+    }
+  }
+
+  return { gap, open, lead, fb, issueCount: issues.length };
+}
+
+// ════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════
+let mode = "build";
+let topicIdx = 0;
+let clientKey = "salon";
+let persona = "Friendly";
+let personaName = "Sarah";
+let buildVals = ["","","",""];
+let practicePhase = "setup"; // setup | active | done
+let practiceStep = 0;
+let practiceMessages = [];
+let practiceScores = [];
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function scoreColor(n){ return n>=8?"#34d399":n>=5?"#fbbf24":"#f87171"; }
+
+function freshPersona(){
+  persona = pick(PERSONAS);
+  personaName = pick(NAMES[clientKey]);
+}
+
+// ════════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════════
+function render(){
+  const app = document.getElementById("app");
+  app.innerHTML = `
+    <div class="app">
+      ${renderSidebar()}
+      <div class="main">
+        ${renderTopbar()}
+        ${mode==="build" ? renderBuild() : renderPractice()}
+      </div>
+    </div>`;
+  attachEvents();
+}
+
+function renderSidebar(){
+  const clientBtns = Object.entries(CLIENTS).map(([k,c])=>`
+    <button class="client-btn${clientKey===k?" active":""}" data-client="${k}">
+      <span class="client-icon">${c.icon}</span>
+      <div>
+        <div class="client-name">${c.name}</div>
+        <div class="client-sub">${c.sub}</div>
+      </div>
+    </button>`).join("");
+
+  const topicBtns = TOPICS.map((t,i)=>`
+    <div class="topic-item${topicIdx===i?" active":""}" data-topic="${i}">
+      <span class="topic-n">${t.num}</span>
+      <span class="topic-ns">${t.title}</span>
+    </div>`).join("");
+
+  return `<div class="sidebar">
+    <div class="side-top">
+      <div class="logo"><div class="logo-dot"></div> Fresha · Trainer</div>
+      <div class="mode-row">
+        <button class="mode-btn${mode==="build"?" active":""}" data-mode="build">Build</button>
+        <button class="mode-btn${mode==="practice"?" active":""}" data-mode="practice">Practice</button>
+      </div>
+    </div>
+    <div class="side-sect">
+      <div class="side-lbl">Client Type</div>
+      ${clientBtns}
+    </div>
+    <div class="topic-list">${topicBtns}</div>
+  </div>`;
+}
+
+function renderTopbar(){
+  const t = TOPICS[topicIdx];
+  const dotColor = persona==="Friendly"?"#34d399":persona==="Sceptical"?"#f87171":"#fbbf24";
+  return `<div class="topbar">
+    <div>
+      <div class="topbar-eye">Topic ${t.num} of 9</div>
+      <div class="topbar-title">${t.title}</div>
+    </div>
+    <div class="persona-badge">
+      <div class="persona-dot" style="background:${dotColor}"></div>
+      <span class="persona-name">${personaName}</span>
+      <span>· ${CLIENTS[clientKey].name} · ${persona}</span>
+    </div>
+  </div>`;
+}
+
+// ── BUILD MODE ──
+function renderBuild(){
+  const topic = TOPICS[topicIdx];
+  const tMeta = [
+    {label:"Today",    color:"var(--t1)",dim:"var(--t1d)"},
+    {label:"Trouble",  color:"var(--t2)",dim:"var(--t2-dim,var(--t2d))"},
+    {label:"True Cost",color:"var(--t3)",dim:"var(--t3d)"},
+    {label:"Tomorrow", color:"var(--t4)",dim:"var(--t4d)"}
+  ];
+  const fwDescs = ["Current reality","Where it breaks","Real impact","Ideal future"];
+
+  const pills = tMeta.map((tm,i)=>`
+    <div class="fw-pill" style="border:1px solid ${tm.color}33;background:${tm.dim}">
+      <div class="fw-label" style="color:${tm.color}">${tm.label}</div>
+      <div class="fw-desc">${fwDescs[i]}</div>
+    </div>`).join("");
+
+  const blocks = tMeta.map((tm,i)=>`
+    <div class="q-block" id="qblock-${i}">
+      <div class="q-head">
+        <span class="q-badge" style="background:${tm.dim};color:${tm.color}">${tm.label}</span>
+        <span class="q-prompt">${topic.prompts[i]}</span>
+      </div>
+      <div class="q-input-row">
+        <button class="mic-btn" id="mic-b${i}" onclick="toggleMic('b${i}','qta-${i}')">🎤</button>
+        <textarea class="q-ta" id="qta-${i}" rows="2" placeholder="Type your ${tm.label} question…">${buildVals[i]||""}</textarea>
+      </div>
+      <div class="q-fb" id="qfb-${i}"></div>
+    </div>`).join("");
+
+  return `<div class="content">
+    <div class="intro-box">${topic.desc}</div>
+    <div class="fw-bar">${pills}</div>
+    ${blocks}
+    <div class="print-bar">
+      <span style="font-size:13px;color:var(--muted)">Save your questions as a reference card</span>
+      <button class="print-btn" id="print-btn">🖨 Print reference card</button>
+    </div>
+  </div>`;
+}
+
+function showBuildFeedback(i){
+  const q = buildVals[i];
+  if (!q || q.trim().length < 2) return;
+  const result = analyseQuestion(q);
+  if (!result) return;
+  const modelQ = MODEL_QS[topicIdx][i];
+  const tLabels = ["Today","Trouble","True Cost","Tomorrow"];
+  const tColors = ["var(--t1)","var(--t2)","var(--t3)","var(--t4)"];
+
+  const gc = scoreColor(result.gap), oc = scoreColor(result.open);
+  const lc = scoreColor(11-result.lead);
+  const ll = result.lead>=7?"Leading":result.lead>=4?"Watch it":"Clean";
+
+  const fb = document.getElementById(`qfb-${i}`);
+  if (!fb) return;
+  fb.className = "q-fb show";
+  fb.innerHTML = `
+    <div class="fb-scores">
+      <span class="fb-chip" style="color:${gc};border-color:${gc}40">Gap ${result.gap}/10</span>
+      <span class="fb-chip" style="color:${oc};border-color:${oc}40">Open ${result.open}/10</span>
+      <span class="fb-chip" style="color:${lc};border-color:${lc}40">${ll}</span>
+    </div>
+    <div class="fb-text">${result.fb}</div>
+    <div class="fb-model-box">
+      <div class="fb-model-lbl">Strong ${tLabels[i]} question</div>
+      <div class="fb-model-q">"${modelQ}"</div>
+    </div>`;
+}
+
+// ── PRACTICE MODE ──
+function renderPractice(){
+  const topic = TOPICS[topicIdx];
+  const client = CLIENTS[clientKey];
+  const tMeta = [
+    {label:"Today",    color:"var(--t1)",dim:"var(--t1d)"},
+    {label:"Trouble",  color:"var(--t2)",dim:"var(--t2d)"},
+    {label:"True Cost",color:"var(--t3)",dim:"var(--t3d)"},
+    {label:"Tomorrow", color:"var(--t4)",dim:"var(--t4d)"}
+  ];
+  const stepDescs = ["Current reality","Where it breaks","Real impact","Ideal future"];
+
+  if (practicePhase === "setup"){
+    return `<div class="content">
+      <div class="setup-card">
+        <div>
+          <div class="setup-title">Practise: ${topic.title}</div>
+          <div class="setup-sub">You'll speak to ${personaName}, a ${persona.toLowerCase()} ${client.name.toLowerCase()}. Work through Today → Trouble → True Cost → Tomorrow.</div>
+        </div>
+        <button class="start-btn" id="start-btn">Start session →</button>
+      </div>
+    </div>`;
+  }
+
+  const ftSteps = tMeta.map((tm,i)=>{
+    const state = i < practiceStep ? "done" : i === practiceStep ? "active" : "";
+    const bstyle = state==="active" ? `border-color:${tm.color}44` : "";
+    return `<div class="ft-step ${state}" style="${bstyle}">
+      <div class="ft-step-lbl" style="color:${tm.color}">${tm.label}</div>
+      <div class="ft-step-desc">${stepDescs[i]}</div>
+    </div>`;
+  }).join("");
+
+  const msgs = practiceMessages.map(m => renderMsg(m, tMeta)).join("");
+
+  const inputSection = practicePhase==="active" && practiceStep < 4 ? `
+    <div class="input-area">
+      <div class="input-head">
+        <span class="q-badge" style="background:${tMeta[practiceStep].dim};color:${tMeta[practiceStep].color}">${tMeta[practiceStep].label}</span>
+        <span class="q-prompt">${topic.prompts[practiceStep]}</span>
+      </div>
+      <div class="input-row">
+        <button class="mic-btn" id="mic-practice" onclick="toggleMic('practice','practice-input')">🎤</button>
+        <textarea class="p-ta" id="practice-input" rows="2" placeholder="Ask your ${tMeta[practiceStep].label} question…"></textarea>
+        <button class="skip-btn" id="skip-btn">Skip</button>
+        <button class="send-btn" id="send-btn">Send →</button>
+      </div>
+    </div>` : "";
+
+  const summary = practicePhase==="done" ? renderSummary(topic) : "";
+
+  return `<div class="content" style="padding-bottom:0;display:flex;flex-direction:column;height:100%;overflow:hidden">
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;padding:22px 24px 0">
+      <div class="ft-bar">${ftSteps}</div>
+      <div class="thread" id="thread">${msgs}${summary}</div>
+      ${inputSection}
+      <div style="height:16px;flex-shrink:0"></div>
+    </div>
+  </div>`;
+}
+
+function renderMsg(m, tMeta){
+  if (m.type === "prospect"){
+    return `<div class="msg">
+      <div class="avatar">💼</div>
+      <div class="msg-body">
+        <div class="msg-name prospect">${personaName} · ${persona}</div>
+        <div class="bubble prospect">${esc(m.text)}</div>
+      </div>
+    </div>`;
+  }
+  if (m.type === "rep"){
+    const tm = tMeta[m.step];
+    return `<div class="msg rep">
+      <div class="msg-body">
+        <div class="bubble rep-bubble" style="background:${tm.dim};border:1px solid ${tm.color}33">
+          <div class="rep-t-label" style="color:${tm.color}">${tm.label}</div>
+          ${esc(m.text)}
+        </div>
+      </div>
+    </div>`;
+  }
+  if (m.type === "coach"){
+    const r = m.result;
+    const gc = scoreColor(r.gap), oc = scoreColor(r.open), lc = scoreColor(11-r.lead);
+    const ll = r.lead>=7?"Leading":r.lead>=4?"Watch it":"Clean";
+    const modelQ = MODEL_QS[topicIdx][m.step];
+    const tLabels = ["Today","Trouble","True Cost","Tomorrow"];
+    return `<div class="msg">
+      <div class="avatar coach">✦</div>
+      <div class="msg-body" style="flex:1">
+        <div class="msg-name coach">Coach</div>
+        <div class="bubble coach">
+          <div class="coach-scores">
+            <span class="c-chip" style="color:${gc};border-color:${gc}40">Gap ${r.gap}/10</span>
+            <span class="c-chip" style="color:${oc};border-color:${oc}40">Open ${r.open}/10</span>
+            <span class="c-chip" style="color:${lc};border-color:${lc}40">${ll}</span>
+          </div>
+          <div class="coach-fb">${r.fb}${r.issues&&r.issues.length>1?" "+r.issues.slice(1).join(" "):""}</div>
+          <div class="coach-model">
+            <div class="coach-model-lbl">Strong ${tLabels[m.step]} question</div>
+            <div class="coach-model-q">"${modelQ}"</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+  return "";
+}
+
+function renderSummary(topic){
+  const scores = practiceScores;
+  if (!scores.length) return "";
+  const avgGap  = Math.round(scores.reduce((a,s)=>a+s.gap,0)/scores.length*10)/10;
+  const avgOpen = Math.round(scores.reduce((a,s)=>a+s.open,0)/scores.length*10)/10;
+  const avgLead = Math.round(scores.reduce((a,s)=>a+s.lead,0)/scores.length*10)/10;
+  const gc = scoreColor(avgGap), oc = scoreColor(avgOpen), lc = scoreColor(11-avgLead);
+  const ll = avgLead>=7?"High":avgLead>=4?"Medium":"Low";
+
+  let note = "";
+  if (avgOpen < 5) note = "Focus on opening your questions more — start with 'Walk me through', 'What does that look like', or 'How do you currently'. Closed questions cut the conversation short.";
+  else if (avgLead > 6) note = "Watch the leading tendency — when you assume the answer you're validating rather than discovering. Let them tell you where the gap is.";
+  else if (avgGap < 5) note = "The gap isn't coming through yet. Make sure you're moving from current state, through the pain, to the cost — and then asking them to describe the future. That sequence is what opens the gap.";
+  else note = "Good session — your questions are opening space and staying neutral. Keep pushing the True Cost step — that's where urgency lives.";
+
+  return `<div class="summary-card">
+    <div class="summary-head">
+      <div class="summary-title">Session complete</div>
+      <div class="summary-sub">${topic.title} · ${personaName} · ${persona}</div>
+    </div>
+    <div class="summary-scores">
+      <div class="sum-score">
+        <div class="sum-val" style="color:${gc}">${avgGap}</div>
+        <div class="sum-lbl">Avg Gap Strength</div>
+      </div>
+      <div class="sum-score">
+        <div class="sum-val" style="color:${oc}">${avgOpen}</div>
+        <div class="sum-lbl">Avg Openness</div>
+      </div>
+      <div class="sum-score">
+        <div class="sum-val" style="color:${lc}">${ll}</div>
+        <div class="sum-lbl">Leading Risk</div>
+      </div>
+    </div>
+    <div class="summary-body">
+      <div class="sum-fb-title">Coach's note</div>
+      <div class="sum-fb-text">${note}</div>
+      <div class="sum-btns">
+        <button class="start-btn" id="retry-btn">Try again →</button>
+        <button class="start-btn sec" id="next-topic-btn">Next topic →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// EVENTS
+// ════════════════════════════════════════════════════════════
+function attachEvents(){
+  // Mode
+  document.querySelectorAll("[data-mode]").forEach(b=>{
+    b.onclick = ()=>{ mode=b.dataset.mode; if(mode==="practice") freshPersona(); render(); };
+  });
+  // Client
+  document.querySelectorAll("[data-client]").forEach(b=>{
+    b.onclick = ()=>{ clientKey=b.dataset.client; freshPersona(); resetPractice(); render(); };
+  });
+  // Topic
+  document.querySelectorAll("[data-topic]").forEach(el=>{
+    el.onclick = ()=>{ topicIdx=parseInt(el.dataset.topic); buildVals=["","","",""]; resetPractice(); render(); };
+  });
+
+  // Build: blur to coach
+  for(let i=0;i<4;i++){
+    const ta = document.getElementById(`qta-${i}`);
+    if(ta){
+      ta.onblur = ()=>{ buildVals[i]=ta.value; showBuildFeedback(i); };
+      ta.oninput = ()=>{ buildVals[i]=ta.value; };
+    }
+  }
+
+  // Print
+  const pb = document.getElementById("print-btn");
+  if(pb) pb.onclick = printCard;
+
+  // Practice start
+  const sb = document.getElementById("start-btn");
+  if(sb) sb.onclick = startSession;
+
+  // Practice send
+  const sendBtn = document.getElementById("send-btn");
+  if(sendBtn) sendBtn.onclick = sendQuestion;
+
+  const skipBtn = document.getElementById("skip-btn");
+  if(skipBtn) skipBtn.onclick = skipStep;
+
+  const pi = document.getElementById("practice-input");
+  if(pi) pi.onkeydown = e=>{ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendQuestion();} };
+
+  // Summary buttons
+  const retryBtn = document.getElementById("retry-btn");
+  if(retryBtn) retryBtn.onclick = ()=>{ resetPractice(); render(); };
+  const nextBtn = document.getElementById("next-topic-btn");
+  if(nextBtn) nextBtn.onclick = ()=>{ topicIdx=(topicIdx+1)%TOPICS.length; resetPractice(); render(); };
+
+  // Scroll thread
+  scrollThread();
+}
+
+function resetPractice(){
+  practicePhase="setup"; practiceStep=0; practiceMessages=[]; practiceScores=[];
+  freshPersona();
+}
+
+function startSession(){
+  practicePhase="active"; practiceStep=0; practiceMessages=[]; practiceScores=[];
+  const opening = pick(OPENINGS[persona]);
+  practiceMessages.push({type:"prospect",text:opening});
+  render();
+}
+
+function sendQuestion(){
+  const pi = document.getElementById("practice-input");
+  if(!pi) return;
+  const q = pi.value.trim();
+  if(!q) return;
+
+  const step = practiceStep;
+  practiceMessages.push({type:"rep",text:q,step});
+
+  // Pattern coaching
+  const result = analyseQuestion(q);
+  if(result) practiceScores.push(result);
+
+  // Hardcoded prospect response
+  const responses = RESPONSES[clientKey];
+  const topicResponses = responses[topicIdx];
+  const prospectReply = topicResponses[step];
+  practiceMessages.push({type:"prospect",text:prospectReply});
+
+  if(result){
+    practiceMessages.push({type:"coach",result,step});
+  }
+
+  practiceStep++;
+  if(practiceStep >= 4){
+    practicePhase="done";
+  }
+  render();
+}
+
+function skipStep(){
+  practiceStep++;
+  if(practiceStep >= 4) practicePhase="done";
+  render();
+}
+
+function scrollThread(){
+  const t = document.getElementById("thread");
+  if(t) setTimeout(()=>{t.scrollTop=t.scrollHeight;},80);
+}
+
+function printCard(){
+  const topic = TOPICS[topicIdx];
+  const tLabels=["Today","Trouble","True Cost","Tomorrow"];
+  const tColors=["#2563eb","#b45309","#dc2626","#047857"];
+  const tDims=["#eff6ff","#fffbeb","#fef2f2","#ecfdf5"];
+  const rows = tLabels.map((l,i)=>`
+    <div style="border:1px solid #e5e5e5;border-radius:8px;margin-bottom:10px;overflow:hidden">
+      <div style="padding:8px 14px;font-weight:700;font-size:12px;color:${tColors[i]};background:${tDims[i]}">${l}</div>
+      <div style="padding:12px 14px;font-size:14px;color:#333;min-height:48px;line-height:1.6">${buildVals[i]||'<em style="color:#bbb">No question written</em>'}</div>
+    </div>`).join("");
+  const w = window.open("","_blank");
+  w.document.write(`<!DOCTYPE html><html><head><title>Fresha 4T · ${topic.title}</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>body{font-family:'DM Sans',sans-serif;padding:40px;max-width:640px;margin:0 auto;color:#111}
+  h2{font-size:20px;font-weight:600;margin-bottom:4px;letter-spacing:-.3px}
+  p{color:#888;font-size:13px;margin-bottom:24px}
+  @media print{body{padding:20px}}</style></head>
+  <body><h2>${topic.title}</h2>
+  <p>Fresha · 4T Discovery · ${CLIENTS[clientKey].name} · ${new Date().toLocaleDateString("en-GB")}</p>
+  ${rows}</body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(),400);
+}
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>"); }
+
+// ── MIC ENGINE ──
+let activeMicKey = null;
+let activeMicRecog = null;
+
+function toggleMic(key, targetId) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert("Microphone not supported in this browser — try Chrome."); return; }
+
+  const btn = document.getElementById("mic-" + key);
+  if (!btn) return;
+
+  // Stop any active recording
+  if (activeMicKey) {
+    activeMicRecog && activeMicRecog.stop();
+    const oldBtn = document.getElementById("mic-" + activeMicKey);
+    if (oldBtn) { oldBtn.classList.remove("recording"); oldBtn.textContent = "🎤"; }
+    if (activeMicKey === key) { activeMicKey = null; activeMicRecog = null; return; }
+  }
+
+  const recog = new SR();
+  recog.lang = "en-GB";
+  recog.interimResults = false;
+  recog.maxAlternatives = 1;
+
+  btn.classList.add("recording");
+  btn.textContent = "⏹";
+  activeMicKey = key;
+  activeMicRecog = recog;
+
+  recog.start();
+
+  recog.onresult = (e) => {
+    const transcript = e.results[0][0].transcript;
+    const ta = document.getElementById(targetId);
+    if (ta) {
+      ta.value = ta.value ? ta.value + " " + transcript : transcript;
+      // Trigger input event so state updates
+      ta.dispatchEvent(new Event("input"));
+    }
+  };
+
+  recog.onend = () => {
+    btn.classList.remove("recording");
+    btn.textContent = "🎤";
+    activeMicKey = null;
+    activeMicRecog = null;
+    // Auto-trigger feedback in build mode
+    const taId = targetId.replace("qta-","");
+    if (targetId.startsWith("qta-")) {
+      const idx = parseInt(taId);
+      if (!isNaN(idx)) {
+        const ta = document.getElementById(targetId);
+        if (ta) { buildVals[idx] = ta.value; showBuildFeedback(idx); }
+      }
+    }
+  };
+
+  recog.onerror = () => {
+    btn.classList.remove("recording");
+    btn.textContent = "🎤";
+    activeMicKey = null;
+    activeMicRecog = null;
+  };
+}
+
+// ── BOOT ──
+freshPersona();
+render();
+</script>
+</body>
+</html>
