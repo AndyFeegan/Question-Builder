@@ -7,41 +7,38 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Fresha Light Theme Palette */
-  --bg: #F7F8FA;         /* Premium off-white app background */
-  --surf: #FFFFFF;       /* Crisp white for cards/surfaces */
-  --surf2: #F1F3F5;      /* Subtle gray for hovers/secondary surfaces */
-  
-  --border: #E5E7EB;     /* Soft structural borders */
-  --border2: #D1D5DB;    /* Slightly darker borders for inputs/focus */
-  
-  --text: #0F172A;       /* Stark, high-contrast primary text */
-  --muted: #4B5563;      /* Secondary text */
-  --muted2: #9CA3AF;     /* Tertiary/placeholder text */
-  
-  --accent: #000000;     /* Fresha style black for primary actions */
-  --accent-highlight: #0050FF; /* Signature vibrant blue for active elements */
-  
-  /* Four T's Semantic Colors (Tuned for light mode) */
-  --t1: #0050FF; --t1d: rgba(0, 80, 255, 0.08);   /* Today - Blue */
-  --t2: #F59E0B; --t2d: rgba(245, 158, 11, 0.12); /* Trouble - Amber */
-  --t3: #EF4444; --t3d: rgba(239, 68, 68, 0.12);  /* True Cost - Red */
-  --t4: #10B981; --t4d: rgba(16, 185, 129, 0.12); /* Tomorrow - Green */
-  
+  --bg: #F7F8FA;
+  --surf: #FFFFFF;
+  --surf2: #F1F3F5;
+  --border: #E5E7EB;
+  --border2: #D1D5DB;
+  --text: #0F172A;
+  --muted: #4B5563;
+  --muted2: #9CA3AF;
+  --accent: #000000;
+  --accent-highlight: #0050FF;
+  --t1: #0050FF; --t1d: rgba(0, 80, 255, 0.08);
+  --t2: #F59E0B; --t2d: rgba(245, 158, 11, 0.12);
+  --t3: #EF4444; --t3d: rgba(239, 68, 68, 0.12);
+  --t4: #10B981; --t4d: rgba(16, 185, 129, 0.12);
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.03);
   --shadow-md: 0 2px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px; -webkit-font-smoothing: antialiased;}
+html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 button{cursor:pointer;font-family:inherit}
 textarea{font-family:inherit;caret-color:var(--accent-highlight)}
 
-/* ── LAYOUT ── */
 .app{display:flex;height:100vh;overflow:hidden}
 
-/* ── SIDEBAR ── */
+/* RTL support */
+[dir="rtl"] .sidebar{border-right:none;border-left:1px solid var(--border)}
+[dir="rtl"] .topic-item{border-left:none;border-right:3px solid transparent}
+[dir="rtl"] .topic-item.active{border-left-color:transparent;border-right-color:var(--accent-highlight)}
+[dir="rtl"] .q-ta,[dir="rtl"] .p-ta{text-align:right;direction:rtl}
+
 .sidebar{width:240px;min-width:240px;background:var(--surf);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow:hidden;box-shadow:var(--shadow-sm);z-index:10}
 .side-top{padding:20px 16px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
 .logo{font-weight:700;font-size:16px;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px;letter-spacing:-0.2px}
@@ -49,6 +46,11 @@ textarea{font-family:inherit;caret-color:var(--accent-highlight)}
 .mode-row{display:grid;grid-template-columns:1fr 1fr;background:var(--surf2);border-radius:8px;padding:4px;gap:2px}
 .mode-btn{padding:8px 0;border:none;border-radius:6px;background:transparent;color:var(--muted);font-size:12px;font-weight:600;transition:all .2s;text-align:center}
 .mode-btn.active{background:var(--surf);color:var(--accent);box-shadow:var(--shadow-sm)}
+
+/* Language selector */
+.lang-row{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--surf2);border-radius:8px;padding:3px;gap:2px;margin-top:10px}
+.lang-btn{padding:6px 0;border:none;border-radius:6px;background:transparent;color:var(--muted);font-size:11px;font-weight:600;transition:all .2s;text-align:center}
+.lang-btn.active{background:var(--surf);color:var(--accent-highlight);box-shadow:var(--shadow-sm)}
 
 .side-sect{padding:16px 16px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
 .side-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:12px}
@@ -68,7 +70,6 @@ textarea{font-family:inherit;caret-color:var(--accent-highlight)}
 .topic-ns{font-size:13px;font-weight:500;color:var(--muted);line-height:1.4}
 .topic-item.active .topic-ns{color:var(--accent);font-weight:600}
 
-/* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .topbar{padding:18px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--surf);z-index:5}
 .topbar-eye{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:4px}
@@ -77,10 +78,8 @@ textarea{font-family:inherit;caret-color:var(--accent-highlight)}
 .persona-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .persona-name{color:var(--text);font-weight:600}
 
-/* ── CONTENT ── */
 .content{flex:1;overflow-y:auto;padding:28px 32px 48px}
 
-/* ── BUILD MODE ── */
 .intro-box{background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:24px;font-size:14px;color:var(--muted);line-height:1.6;box-shadow:var(--shadow-sm)}
 .fw-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
 .fw-pill{border-radius:10px;padding:12px 14px;border:1px solid;box-shadow:var(--shadow-sm)}
@@ -96,7 +95,6 @@ textarea{font-family:inherit;caret-color:var(--accent-highlight)}
 .q-ta{flex:1;background:transparent;border:none;font-size:15px;color:var(--text);resize:none;min-height:48px;line-height:1.6;outline:none}
 .q-ta::placeholder{color:var(--muted2)}
 
-/* Feedback */
 .q-fb{border-top:1px solid var(--border);padding:16px 18px;background:var(--surf2);display:none}
 .q-fb.show{display:block}
 .fb-scores{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
@@ -113,9 +111,13 @@ textarea{font-family:inherit;caret-color:var(--accent-highlight)}
 .mic-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:2px;transition:all .2s;color:var(--muted);box-shadow:var(--shadow-sm)}
 .mic-btn:hover{background:var(--surf2);color:var(--text)}
 .mic-btn.recording{background:#FEE2E2;border-color:var(--t3);color:var(--t3);animation:micpulse 1s infinite}
+.mic-btn.unavailable{opacity:0.35;cursor:not-allowed}
 @keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.3)}50%{box-shadow:0 0 0 5px rgba(239,68,68,0)}}
 
-/* ── PRACTICE MODE ── */
+/* Mic toast */
+.mic-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--surf);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center;max-width:90vw}
+.mic-toast.show{opacity:1}
+
 .practice-wrap{display:flex;flex-direction:column;height:100%}
 .setup-card{background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;box-shadow:var(--shadow-sm)}
 .setup-title{font-weight:700;font-size:16px;margin-bottom:6px}
@@ -189,48 +191,258 @@ textarea{font-family:inherit;caret-color:var(--accent-highlight)}
   .sidebar{display:none}
   .fw-bar{grid-template-columns:repeat(2,1fr)}
   .ft-bar{grid-template-columns:repeat(2,1fr)}
-  .content {padding: 20px;}
+  .content{padding:20px}
 }
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
+<div class="mic-toast" id="mic-toast"></div>
 
 <script>
 // ════════════════════════════════════════════════════════════
-// DATA
+// LANGUAGE DATA
 // ════════════════════════════════════════════════════════════
+const LANG_CODES = { en: "en-GB", es: "es-ES", ar: "ar-SA" };
 
-const TOPICS = [
-  {num:1,title:"Fill the Calendar",desc:"How are they creating new demand? Website, Google, social, referrals, and the Fresha marketplace — and where they feel the gaps.",
-   prompts:["How are they currently driving new client demand?","Where does that struggle or feel unpredictable?","What does an empty slot actually cost them?","What would a full, predictable diary look like?"]},
-  {num:2,title:"Convert Interest into Bookings",desc:"Where are potential clients dropping off? Missed calls, slow response, clunky booking, low online conversion.",
-   prompts:["How do interested clients get from finding them to actually booking?","Where do enquiries or potential bookings get lost?","What is the revenue impact of those lost conversions?","What would a frictionless booking journey look like?"]},
-  {num:3,title:"Protect Booked Time",desc:"No-shows, late cancellations, weak policies, lack of deposits or stored cards all erode revenue already earned on paper.",
-   prompts:["How do they currently handle no-shows and cancellations?","Where does the current approach leave them exposed?","What does an empty slot really cost — revenue, time, morale?","What no-show rate or recovery would feel acceptable?"]},
-  {num:4,title:"Maximise Revenue per Slot",desc:"Empty gaps, underused staff, poor peak/off-peak management, and low average ticket.",
-   prompts:["How do they think about revenue across the whole week?","Where are they underutilising what they already have?","What does the gap between their busiest and quietest periods cost?","What would consistently better utilisation do for the business?"]},
-  {num:5,title:"Retain & Rebook Clients",desc:"Repeat visits, rebooking discipline, reminders, follow-up, personalised client experience.",
-   prompts:["What does their process look like for getting clients to return?","Where does rebooking fall through the cracks?","What does losing a regular client actually cost over a year?","What would their ideal retention system look like?"]},
-  {num:6,title:"Get Paid Smoothly",desc:"Checkout friction, delayed payment, reconciliation hassle, saved card usage, payment speed.",
-   prompts:["Walk me through how payment currently works at end of service.","Where does the payment process create delays or friction?","What does payment admin cost them in time each week?","What would a completely frictionless checkout look like?"]},
-  {num:7,title:"Run the Team Consistently",desc:"Schedules, permissions, payroll/commission admin, productivity, manager visibility.",
-   prompts:["How do they currently manage scheduling and team visibility?","Where does coordination or communication break down?","What does team-related admin cost in time, errors, or disputes?","What would a well-run team operation free them up to do?"]},
-  {num:8,title:"Grow Retail & Add-on Revenue",desc:"Inventory control, stockouts, upsell behaviour, product attachment.",
-   prompts:["How are retail products or add-on services currently recommended?","Where does the upsell opportunity get missed or fall inconsistent?","What does the gap between best and worst performers cost in margin?","What would consistent add-on revenue change for the business?"]},
-  {num:9,title:"See the Business Clearly",desc:"Reporting, location comparisons, performance visibility, decision speed.",
-   prompts:["How do they currently track how the business is performing?","Where are they making decisions without the right information?","What does slow or inaccurate data cost them in missed decisions?","What would a real-time view of the business actually enable?"]}
-];
-
-const CLIENTS = {
-  salon: {name:"Salon Owner",icon:"✂️",sub:"Single location"},
-  multi: {name:"Multi-location",icon:"🏢",sub:"Group or franchise"},
-  solo:  {name:"Solo / Chair renter",icon:"🙋",sub:"Independent operator"},
-  spa:   {name:"Spa & Wellness",icon:"🧖",sub:"Treatments & therapists"},
-  barber:{name:"Barbershop",icon:"💈",sub:"Walk-in & booked"}
+const UI = {
+  en: {
+    trainer: "Fresha · Trainer",
+    build: "Build", practice: "Practice",
+    clientType: "Client Type",
+    topicOf: (n) => `Topic ${n} of 9`,
+    startSession: "Start session →",
+    send: "Send →", skip: "Skip",
+    printRef: "Save your questions as a reference card",
+    printBtn: "🖨 Print reference card",
+    sessionComplete: "Session complete",
+    coachNote: "Coach's note",
+    tryAgain: "Try again →",
+    nextTopic: "Next topic →",
+    typePlaceholder: (label) => `Type your ${label} question…`,
+    askPlaceholder: (label) => `Ask your ${label} question…`,
+    practiceIntro: (name, persona, client) => `You'll speak to <strong>${name}</strong>, a ${persona.toLowerCase()} ${client.toLowerCase()}. Work through Today → Trouble → True Cost → Tomorrow.`,
+    practiceLabel: "Practise",
+    tLabels: ["Today","Trouble","True Cost","Tomorrow"],
+    tDescs: ["Current reality","Where it breaks","Real impact","Ideal future"],
+    avgGap: "Avg Gap", avgOpen: "Avg Openness", leadRisk: "Leading Risk",
+    leadLevels: {high:"High",med:"Medium",low:"Low"},
+    leadLabels: (l) => l>=7?"Leading":l>=4?"Watch it":"Clean",
+    strongQ: (label) => `Strong ${label} question`,
+    gap: "Gap", open: "Open",
+    micBlocked: "Microphone blocked — open this page directly (not embedded) or try Chrome.",
+    micUnsupported: "Voice input isn't supported in this browser — try Chrome.",
+    noteOpen: "Focus on opening your questions more — start with 'Walk me through', 'What does that look like', or 'How do you currently'. Closed questions cut the conversation short.",
+    noteLead: "Watch the leading tendency — when you assume the answer you're validating rather than discovering. Let them tell you where the gap is.",
+    noteGap: "The gap isn't coming through yet. Make sure you're moving from current state, through the pain, to the cost — and then asking them to describe the future. That sequence is what opens the gap.",
+    noteGood: "Good session — your questions are opening space and staying neutral. Keep pushing the True Cost step — that's where urgency lives.",
+    // Feedback strings
+    fbTooShort: "Too brief — the prospect doesn't know what territory you're exploring. Add context.",
+    fbStatement: "This reads as a statement, not a question — the prospect doesn't know you want an answer. Reframe as a question.",
+    fbPitching: "You're pitching, not discovering. Remove any reference to Fresha or what you can offer — stay in their world.",
+    fbLeading: "You're leading the witness — you've assumed their answer. Ask it without the assumption and let them tell you.",
+    fbClosed: "Closed opener (do/did/is/are) — this gets a yes or no. Swap it for 'Walk me through…', 'How do you…' or 'What does… look like'.",
+    fbVague: "Too generic — 'what's your biggest challenge' gets a rehearsed answer. Get specific to this topic.",
+    fbMulti: "Two questions in one — pick the most important and ask only that. Two questions lets them answer the easier one.",
+    fbSelfAns: "You're offering them the answer — 'or is it X?' lets them just agree. Ask it openly and wait.",
+    fbStrongBoth: "Strong — you're pushing toward real impact. Good gap question.",
+    fbStory: "Good — inviting them to walk you through it gets a much richer answer than a direct question.",
+    fbOpenGap: "Solid — open and gap-oriented. Make sure you stay quiet after asking it.",
+    fbOpenBasic: "Open and neutral — good foundation. Push further toward the cost or impact if you can.",
+    fbDefault: "Reasonable question. Check it genuinely opens space rather than narrowing it.",
+    fbAlso: "Also: "
+  },
+  es: {
+    trainer: "Fresha · Entrenador",
+    build: "Construir", practice: "Practicar",
+    clientType: "Tipo de Cliente",
+    topicOf: (n) => `Tema ${n} de 9`,
+    startSession: "Iniciar sesión →",
+    send: "Enviar →", skip: "Saltar",
+    printRef: "Guarda tus preguntas como tarjeta de referencia",
+    printBtn: "🖨 Imprimir tarjeta",
+    sessionComplete: "Sesión completada",
+    coachNote: "Nota del coach",
+    tryAgain: "Intentar de nuevo →",
+    nextTopic: "Siguiente tema →",
+    typePlaceholder: (label) => `Escribe tu pregunta de ${label}…`,
+    askPlaceholder: (label) => `Haz tu pregunta de ${label}…`,
+    practiceIntro: (name, persona, client) => `Hablarás con <strong>${name}</strong>, un/a ${client.toLowerCase()} con actitud ${persona.toLowerCase()}. Recorre Hoy → Problema → Coste Real → Mañana.`,
+    practiceLabel: "Práctica",
+    tLabels: ["Hoy","Problema","Coste Real","Mañana"],
+    tDescs: ["Realidad actual","Dónde falla","Impacto real","Futuro ideal"],
+    avgGap: "Brecha Prom.", avgOpen: "Apertura Prom.", leadRisk: "Riesgo de Inducción",
+    leadLevels: {high:"Alto",med:"Medio",low:"Bajo"},
+    leadLabels: (l) => l>=7?"Induciendo":l>=4?"Cuidado":"Limpio",
+    strongQ: (label) => `Buena pregunta de ${label}`,
+    gap: "Brecha", open: "Apertura",
+    micBlocked: "Micrófono bloqueado — abre esta página directamente (sin incrustar) o usa Chrome.",
+    micUnsupported: "La entrada de voz no es compatible con este navegador — prueba Chrome.",
+    noteOpen: "Abre más tus preguntas — empieza con 'Cuéntame cómo…', 'Cómo funciona…' o 'Qué pasa cuando…'. Las preguntas cerradas cortan la conversación.",
+    noteLead: "Ojo con inducir la respuesta — cuando asumes lo que van a decir, validas en lugar de descubrir. Deja que te cuenten dónde está la brecha.",
+    noteGap: "La brecha aún no se percibe. Asegúrate de ir de la situación actual, al dolor, al coste — y luego pídeles que describan el futuro. Esa secuencia es la que abre la brecha.",
+    noteGood: "Buena sesión — tus preguntas abren espacio y son neutrales. Sigue empujando en Coste Real — ahí vive la urgencia.",
+    fbTooShort: "Muy breve — el prospecto no sabe qué territorio estás explorando. Añade contexto.",
+    fbStatement: "Esto suena como afirmación, no como pregunta — el prospecto no sabe que esperas una respuesta. Reformúlalo como pregunta.",
+    fbPitching: "Estás vendiendo, no descubriendo. Quita cualquier mención a Fresha o a lo que puedes ofrecer — mantente en su mundo.",
+    fbLeading: "Estás induciendo la respuesta — has asumido lo que dirán. Pregunta sin la suposición y deja que te cuenten.",
+    fbClosed: "Inicio cerrado (¿tienes/¿es/¿haces?) — solo consigue un sí o no. Cámbialo por 'Cuéntame cómo…' o 'Cómo funciona…'",
+    fbVague: "Muy genérico — '¿cuál es tu mayor reto?' da una respuesta ensayada. Sé específico para este tema.",
+    fbMulti: "Dos preguntas en una — elige la más importante. Dos preguntas le permiten responder la más fácil.",
+    fbSelfAns: "Les estás dando la respuesta — '¿o es X?' les permite solo asentir. Pregunta abiertamente y espera.",
+    fbStrongBoth: "Potente — estás empujando hacia el impacto real. Buena pregunta de brecha.",
+    fbStory: "Bien — invitar a que te expliquen paso a paso consigue respuestas mucho más ricas que una pregunta directa.",
+    fbOpenGap: "Sólido — abierto y orientado a la brecha. Asegúrate de quedarte en silencio después de preguntar.",
+    fbOpenBasic: "Abierto y neutral — buena base. Empuja más hacia el coste o el impacto si puedes.",
+    fbDefault: "Pregunta razonable. Verifica que realmente abra espacio en vez de cerrarlo.",
+    fbAlso: "Además: "
+  },
+  ar: {
+    trainer: "Fresha · المدرّب",
+    build: "بناء", practice: "تدريب",
+    clientType: "نوع العميل",
+    topicOf: (n) => `الموضوع ${n} من 9`,
+    startSession: "ابدأ الجلسة ←",
+    send: "إرسال ←", skip: "تخطّي",
+    printRef: "احفظ أسئلتك كبطاقة مرجعية",
+    printBtn: "🖨 طباعة البطاقة",
+    sessionComplete: "انتهت الجلسة",
+    coachNote: "ملاحظة المدرّب",
+    tryAgain: "حاول مرة أخرى ←",
+    nextTopic: "الموضوع التالي ←",
+    typePlaceholder: (label) => `اكتب سؤال ${label}…`,
+    askPlaceholder: (label) => `اطرح سؤال ${label}…`,
+    practiceIntro: (name, persona, client) => `ستتحدث مع <strong>${name}</strong>، ${client} بأسلوب ${persona}. تنقّل عبر: اليوم ← المشكلة ← التكلفة الحقيقية ← الغد.`,
+    practiceLabel: "تدريب",
+    tLabels: ["اليوم","المشكلة","التكلفة الحقيقية","الغد"],
+    tDescs: ["الواقع الحالي","أين ينكسر","الأثر الحقيقي","المستقبل المثالي"],
+    avgGap: "متوسط الفجوة", avgOpen: "متوسط الانفتاح", leadRisk: "خطر التوجيه",
+    leadLevels: {high:"مرتفع",med:"متوسط",low:"منخفض"},
+    leadLabels: (l) => l>=7?"موجِّه":l>=4?"انتبه":"نظيف",
+    strongQ: (label) => `سؤال ${label} قوي`,
+    gap: "الفجوة", open: "الانفتاح",
+    micBlocked: "الميكروفون محظور — افتح الصفحة مباشرة (ليس ضمن إطار) أو استخدم Chrome.",
+    micUnsupported: "الإدخال الصوتي غير مدعوم في هذا المتصفح — جرّب Chrome.",
+    noteOpen: "ركّز على فتح أسئلتك أكثر — ابدأ بـ 'أخبرني كيف…' أو 'كيف يعمل…' أو 'ماذا يحصل عندما…'. الأسئلة المغلقة تقطع الحوار.",
+    noteLead: "انتبه من توجيه الإجابة — عندما تفترض ما سيقوله، أنت تؤكّد بدل أن تكتشف. دعهم يخبرونك أين الفجوة.",
+    noteGap: "الفجوة لم تظهر بعد. تأكّد أنك تنتقل من الوضع الحالي إلى الألم ثم التكلفة — ثم اطلب منهم وصف المستقبل. هذا التسلسل هو ما يفتح الفجوة.",
+    noteGood: "جلسة جيدة — أسئلتك تفتح مساحة وتبقى محايدة. واصل الضغط في التكلفة الحقيقية — هناك تعيش الإلحاحية.",
+    fbTooShort: "مختصر جداً — العميل المحتمل لا يعرف أي منطقة تستكشف. أضف سياقاً.",
+    fbStatement: "هذا يبدو كتصريح وليس سؤال — العميل لا يعرف أنك تنتظر إجابة. أعد صياغته كسؤال.",
+    fbPitching: "أنت تبيع بدل أن تكتشف. احذف أي ذكر لـ Fresha أو ما تقدّمه — ابقَ في عالمهم.",
+    fbLeading: "أنت توجّه الإجابة — افترضت ما سيقولون. اسأل بدون افتراض ودعهم يخبرونك.",
+    fbClosed: "بداية مغلقة (هل/أ…) — هذا يعطي نعم أو لا فقط. غيّرها إلى 'أخبرني كيف…' أو 'كيف يبدو…'",
+    fbVague: "عام جداً — 'ما أكبر تحدٍّ لديك؟' تعطي إجابة جاهزة. كن أكثر تحديداً لهذا الموضوع.",
+    fbMulti: "سؤالان في واحد — اختر الأهم واسأل فقط ذلك. سؤالان يتيحان الرد على الأسهل.",
+    fbSelfAns: "أنت تقدّم لهم الإجابة — 'أم أنها X؟' تتيح لهم الموافقة فقط. اسأل بشكل مفتوح وانتظر.",
+    fbStrongBoth: "قوي — أنت تدفع نحو الأثر الحقيقي. سؤال فجوة ممتاز.",
+    fbStory: "جيد — دعوتهم ليشرحوا لك الخطوات تعطي إجابات أغنى بكثير من سؤال مباشر.",
+    fbOpenGap: "متين — مفتوح وموجّه للفجوة. تأكّد من الصمت بعد طرحه.",
+    fbOpenBasic: "مفتوح ومحايد — أساس جيد. ادفع أكثر نحو التكلفة أو الأثر إن استطعت.",
+    fbDefault: "سؤال معقول. تأكّد أنه يفتح مساحة فعلاً بدل أن يضيّقها.",
+    fbAlso: "أيضاً: "
+  }
 };
 
-const PERSONAS = ["Friendly","Sceptical","Busy"];
+// ════════════════════════════════════════════════════════════
+// TOPICS (per language)
+// ════════════════════════════════════════════════════════════
+const TOPICS_I18N = {
+  en: [
+    {num:1,title:"Fill the Calendar",desc:"How are they creating new demand? Website, Google, social, referrals, and the Fresha marketplace — and where they feel the gaps.",
+     prompts:["How are they currently driving new client demand?","Where does that struggle or feel unpredictable?","What does an empty slot actually cost them?","What would a full, predictable diary look like?"]},
+    {num:2,title:"Convert Interest into Bookings",desc:"Where are potential clients dropping off? Missed calls, slow response, clunky booking, low online conversion.",
+     prompts:["How do interested clients get from finding them to actually booking?","Where do enquiries or potential bookings get lost?","What is the revenue impact of those lost conversions?","What would a frictionless booking journey look like?"]},
+    {num:3,title:"Protect Booked Time",desc:"No-shows, late cancellations, weak policies, lack of deposits or stored cards all erode revenue already earned on paper.",
+     prompts:["How do they currently handle no-shows and cancellations?","Where does the current approach leave them exposed?","What does an empty slot really cost — revenue, time, morale?","What no-show rate or recovery would feel acceptable?"]},
+    {num:4,title:"Maximise Revenue per Slot",desc:"Empty gaps, underused staff, poor peak/off-peak management, and low average ticket.",
+     prompts:["How do they think about revenue across the whole week?","Where are they underutilising what they already have?","What does the gap between their busiest and quietest periods cost?","What would consistently better utilisation do for the business?"]},
+    {num:5,title:"Retain & Rebook Clients",desc:"Repeat visits, rebooking discipline, reminders, follow-up, personalised client experience.",
+     prompts:["What does their process look like for getting clients to return?","Where does rebooking fall through the cracks?","What does losing a regular client actually cost over a year?","What would their ideal retention system look like?"]},
+    {num:6,title:"Get Paid Smoothly",desc:"Checkout friction, delayed payment, reconciliation hassle, saved card usage, payment speed.",
+     prompts:["Walk me through how payment currently works at end of service.","Where does the payment process create delays or friction?","What does payment admin cost them in time each week?","What would a completely frictionless checkout look like?"]},
+    {num:7,title:"Run the Team Consistently",desc:"Schedules, permissions, payroll/commission admin, productivity, manager visibility.",
+     prompts:["How do they currently manage scheduling and team visibility?","Where does coordination or communication break down?","What does team-related admin cost in time, errors, or disputes?","What would a well-run team operation free them up to do?"]},
+    {num:8,title:"Grow Retail & Add-on Revenue",desc:"Inventory control, stockouts, upsell behaviour, product attachment.",
+     prompts:["How are retail products or add-on services currently recommended?","Where does the upsell opportunity get missed or fall inconsistent?","What does the gap between best and worst performers cost in margin?","What would consistent add-on revenue change for the business?"]},
+    {num:9,title:"See the Business Clearly",desc:"Reporting, location comparisons, performance visibility, decision speed.",
+     prompts:["How do they currently track how the business is performing?","Where are they making decisions without the right information?","What does slow or inaccurate data cost them in missed decisions?","What would a real-time view of the business actually enable?"]}
+  ],
+  es: [
+    {num:1,title:"Llenar la Agenda",desc:"¿Cómo generan nueva demanda? Web, Google, redes, referencias y el marketplace de Fresha — y dónde sienten los huecos.",
+     prompts:["¿Cómo están atrayendo nuevos clientes ahora mismo?","¿Dónde se siente más impredecible o difícil?","¿Qué les cuesta realmente un hueco vacío en la agenda?","¿Cómo sería tener una agenda llena y predecible?"]},
+    {num:2,title:"Convertir Interés en Reservas",desc:"¿Dónde se pierden los clientes potenciales? Llamadas perdidas, respuesta lenta, proceso de reserva complicado.",
+     prompts:["¿Cómo llega un interesado desde que los encuentra hasta que realmente reserva?","¿En qué punto se pierden consultas o reservas potenciales?","¿Cuánto representan en ingresos esas reservas que no se concretan?","¿Cómo sería un proceso de reserva sin fricción?"]},
+    {num:3,title:"Proteger el Tiempo Reservado",desc:"Incomparecencias, cancelaciones de última hora, políticas débiles, falta de anticipos — todo erosiona ingresos ya comprometidos.",
+     prompts:["¿Cómo manejan actualmente las incomparecencias y cancelaciones?","¿Dónde los deja expuestos el enfoque actual?","¿Qué cuesta realmente un hueco vacío — en ingresos, tiempo, moral?","¿Qué tasa de incomparecencia o recuperación les parecería aceptable?"]},
+    {num:4,title:"Maximizar Ingresos por Turno",desc:"Huecos vacíos, personal subutilizado, mala gestión de horarios pico y valle, ticket medio bajo.",
+     prompts:["¿Cómo piensan los ingresos a lo largo de toda la semana?","¿Dónde están subutilizando lo que ya tienen?","¿Qué les cuesta la diferencia entre los períodos más llenos y los más vacíos?","¿Qué cambiaría para el negocio una utilización consistentemente mejor?"]},
+    {num:5,title:"Retener y Reagendar Clientes",desc:"Visitas repetidas, disciplina de reagendamiento, recordatorios, seguimiento, experiencia personalizada.",
+     prompts:["¿Cómo es su proceso para que los clientes vuelvan?","¿Dónde se les escapan las reagendaciones?","¿Cuánto cuesta perder un cliente habitual a lo largo de un año?","¿Cómo sería su sistema ideal de retención?"]},
+    {num:6,title:"Cobrar sin Complicaciones",desc:"Fricción en el cobro, pagos retrasados, reconciliación engorrosa, uso de tarjetas guardadas, rapidez del cobro.",
+     prompts:["Cuéntame cómo funciona el cobro al terminar un servicio.","¿Dónde genera retrasos o fricción el proceso de pago?","¿Cuánto tiempo semanal les cuesta la administración de pagos?","¿Cómo sería un proceso de cobro completamente sin fricción?"]},
+    {num:7,title:"Gestionar el Equipo de Forma Consistente",desc:"Horarios, permisos, nóminas/comisiones, productividad, visibilidad del gerente.",
+     prompts:["¿Cómo gestionan actualmente los horarios y la visibilidad del equipo?","¿Dónde falla la coordinación o la comunicación?","¿Cuánto cuesta en tiempo, errores o disputas la administración del equipo?","¿Qué podrían hacer si la operación del equipo funcionara mejor?"]},
+    {num:8,title:"Crecer en Retail y Servicios Adicionales",desc:"Control de inventario, roturas de stock, venta cruzada, apego al producto.",
+     prompts:["¿Cómo recomiendan productos o servicios adicionales actualmente?","¿Dónde se pierde la oportunidad de venta cruzada o es inconsistente?","¿Cuánto cuesta en margen la diferencia entre quien mejor y quien peor vende?","¿Qué cambiaría para el negocio un ingreso adicional consistente?"]},
+    {num:9,title:"Ver el Negocio con Claridad",desc:"Reportes, comparaciones entre sedes, visibilidad del rendimiento, velocidad de decisiones.",
+     prompts:["¿Cómo monitorean el rendimiento del negocio actualmente?","¿Dónde toman decisiones sin la información correcta?","¿Qué les cuesta en decisiones perdidas tener datos lentos o incorrectos?","¿Qué les permitiría una vista en tiempo real del negocio?"]}
+  ],
+  ar: [
+    {num:1,title:"املأ جدول المواعيد",desc:"كيف يجذبون عملاء جدد؟ الموقع، جوجل، السوشيال، التوصيات، ومنصة Fresha — وأين يشعرون بالفجوات.",
+     prompts:["كيف يجذبون عملاء جدد حالياً؟","أين يشعرون أن الأمر غير متوقع أو صعب؟","ما الذي يكلّفهم فعلاً موعد فارغ في الجدول؟","كيف سيبدو جدول ممتلئ ومتوقّع؟"]},
+    {num:2,title:"حوّل الاهتمام إلى حجوزات",desc:"أين يضيع العملاء المحتملون؟ مكالمات فائتة، رد بطيء، عملية حجز معقدة.",
+     prompts:["كيف ينتقل المهتم من اكتشافهم إلى الحجز فعلاً؟","في أي نقطة تضيع الاستفسارات أو الحجوزات المحتملة؟","كم تمثّل تلك الحجوزات الضائعة من إيرادات؟","كيف ستبدو رحلة حجز بدون أي عوائق؟"]},
+    {num:3,title:"احمِ الوقت المحجوز",desc:"الغياب، إلغاءات اللحظة الأخيرة، سياسات ضعيفة، عدم وجود عربون — كلها تأكل إيرادات محسوبة على الورق.",
+     prompts:["كيف يتعاملون حالياً مع الغياب والإلغاءات؟","أين يتركهم النهج الحالي مكشوفين؟","ما الذي يكلّفه فعلاً موعد فارغ — إيرادات، وقت، معنويات؟","ما معدل الغياب أو الاسترداد الذي يعتبرونه مقبولاً؟"]},
+    {num:4,title:"عظّم الإيراد لكل فترة",desc:"فجوات فارغة، طاقم غير مستغل، إدارة ضعيفة لأوقات الذروة والهدوء، متوسط فاتورة منخفض.",
+     prompts:["كيف ينظرون إلى الإيرادات على مدار الأسبوع كله؟","أين لا يستغلون ما لديهم بالكامل؟","كم تكلّفهم الفجوة بين أكثر الفترات ازدحاماً وأهدأها؟","ماذا سيتغيّر لو تحسّن الاستغلال بشكل مستمر؟"]},
+    {num:5,title:"احتفظ بالعملاء وأعد حجزهم",desc:"زيارات متكررة، انضباط إعادة الحجز، تذكيرات، متابعة، تجربة عميل مخصصة.",
+     prompts:["كيف تبدو عمليتهم لجعل العملاء يعودون؟","أين تفلت إعادة الحجز من بين أيديهم؟","كم يكلّف فقدان عميل منتظم على مدار سنة؟","كيف سيبدو نظام الاحتفاظ المثالي لديهم؟"]},
+    {num:6,title:"اقبض بسلاسة",desc:"احتكاك عند الدفع، تأخّر التحصيل، متاعب التسوية، استخدام البطاقات المحفوظة، سرعة الدفع.",
+     prompts:["أخبرني كيف يعمل الدفع حالياً عند انتهاء الخدمة.","أين تظهر التأخيرات أو الاحتكاك في عملية الدفع؟","كم من الوقت أسبوعياً تكلّفهم إدارة المدفوعات؟","كيف سيبدو نظام دفع بلا أي احتكاك؟"]},
+    {num:7,title:"أدِر الفريق باتساق",desc:"الجداول، الصلاحيات، إدارة الرواتب/العمولات، الإنتاجية، رؤية المدير.",
+     prompts:["كيف يديرون الجداول ورؤية الفريق حالياً؟","أين تنهار التنسيق أو التواصل؟","كم تكلّف إدارة الفريق من وقت أو أخطاء أو نزاعات؟","ماذا سيتيح لهم تشغيل فريق منظّم بشكل أفضل؟"]},
+    {num:8,title:"نمِّ إيرادات التجزئة والإضافات",desc:"مراقبة المخزون، نفاد المنتجات، سلوك البيع التكميلي، ارتباط المنتج.",
+     prompts:["كيف يوصون بالمنتجات أو الخدمات الإضافية حالياً؟","أين تضيع فرصة البيع التكميلي أو تكون غير منتظمة؟","كم تكلّف الفجوة بين أفضل وأضعف بائع من هامش الربح؟","ماذا سيتغيّر للعمل لو كان هناك دخل إضافي منتظم؟"]},
+    {num:9,title:"شاهد العمل بوضوح",desc:"التقارير، مقارنات الفروع، رؤية الأداء، سرعة القرارات.",
+     prompts:["كيف يتتبّعون أداء العمل حالياً؟","أين يتّخذون قرارات بدون المعلومات الصحيحة؟","كم تكلّفهم البيانات البطيئة أو غير الدقيقة في قرارات ضائعة؟","ماذا ستتيح لهم رؤية فورية للعمل؟"]}
+  ]
+};
+
+// ════════════════════════════════════════════════════════════
+// CLIENTS (per language)
+// ════════════════════════════════════════════════════════════
+const CLIENTS_I18N = {
+  en: {
+    salon: {name:"Salon Owner",icon:"✂️",sub:"Single location"},
+    multi: {name:"Multi-location",icon:"🏢",sub:"Group or franchise"},
+    solo:  {name:"Solo / Chair renter",icon:"🙋",sub:"Independent operator"},
+    spa:   {name:"Spa & Wellness",icon:"🧖",sub:"Treatments & therapists"},
+    barber:{name:"Barbershop",icon:"💈",sub:"Walk-in & booked"}
+  },
+  es: {
+    salon: {name:"Dueño de Salón",icon:"✂️",sub:"Una sede"},
+    multi: {name:"Multi-sede",icon:"🏢",sub:"Grupo o franquicia"},
+    solo:  {name:"Independiente",icon:"🙋",sub:"Operador autónomo"},
+    spa:   {name:"Spa y Bienestar",icon:"🧖",sub:"Tratamientos y terapeutas"},
+    barber:{name:"Barbería",icon:"💈",sub:"Sin cita y con cita"}
+  },
+  ar: {
+    salon: {name:"صاحب صالون",icon:"✂️",sub:"موقع واحد"},
+    multi: {name:"متعدد الفروع",icon:"🏢",sub:"مجموعة أو فرانشايز"},
+    solo:  {name:"مستقل",icon:"🙋",sub:"عامل مستقل"},
+    spa:   {name:"سبا وعافية",icon:"🧖",sub:"علاجات ومعالجون"},
+    barber:{name:"حلاقة",icon:"💈",sub:"بدون وبحجز"}
+  }
+};
+
+const PERSONAS_I18N = {
+  en: ["Friendly","Sceptical","Busy"],
+  es: ["Amigable","Escéptico","Ocupado"],
+  ar: ["ودود","متشكك","مشغول"]
+};
+
 const NAMES = {
   salon:["Sarah","Marcus","Priya","Jade"],
   multi:["Daniel","Natasha","Ben","Zara"],
@@ -239,104 +451,300 @@ const NAMES = {
   barber:["Reece","Tariq","Dani","Sam"]
 };
 
-const OPENINGS = {
-  Friendly:["Hi, good to meet you — I've always got time for a chat. Things are going well but there's definitely areas I'd love to tighten up.","Sure, come in. We've been busy lately but I know there are things we could do better — what did you want to go through?","Of course. I'm pretty happy with how things are running but I'm always open to ideas. What's on your mind?"],
-  Sceptical:["Look, I'll be honest — I've had a few of these conversations before and nothing's really changed anything. But go ahead, I'll hear you out.","We're actually doing fine at the moment. I'm not really looking to switch anything up but I said I'd have the call so here we are.","I'll give you ten minutes. We've looked at other systems and they never quite fit how we work. So what makes this different?"],
-  Busy:["Hi — sorry, it's been one of those mornings. I've got about ten minutes before my next client so let's keep this moving.","Yeah hi, I can talk but I'm keeping an eye on the time. What did you want to cover?","Alright, I'm here. Just to let you know I've got someone coming in shortly so I'll need to keep this brief."]
+// ════════════════════════════════════════════════════════════
+// OPENINGS (per language, per persona)
+// ════════════════════════════════════════════════════════════
+const OPENINGS_I18N = {
+  en: {
+    Friendly:["Hi, good to meet you — I've always got time for a chat. Things are going well but there's definitely areas I'd love to tighten up.","Sure, come in. We've been busy lately but I know there are things we could do better — what did you want to go through?","Of course. I'm pretty happy with how things are running but I'm always open to ideas. What's on your mind?"],
+    Sceptical:["Look, I'll be honest — I've had a few of these conversations before and nothing's really changed anything. But go ahead, I'll hear you out.","We're actually doing fine at the moment. I'm not really looking to switch anything up but I said I'd have the call so here we are.","I'll give you ten minutes. We've looked at other systems and they never quite fit how we work. So what makes this different?"],
+    Busy:["Hi — sorry, it's been one of those mornings. I've got about ten minutes before my next client so let's keep this moving.","Yeah hi, I can talk but I'm keeping an eye on the time. What did you want to cover?","Alright, I'm here. Just to let you know I've got someone coming in shortly so I'll need to keep this brief."]
+  },
+  es: {
+    Friendly:["Hola, encantado de conocerte — siempre tengo un rato para charlar. Las cosas van bien pero siempre hay margen de mejora.","Claro, pasa. Hemos estado bastante ocupados pero sé que hay cosas que podríamos hacer mejor. ¿De qué querías hablar?","Por supuesto. Estoy bastante contento con cómo van las cosas pero siempre estoy abierto a nuevas ideas. ¿Qué tienes en mente?"],
+    Sceptical:["Mira, voy a ser sincero — ya he tenido varias de estas conversaciones y la verdad es que ninguna ha cambiado nada. Pero adelante, te escucho.","La verdad es que ahora mismo nos va bien. No estoy buscando cambiar nada, pero dije que hablaría así que aquí estamos.","Te doy diez minutos. Hemos visto otros sistemas y nunca encajan del todo con nuestra forma de trabajar. ¿Qué tiene de diferente esto?"],
+    Busy:["Hola — perdona, ha sido una de esas mañanas. Tengo como diez minutos antes del siguiente cliente así que vamos al grano.","Sí, hola, puedo hablar pero tengo el reloj encima. ¿Qué querías tratar?","Vale, estoy aquí. Solo para que lo sepas, tengo a alguien entrando pronto así que necesito que sea breve."]
+  },
+  ar: {
+    Friendly:["أهلاً، تشرّفت بمعرفتك — دائماً عندي وقت للحديث. الأمور ماشية بس أكيد في مجالات نقدر نحسّنها.","تفضّل. كنّا مشغولين مؤخراً بس أعرف إن في أشياء نقدر نسوّيها أحسن — عن شو حبّيت نتكلم؟","طبعاً. أنا راضي عموماً عن سير العمل بس دائماً منفتح على أفكار جديدة. شو عندك؟"],
+    Sceptical:["بصراحة — عندي تجارب سابقة مع محادثات زي كذا وما غيّرت شيء. بس تفضّل، بسمعك.","الحمد لله الأمور ماشية. ما أبحث عن تغيير بس قلت أعطيك فرصة. شو عندك؟","عندك عشر دقايق. شفنا أنظمة ثانية وما ناسبتنا. شو المختلف عندكم؟"],
+    Busy:["أهلاً — سامحني، كان صباح مزدحم. عندي عشر دقايق قبل العميل الجاي فخلّنا نكون سريعين.","هلا، أقدر أتكلم بس عيني على الساعة. شو حبّيت تغطّي؟","طيب، أنا هنا. بس تعرف إن عندي شخص جاي قريب فلازم نخلّيها مختصرة."]
+  }
 };
 
-// ── ROLEPLAY RESPONSES: [clientKey][topicIdx][t-step 0-3] ──
-const RESPONSES = {
-  salon: [
-    ["Most of our new clients come through word of mouth honestly — a recommendation from a regular. We do a bit on Instagram but I couldn't tell you if it actually brings anyone in.", "The Instagram thing is the problem — I post when I remember, which isn't that regular. And I've no idea how to get on Google properly. I know we're missing people there.", "Honestly? Probably more than I'd like to admit. If even one quiet Tuesday became a full day, that's maybe £300 I'm not seeing. Multiply that across the month and it adds up.", "If I had a steady stream without it all depending on me posting or someone happening to mention us — that would take a lot of pressure off. I could actually focus on the work."],
-    ["They call, they DM us on Instagram, some find us on Google. It's a bit all over the place really — no one route.", "The DMs are the worst. I see them when I'm in the middle of a client and by the time I reply they've gone somewhere else. I've lost bookings that way for sure.", "I genuinely don't know the number but it bothers me. Even if it's two or three a week slipping through — that's a decent chunk of revenue walking out the door.", "If someone could look us up and book straight away without having to wait for me to reply — that would be huge. Half my DMs are just people asking if we're free Saturday."],
-    ["We ask for a deposit on new clients but honestly we're not very consistent with it. Regulars we just trust, which doesn't always work out.", "Last-minute cancellations are the killer. Someone texts at 8am saying they can't make their 10am — there's no way I'm filling that. The slot just goes.", "A no-show costs me the appointment value plus I've turned down walk-ins for that slot. On a bad week it's maybe £150, £200 gone. It's demoralising more than anything.", "If I could at least hold a card — so people think twice before cancelling last minute — that would change things. Right now there are no consequences so why would they bother?"],
-    ["Saturday is rammed, Monday and Tuesday are patchy. I've tried putting on deals for quieter days but they don't seem to shift much.", "The Tuesday lunch slot is almost always empty. And my junior stylist is often just waiting around when the senior is fully booked. It's not efficient.", "A slow Tuesday costs probably £200 versus a full day. Over a month of slow Tuesdays that's close to a grand I'm not making. It's my least efficient day by far.", "If I could get Tuesday to look more like Saturday — even 70% of it — I could probably justify keeping the junior on full time rather than worrying about the hours."],
-    ["We try to rebook at the end of the appointment but it's hit and miss. Some clients rebook on the spot, others say they'll call and then we don't hear from them.", "There's no system for following up. If a regular hasn't been in for eight weeks I wouldn't know until I happened to think about them.", "Losing a regular who comes in every six weeks — that's maybe £400 to £500 a year walking out the door. And you usually only notice when it's too late to do anything.", "If clients got a reminder automatically — something that said it's been a while, want to book in? — I'd probably get half of them back without having to do anything."],
-    ["Card machine, cash, sometimes bank transfer for bigger jobs. End of day I reconcile manually, cross-check the till with the card machine receipts.", "The bank transfers are the problem — clients sometimes forget, I have to chase, it feels awkward. And reconciling takes about half an hour every evening.", "Half an hour a day, five days a week — that's two and a half hours of admin every week just on payments. I'd rather be doing literally anything else.", "If everything came through one place and the numbers just matched at the end of the day — I can't tell you how much calmer that would make closing up."],
-    ["I've got three stylists and we do the rota on a shared WhatsApp. It mostly works but it gets messy when someone wants a day off or swaps a shift.", "When someone's off sick the whole WhatsApp group goes mad. Half the time clients aren't told until they turn up. It's embarrassing.", "Commission I do on a spreadsheet at the end of the month. It takes me about three hours and I've had two disputes in the last year about whether figures were right.", "If the team could see their own schedule and commission in real time — less questions coming to me, less WhatsApp chaos. I could actually manage instead of just firefighting."],
-    ["We stock some aftercare products, mainly the brands we use. The stylists mention them sometimes but there's no real approach to it.", "It depends entirely on who the client has. Some of my team are great at recommending, others never mention it. And we've run out of stock a few times which looks terrible.", "My best stylist for retail probably does four or five times what the others do. That gap is wasted margin every single week.", "If recommending product was part of the service conversation naturally — not a hard sell, just part of what we do — I think retail could be a proper revenue stream rather than an afterthought."],
-    ["I check the till at the end of the day and I have a rough idea of how the week's gone. Monthly I pull it together in a spreadsheet to see where we are.", "If I want to know which stylist is performing best or which services are most popular I have to dig through the spreadsheet manually. I don't do it as often as I should.", "I made a decision last year to drop a service because I thought it wasn't profitable. Turns out I was wrong — it was actually popular but I was just looking at the wrong numbers.", "If I could open something and see exactly where the money is coming from, which days and which staff — I'd be able to make better calls. Right now it's mostly gut feel."]
+// ════════════════════════════════════════════════════════════
+// RESPONSES (per language, per clientKey, per topic × t-step)
+// ════════════════════════════════════════════════════════════
+const RESPONSES_I18N = {
+  en: {
+    salon: [
+      ["Most of our new clients come through word of mouth honestly — a recommendation from a regular. We do a bit on Instagram but I couldn't tell you if it actually brings anyone in.", "The Instagram thing is the problem — I post when I remember, which isn't that regular. And I've no idea how to get on Google properly. I know we're missing people there.", "Honestly? Probably more than I'd like to admit. If even one quiet Tuesday became a full day, that's maybe £300 I'm not seeing. Multiply that across the month and it adds up.", "If I had a steady stream without it all depending on me posting or someone happening to mention us — that would take a lot of pressure off. I could actually focus on the work."],
+      ["They call, they DM us on Instagram, some find us on Google. It's a bit all over the place really — no one route.", "The DMs are the worst. I see them when I'm in the middle of a client and by the time I reply they've gone somewhere else. I've lost bookings that way for sure.", "I genuinely don't know the number but it bothers me. Even if it's two or three a week slipping through — that's a decent chunk of revenue walking out the door.", "If someone could look us up and book straight away without having to wait for me to reply — that would be huge. Half my DMs are just people asking if we're free Saturday."],
+      ["We ask for a deposit on new clients but honestly we're not very consistent with it. Regulars we just trust, which doesn't always work out.", "Last-minute cancellations are the killer. Someone texts at 8am saying they can't make their 10am — there's no way I'm filling that. The slot just goes.", "A no-show costs me the appointment value plus I've turned down walk-ins for that slot. On a bad week it's maybe £150, £200 gone. It's demoralising more than anything.", "If I could at least hold a card — so people think twice before cancelling last minute — that would change things. Right now there are no consequences so why would they bother?"],
+      ["Saturday is rammed, Monday and Tuesday are patchy. I've tried putting on deals for quieter days but they don't seem to shift much.", "The Tuesday lunch slot is almost always empty. And my junior stylist is often just waiting around when the senior is fully booked. It's not efficient.", "A slow Tuesday costs probably £200 versus a full day. Over a month of slow Tuesdays that's close to a grand I'm not making. It's my least efficient day by far.", "If I could get Tuesday to look more like Saturday — even 70% of it — I could probably justify keeping the junior on full time rather than worrying about the hours."],
+      ["We try to rebook at the end of the appointment but it's hit and miss. Some clients rebook on the spot, others say they'll call and then we don't hear from them.", "There's no system for following up. If a regular hasn't been in for eight weeks I wouldn't know until I happened to think about them.", "Losing a regular who comes in every six weeks — that's maybe £400 to £500 a year walking out the door. And you usually only notice when it's too late to do anything.", "If clients got a reminder automatically — something that said it's been a while, want to book in? — I'd probably get half of them back without having to do anything."],
+      ["Card machine, cash, sometimes bank transfer for bigger jobs. End of day I reconcile manually, cross-check the till with the card machine receipts.", "The bank transfers are the problem — clients sometimes forget, I have to chase, it feels awkward. And reconciling takes about half an hour every evening.", "Half an hour a day, five days a week — that's two and a half hours of admin every week just on payments. I'd rather be doing literally anything else.", "If everything came through one place and the numbers just matched at the end of the day — I can't tell you how much calmer that would make closing up."],
+      ["I've got three stylists and we do the rota on a shared WhatsApp. It mostly works but it gets messy when someone wants a day off or swaps a shift.", "When someone's off sick the whole WhatsApp group goes mad. Half the time clients aren't told until they turn up. It's embarrassing.", "Commission I do on a spreadsheet at the end of the month. It takes me about three hours and I've had two disputes in the last year about whether figures were right.", "If the team could see their own schedule and commission in real time — less questions coming to me, less WhatsApp chaos. I could actually manage instead of just firefighting."],
+      ["We stock some aftercare products, mainly the brands we use. The stylists mention them sometimes but there's no real approach to it.", "It depends entirely on who the client has. Some of my team are great at recommending, others never mention it. And we've run out of stock a few times which looks terrible.", "My best stylist for retail probably does four or five times what the others do. That gap is wasted margin every single week.", "If recommending product was part of the service conversation naturally — not a hard sell, just part of what we do — I think retail could be a proper revenue stream rather than an afterthought."],
+      ["I check the till at the end of the day and I have a rough idea of how the week's gone. Monthly I pull it together in a spreadsheet to see where we are.", "If I want to know which stylist is performing best or which services are most popular I have to dig through the spreadsheet manually. I don't do it as often as I should.", "I made a decision last year to drop a service because I thought it wasn't profitable. Turns out I was wrong — it was actually popular but I was just looking at the wrong numbers.", "If I could open something and see exactly where the money is coming from, which days and which staff — I'd be able to make better calls. Right now it's mostly gut feel."]
+    ],
+    multi: [
+      ["Each location does its own thing — one is on Google, one relies on walk-in. There's no joined-up approach across the group.", "The inconsistency is the issue. One site is always busy, the other two are patchy and I can't tell you why. We're not doing anything differently as far as I can see.", "A quiet location costs me in fixed overheads — rent, wages — against lower income. I've got one site that probably costs me £4,000 a month to run and brings in £5,000. That's too tight.", "If I could see what was working at the busy site and replicate it across the others — that would be worth a lot. Right now it's just guesswork."],
+      ["Each site has its own booking number and some have online booking set up, some don't. It's not consistent at all.", "The sites without online booking lose enquiries after hours. People search us at 9pm, can't book, go somewhere else. I know it's happening but I can't quantify it.", "If even one site is losing five bookings a week after hours that's maybe £500 a week gone. Across three sites that starts to be a real number.", "If all three sites had the same frictionless booking experience I could actually run a proper marketing campaign and know it would convert. Right now I'm embarrassed to spend on ads."],
+      ["Policy varies by site — one manager is strict, another is more relaxed. We don't have a group-wide standard.", "I found out last month that one of my sites has a 20% no-show rate on new clients. The manager hadn't told me. I only found out because I asked to see the data.", "At 20% no-show on new clients across that site — that's one in five appointments just gone. At average ticket price that could be four or five thousand pounds a month.", "If I could set policy once and have it enforced across all three sites automatically — no deposit exceptions, no staff making calls they shouldn't be — that would change everything."],
+      ["Saturday is strong across all sites. Mid-week varies. I have no visibility of utilisation rate by site without asking each manager to pull figures.", "I think I've got staff on at quiet times at some locations but I can't see it from here. By the time I find out the cost has already happened.", "If one site is running at 50% utilisation on a Wednesday — that's dead wages against empty chairs. Probably costs me £300-400 in labour that day with no return.", "If I could see utilisation by site, day, and stylist in real time — I could actually manage this rather than reacting. Right now I'm a month behind on everything."],
+      ["Each site handles it differently. Some rebook at the chair, some send a text. There's no group standard.", "Clients who visit one location and then move house — they might be near another of our sites but we have no way of knowing or contacting them.", "A client who visits monthly across their lifetime is worth thousands to the group. When they lapse — even across all our sites — we have no visibility that it's happened.", "A shared client database across all three sites so any location can see their history and reach out — that would actually make us feel like a group rather than three separate businesses."],
+      ["Each site has a different till system. Reconciliation is done separately by each manager and sent to me weekly.", "Consolidating the three reports takes me or my PA half a day every week. And the formats are all different so it's not a quick job.", "Half a day a week is 26 days a year of my time or my PA's time. That's a meaningful cost — salary-wise easily £3,000 to £4,000 a year just in reconciliation time.", "If I got one dashboard showing me what came in across all three sites yesterday — I'd be able to spot problems immediately instead of finding out a week later."],
+      ["Managers handle their own rotas and I trust them to do it. But I've had situations where I find out after the fact that cover wasn't organised properly.", "I can't see individual staff performance across sites without asking managers to send me data. And they don't always frame it the same way so it's hard to compare.", "I promoted someone last year who I thought was a strong performer. Turned out their numbers were average — I just hadn't seen the data from the other sites clearly.", "If I could see every team member's performance across all sites in one view — not just revenue but utilisation, retention, punctuality — I'd manage the group much more confidently."],
+      ["Retail is kind of left to individual managers. One site is good at it, the others not so much. No consistency.", "I can't see retail performance per site in any easy way. I think one site barely sells anything but I don't have the data to challenge it properly.", "If my best retail site did £800 a month and the others do £200 — that's £1,200 a month I should be making across the group that I'm not. That's £14,000 a year.", "If I could benchmark retail performance site by site and set targets — then actually track them — retail could become a proper contributor to group revenue rather than an accident."],
+      ["I get weekly reports from each manager. It takes me a couple of hours each week to read and compare them. The formats aren't consistent so it's harder than it should be.", "If I want to compare like-for-like performance across sites I have to build my own spreadsheet. I do it monthly but it's always slightly out of date by the time I finish.", "I've definitely made decisions with incomplete data. I moved resource to a site I thought was struggling — turns out it was actually having its best month. I just hadn't seen the numbers yet.", "If I could open one screen and see all three sites side by side — revenue, utilisation, team performance — updated daily, I could actually run this as a group not as three separate guesses."]
+    ],
+    solo: [
+      ["Word of mouth mainly. I get a lot from Instagram too — I post regularly and get enquiries but it's inconsistent. Some weeks I'm full, others I'm chasing.", "The inconsistency is the problem. I can't predict which weeks will be quiet so I can't plan properly. And I feel awkward doing promo posts — doesn't feel very me.", "A quiet week for me is maybe £400 less than a full week. When it happens two or three times a month I start to stress about the fixed costs — my chair rent, products, kit.", "If I had a steadier pipeline that didn't depend on me posting or hoping someone recommends me — I could relax a bit and actually focus on the work I love doing."],
+      ["People DM me on Instagram mostly, or text my personal number. I try to reply quickly but when I'm doing a colour or a cut I can miss them.", "I know I lose people when I'm slow to respond. I've had people DM and then when I reply an hour later they've already booked someone else. It happens more than I'd like.", "If I lose two or three bookings a week like that — at my average price that's maybe £150 to £200 a week just gone. Over a year that's a big number.", "If people could just book themselves in when they want — without needing to wait for me to reply — I'd fill so many more gaps, especially the last-minute ones."],
+      ["I don't really have a formal policy. I'll ask for a deposit on big services like extensions but for a regular cut it feels a bit much.", "I've had no-shows on colour appointments where I've already mixed the product. That's two hours of my time and £20 in stock just gone.", "A colour no-show is probably £80 to £100 lost including the product waste. Even just one a month is money I can't afford to lose as a solo.", "If everyone put a card down when they booked — I think that's just normal now. It wouldn't feel aggressive, it would just protect my time."],
+      ["My busy days are Thursday to Saturday. Monday and Wednesday are hit and miss. I'd love more consistency across the week.", "When I'm quiet on a Monday I can't really make that time up. My chair rent is the same whether I've got two clients or eight.", "A quiet Monday costs me probably £150 that I won't see again. Over the month that's a meaningful dent in what I take home.", "If I could shift some of those weekend requests to mid-week — offer them availability when I'm free — it would smooth out the whole week."],
+      ["I try to rebook at the end of every visit but sometimes I'm running behind and the client is in a rush. It falls through.", "I don't follow up. I've got regulars who've drifted and I only realised when I noticed their name hadn't come up in months.", "A six-weekly regular is worth maybe £500 a year to me. Losing two or three of those adds up — it's the kind of loss that sneaks up on you.", "If there was an automatic nudge — something personalised, not spammy — that brought people back, I'd barely have to think about it."],
+      ["I take card payments through a portable reader and cash sometimes. I do a quick total at the end of the day.", "It's fine mostly but I've had issues with clients wanting to split payments or not having their card. It creates an awkward moment.", "It's not a huge time cost for me but it adds up. Maybe an hour a week sorting out payments, checking receipts, logging things.", "If payment happened automatically and I didn't have to think about it — that would be one less thing on my plate. Every bit of admin saved matters when you're solo."],
+      ["It's just me so team isn't really the issue — but I do work with an apprentice one day a week and organising that is more admin than it should be.", "The apprentice situation means I have to track their hours, check what they did, make sure I'm meeting the training requirements. It's on top of everything else.", "Probably an hour a week on admin related to the apprentice — which doesn't sound like much but when every hour could be a paying client it adds up.", "If admin like that was just handled — logged automatically, easy to review — I could spend that hour doing what I'm actually good at."],
+      ["I sell a few products — mainly what I use on clients. I mention them if I think it'd help but I don't push it.", "Sometimes I forget to mention products at the end of a service because I'm focused on finishing well and the client is in a rush to go. The moment passes.", "I probably mention retail to maybe a third of clients. If the other two thirds heard about the right product for them — even half of them bought it — that's a meaningful add to my monthly income.", "If there was a natural way to make product recommendation part of the service conversation — not salesy, just helpful — I'd be much more consistent. Right now it's purely when I remember."],
+      ["I check what I've made at the end of each day and that's about it. I do a proper tally at the end of the month for tax but that's more necessity than insight.", "I have no idea which services make me the most per hour, or which days are most profitable. I just try to stay busy and hope it adds up.", "I underpriced a service for a whole year because I never analysed my time properly. When I finally worked it out I was making less per hour on that service than anything else.", "If I could see at a glance — this service is your best earner, this day is your most efficient — I'd make better decisions about what to take on and what to charge."]
+    ],
+    spa: [
+      ["We have a website with online booking and we're on a couple of directories. Bookings come in but we have quiet patches mid-week that I'd like to fill.", "Mid-week is consistently quiet. We're nearly full Friday to Sunday but Monday, Tuesday, Wednesday — especially mornings — it's sparse. The marketing we're doing isn't reaching those gaps.", "A quiet treatment room mid-week — if the room should be generating £300 a day and it's doing £80 — over a month that's thousands. And my overheads don't stop for quiet days.", "If I could run targeted last-minute offers or fill the mid-week gaps through a marketplace without devaluing the full experience — that would be transformative for cash flow."],
+      ["We get calls and online enquiries. The online booking works well for regular treatments but for packages or bespoke experiences people tend to call and we miss some of those.", "Calls that come in during treatments go to voicemail. We call back but by then — especially for gift purchases — they've often gone elsewhere. Gift bookings are really sensitive to response time.", "Gift bookings are high value — average £120 — and seasonal. If we're missing even five a month over November and December that's £600 to £1,200 of gift revenue gone.", "If enquiries could convert through an online journey — even for bespoke packages — without needing a callback, we'd catch so many more of those seasonal gift bookings."],
+      ["We take deposits for packages but not for single treatments. No-shows on single treatments do happen and we can't always recover the room.", "Same-day cancellations on a treatment room mean that room generates nothing for that slot. We can't fill it with a walk-in like a salon might — the preparation and set-up time makes it hard.", "A 60-minute treatment room that sits empty costs us not just the treatment revenue but also the therapist's time, the product used in preparation, the overheads. It's more expensive than it looks.", "If deposits were standard across all bookings — even small ones for single treatments — I think cancellation behaviour would change. People think twice when there's something at stake."],
+      ["We're good at filling the busy periods. The challenge is the therapists' time between appointments — the 20-minute gaps when they're just waiting.", "We have a lot of micro-gaps — 15 to 30 minutes between treatments — that can't fit a full service. So therapists are on the clock but not generating revenue.", "If I have four therapists with 30 minutes of dead time each — that's two hours of paid labour producing nothing. Daily that could be £100 to £150 in wasted staff cost.", "If we could offer express treatments, scalp massages, hand treatments — something that fits the gaps — we could turn downtime into revenue without rescheduling anything."],
+      ["We ask clients to rebook at reception. Some do, many say they'll call. We don't have an automated follow-up so it depends on who's on reception that day.", "We have a lot of clients who come for a one-off birthday or gift experience and never come back — even though they loved it. We're not doing anything to bring them back.", "A first-time client who had a great experience — if we converted even a third of them to a second visit that's a significant uplift in revenue without any new client acquisition cost.", "If new clients automatically got a follow-up — a thank you and an offer to rebook — within 48 hours, I think a meaningful number would come back. Right now we just hope they do."],
+      ["Card payments at reception, some packages are pre-paid. End of day the till needs to reconcile against the bookings and it takes a while.", "Pre-paid packages create tracking complexity — knowing what's been used, what's outstanding. We do it in a spreadsheet and it's got wrong before.", "When package tracking goes wrong — client says they have two sessions left, we have one — someone has to back down. It damages trust and it's happened twice this year.", "If package usage tracked itself and the client could see their balance — fewer disputes, less admin, and clients would trust that we're on top of things."],
+      ["I have seven therapists across different specialisms. Scheduling is complex — matching therapist skill to treatment request, managing room allocation, tracking hours.", "When I get a last-minute booking for a specific treatment I have to manually check who's trained, who's free, and which room is set up. It can take ten minutes to confirm a booking.", "Ten minutes per complex booking — if I have ten of those a day, that's an hour and a half of pure admin. And I still make mistakes sometimes, which is embarrassing.", "If the system knew each therapist's qualifications, availability, and room requirements and could match them automatically — I'd get time back and clients would get confirmed faster."],
+      ["We have a retail area with professional products and aftercare. Therapists recommend at the end of treatments but it's inconsistent.", "The recommendation happens maybe half the time. After a deep tissue massage the client is relaxed and we hesitate to push retail — but actually the moment is perfect for it if done right.", "If every client post-treatment was offered the right aftercare product — even a 20% conversion at our average retail price of £35 — across 200 treatments a month that's £1,400 we're not making.", "If retail was positioned as care continuation rather than sales — the right product, framed right, offered every time — I think clients would appreciate it and it would add real revenue."],
+      ["I review weekly figures on a Saturday. I look at revenue, number of treatments, average transaction. I don't have great visibility of room utilisation or therapist productivity.", "I want to know which therapists are most productive and which treatments have the best margin — but pulling that out of our current system takes time I don't always have.", "I made a decision to invest in training for a new treatment last year based on gut feel. Six months in it's underperforming. If I'd had better data I might have chosen differently.", "If I could see therapist productivity, treatment margin, and room utilisation in one dashboard — I'd be able to invest in training and equipment much more confidently."]
+    ],
+    barber: [
+      ["Mainly walk-in and word of mouth. We have some regulars who book but most people just come in. We're busy Saturday but quiet Monday and Tuesday.", "The walk-in model works but it means I can't plan the week. I never know if Monday will be dead or decent. It makes staffing really difficult.", "A dead Monday with two barbers on — I'm paying wages for downtime. If walk-in doesn't pick up I might do £200 in takings against £180 in staff cost. That's not a business.", "If I could shift even 30% of clients to pre-booking — predictable revenue, better staffing, fewer slow starts to the week — the business would feel much more stable."],
+      ["We get walk-ins, calls, and some DMs. The DMs I'm hopeless at — they come in when I'm cutting and by the time I see them the person has gone somewhere else.", "Instagram DMs are the worst — I know I'm losing bookings there. People ask if we're busy, I don't reply for an hour, they walk past and see the queue and just leave.", "I'd guess I'm losing five or six bookings a week from slow responses. At my prices that's £150 to £200 a week. Over a year — actually that's a lot.", "If clients could see our live availability and book online without needing to DM me — especially the ones who don't want to walk in and queue — that would capture a whole segment I'm missing."],
+      ["Bookings are pretty casual — people book over text or call and they know they can cancel without any issue. We've always been relaxed about it.", "No-shows on booked slots are annoying because I've turned away walk-ins for that slot. Especially on a busy Saturday — I lose a guaranteed paying customer for someone who doesn't show.", "On a Saturday a missed booked slot might cost me a cut and a beard — £45 to £55. And I've told a walk-in to come back who then goes to someone else. It's a double loss.", "Even just a reminder the day before would probably reduce no-shows significantly. Most people aren't malicious — they just forget. A text would sort most of it."],
+      ["Saturdays are solid but Monday to Wednesday is unpredictable. I'm staffing for the weekend level and carrying that cost through the slow days.", "My second barber is underused Tuesday and Wednesday. He's good — I don't want to cut his hours — but the work isn't there to justify him being full-time those days.", "Carrying a barber who's only 50% utilised for two days a week — that's probably £200 a week in wages not matched by revenue. Over the year that's significant.", "If I could drive bookings into those mid-week slots specifically — a loyalty deal for mid-week, something like that — I could justify keeping the team without the dead time."],
+      ["Regulars just come back — they know their schedule. But I've got clients I haven't seen in months and I've no way of reaching them.", "I've got no system for keeping track of who's been in. Some clients come every three weeks, some every three months. I can't tell the difference until I see them walk in.", "A regular on a six-week cycle is worth maybe £600 to £800 a year. When they drift — maybe they moved, maybe they tried somewhere else — I don't even know until a year later.", "If there was a way to ping lapsed clients automatically — even just a we haven't seen you in a while message — I'd probably get some of them back without doing anything myself."],
+      ["Cash and card. End of day it gets totalled up but it's fairly manual. I use a basic app but it doesn't connect to anything.", "I pay barbers partly on commission and working out what each one is owed at the end of the week takes me about an hour with a spreadsheet.", "That hour every week is 52 hours a year on commission admin. And I've made errors before which caused friction with the team. It's not a good use of my time.", "If commission tracked automatically based on what each barber did — I could see it in real time and they could too — there'd be no disputes and I'd get that hour back every week."],
+      ["I've got three barbers and I do the rota. WhatsApp for shift changes. It works but it's chaotic when someone calls in sick.", "When someone's off sick I'm texting round trying to find cover, texting clients to warn them, trying to manage the walk-in queue. It's all happening at once.", "A sick day in the chair costs me the revenue from that chair — maybe £250 to £300 — plus the stress of managing it. And if I can't get cover, the waiting clients leave.", "If shift changes, cover requests, and client notifications could all happen through one place — less chaos, less stress, less chance of clients walking because we look disorganised."],
+      ["We stock some barber products — pomade, wax, beard oil. Barbers mention them occasionally but there's no proper approach.", "It depends on the barber. One of my guys is great at it — he recommends something to nearly every client and they buy. The others barely mention it.", "The difference between my best and worst for retail is probably £150 to £200 a month. If I could get everyone to my best barber's level that's real money.", "If recommending the right product was just part of the service — natural, not pushy — and everyone did it consistently, retail could be a proper second revenue line for the shop."],
+      ["End of day I know what we've taken. Weekly I have a rough view. Beyond that I don't really analyse much — I go on feel.", "I don't track which services are most profitable or which barber has the best repeat rate. I'd like to but I don't have an easy way to see it.", "I kept a service on the menu for two years that wasn't really making money because I never looked at the numbers properly. When I finally did I cut it and nobody even noticed.", "If I could see weekly: revenue by barber, best services, quietest slots — I'd actually run the business instead of just being in it. Right now I make most decisions by instinct."]
+    ]
+  },
+  es: {
+    salon: [
+      ["La mayoría de nuestros clientes nuevos llegan por recomendación de alguien que ya viene. Publicamos algo en Instagram pero no sabría decirte si realmente trae a alguien.", "Lo de Instagram es el problema — publico cuando me acuerdo, que no es muy seguido. Y no tengo ni idea de cómo posicionarme bien en Google. Sé que estamos perdiendo gente ahí.", "¿Sinceramente? Más de lo que me gustaría admitir. Si tan solo un martes vacío se llenara, serían unos 300€ que no estoy viendo. Multiplica eso por el mes y suma bastante.", "Si tuviera un flujo constante sin que todo dependa de que yo publique o de que alguien nos mencione — me quitaría mucha presión. Podría concentrarme en el trabajo de verdad."],
+      ["Llaman, nos escriben por Instagram, algunos nos encuentran en Google. Es un poco caótico la verdad — no hay una ruta clara.", "Los mensajes de Instagram son lo peor. Los veo cuando estoy con un cliente y para cuando respondo ya se fueron a otro sitio. He perdido reservas así seguro.", "No sé el número exacto pero me molesta. Aunque sean dos o tres por semana — es un buen trozo de ingresos que se van por la puerta.", "Si alguien pudiera buscarnos y reservar al momento sin esperar a que yo responda — sería enorme. La mitad de mis mensajes son gente preguntando si tenemos hueco el sábado."],
+      ["Pedimos anticipo a clientes nuevos pero la verdad no somos muy consistentes. A los habituales les confiamos, y no siempre sale bien.", "Las cancelaciones de última hora son las que matan. Alguien escribe a las 8 diciendo que no puede a las 10 — no hay forma de llenar ese hueco. Se pierde sin más.", "Una incomparecencia me cuesta el valor de la cita más el hecho de que rechacé a otros para ese turno. En una mala semana son unos 150, 200€ que desaparecen. Es desmoralizante más que nada.", "Si al menos pudiera guardar una tarjeta — para que la gente se lo piense dos veces antes de cancelar a última hora — eso cambiaría las cosas. Ahora mismo no hay consecuencias."],
+      ["El sábado está lleno, lunes y martes son irregulares. He probado ofertas para días tranquilos pero no parecen mover mucho.", "El turno del martes al mediodía está casi siempre vacío. Y mi estilista junior muchas veces está esperando mientras el senior está completo. No es eficiente.", "Un martes flojo cuesta unos 200€ comparado con un día lleno. En un mes de martes flojos estamos hablando de casi mil euros que no genero. Es mi día menos eficiente.", "Si pudiera hacer que el martes se pareciera al sábado — aunque fuera un 70% — podría justificar mantener al junior a tiempo completo sin preocuparme por las horas."],
+      ["Intentamos reagendar al final de la cita pero es inconsistente. Algunos reservan ahí mismo, otros dicen que llaman y luego no sabemos nada.", "No hay sistema de seguimiento. Si un habitual no ha venido en ocho semanas no me enteraría a menos que me acordara de ellos por casualidad.", "Perder un habitual que viene cada seis semanas — son unos 400 a 500€ al año que se van. Y normalmente te das cuenta cuando ya es tarde para hacer algo.", "Si los clientes recibieran un recordatorio automático — algo que dijera 'hace tiempo que no vienes, ¿reservamos?' — probablemente recuperaría a la mitad sin tener que hacer nada."],
+      ["Tarjeta, efectivo, a veces transferencia para trabajos grandes. Al final del día cuadro a mano, cruzo la caja con los recibos de la terminal.", "Las transferencias son el problema — a veces los clientes se olvidan, tengo que perseguirles, es incómodo. Y cuadrar lleva como media hora cada noche.", "Media hora al día, cinco días a la semana — son dos horas y media de administración semanal solo en pagos. Preferiría estar haciendo literalmente cualquier otra cosa.", "Si todo entrara por un mismo sitio y los números cuadraran solos al final del día — no te puedo explicar cuánto más tranquilo sería el cierre."],
+      ["Tengo tres estilistas y hacemos el horario por un grupo de WhatsApp. Más o menos funciona pero se complica cuando alguien quiere un día libre o cambia turno.", "Cuando alguien se pone enfermo el grupo de WhatsApp estalla. La mitad de las veces los clientes no se enteran hasta que llegan. Es vergonzoso.", "Las comisiones las hago en una hoja de cálculo a final de mes. Me lleva unas tres horas y he tenido dos disputas en el último año sobre si las cifras estaban bien.", "Si el equipo pudiera ver su propio horario y comisiones en tiempo real — menos preguntas para mí, menos caos de WhatsApp. Podría gestionar en vez de solo apagar fuegos."],
+      ["Tenemos algunos productos de cuidado posterior, sobre todo las marcas que usamos. Los estilistas los mencionan a veces pero no hay un enfoque real.", "Depende completamente de quién atienda al cliente. Algunos de mi equipo son geniales recomendando, otros nunca lo mencionan. Y nos hemos quedado sin stock varias veces, lo cual queda fatal.", "Mi mejor estilista en ventas de producto hace cuatro o cinco veces más que los demás. Esa brecha es margen desperdiciado cada semana.", "Si recomendar producto fuera parte natural de la conversación del servicio — no venta agresiva, solo parte de lo que hacemos — creo que el retail podría ser una fuente de ingresos real en vez de algo secundario."],
+      ["Reviso la caja al final del día y tengo una idea aproximada de cómo fue la semana. Mensualmente lo junto en una hoja de cálculo para ver dónde estamos.", "Si quiero saber qué estilista rinde mejor o qué servicios son más populares tengo que bucear en la hoja manualmente. No lo hago tanto como debería.", "El año pasado decidí eliminar un servicio porque pensé que no era rentable. Resulta que estaba equivocado — era bastante popular pero estaba mirando los números equivocados.", "Si pudiera abrir algo y ver exactamente de dónde viene el dinero, qué días y qué personal — podría tomar mejores decisiones. Ahora mismo es todo intuición."]
+    ],
+    multi: [
+      ["Cada sede hace lo suyo — una está en Google, otra depende de los que pasan. No hay un enfoque unificado en el grupo.", "La inconsistencia es el problema. Una sede siempre está llena, las otras dos van irregular y no sabría decirte por qué.", "Una sede tranquila me cuesta en gastos fijos — alquiler, sueldos — contra menos ingresos. Tengo una que probablemente cuesta 4.000€ al mes de operar y factura 5.000€. Eso es demasiado justo.", "Si pudiera ver qué funciona en la sede activa y replicarlo en las demás — eso valdría mucho. Ahora mismo es todo a ciegas."],
+      ["Cada sede tiene su propio número y algunas tienen reserva online, otras no. No es nada consistente.", "Las sedes sin reserva online pierden consultas fuera de horario. La gente nos busca a las 9 de la noche, no puede reservar, se va a otro sitio.", "Si una sola sede pierde cinco reservas a la semana fuera de horario son unos 500€ semanales. En tres sedes empieza a ser un número importante.", "Si las tres sedes tuvieran la misma experiencia de reserva sin fricción podría lanzar una campaña de marketing de verdad sabiendo que convertiría."],
+      ["La política varía por sede — un gerente es estricto, otro más relajado. No hay un estándar de grupo.", "Me enteré el mes pasado de que una de mis sedes tiene un 20% de incomparecencias en clientes nuevos. El gerente no me lo había dicho.", "Con un 20% de incomparecencias en clientes nuevos en esa sede — es una de cada cinco citas que simplemente desaparece. En ticket medio podrían ser cuatro o cinco mil euros al mes.", "Si pudiera establecer la política una vez y que se aplique en las tres sedes automáticamente — sin excepciones de anticipo, sin que el personal tome decisiones que no le corresponden — eso cambiaría todo."],
+      ["El sábado es fuerte en todas las sedes. Entre semana varía. No tengo visibilidad de la tasa de ocupación por sede sin pedirle a cada gerente que saque cifras.", "Creo que tengo personal en momentos tranquilos en algunas sedes pero no lo veo desde aquí. Para cuando me entero el coste ya ocurrió.", "Si una sede funciona al 50% de ocupación un miércoles — son sueldos muertos contra sillas vacías. Probablemente me cuesta 300-400€ de mano de obra ese día sin retorno.", "Si pudiera ver la ocupación por sede, día y estilista en tiempo real — podría gestionar esto en vez de solo reaccionar."],
+      ["Cada sede lo hace diferente. Unas reagendan en el sillón, otras mandan mensaje. No hay estándar de grupo.", "Clientes que visitan una sede y luego se mudan — podrían estar cerca de otra de nuestras sedes pero no tenemos forma de saberlo ni contactarles.", "Un cliente que viene mensualmente durante toda su vida vale miles para el grupo. Cuando dejan de venir — incluso en todas nuestras sedes — no tenemos visibilidad de que ha pasado.", "Una base de datos compartida entre las tres sedes para que cualquiera pueda ver el historial y contactar — eso nos haría sentir como un grupo de verdad."],
+      ["Cada sede tiene un sistema de caja diferente. La conciliación la hace cada gerente por separado y me la envían semanalmente.", "Consolidar los tres informes me lleva a mí o a mi asistente medio día cada semana. Y los formatos son todos distintos así que no es tarea rápida.", "Medio día a la semana son 26 días al año del tiempo de alguien. En salario fácilmente son 3.000 a 4.000€ al año solo en conciliación.", "Si tuviera un panel mostrándome lo que entró en las tres sedes ayer — podría detectar problemas inmediatamente en vez de enterarme una semana después."],
+      ["Los gerentes manejan sus propios horarios y confío en que lo hagan. Pero he tenido situaciones donde me entero después de que la cobertura no se organizó bien.", "No puedo ver el rendimiento individual del personal entre sedes sin pedir a los gerentes que me envíen datos. Y no siempre lo presentan igual.", "Ascendí a alguien el año pasado que pensé que era buen rendidor. Resulta que sus números eran medianos — simplemente no había visto los datos de las otras sedes.", "Si pudiera ver el rendimiento de cada miembro del equipo en todas las sedes en una vista — no solo facturación sino ocupación, retención, puntualidad — gestionaría el grupo con mucha más confianza."],
+      ["El retail queda en manos de los gerentes individuales. Una sede lo hace bien, las otras no tanto.", "No puedo ver el rendimiento de retail por sede de forma fácil. Creo que una sede apenas vende pero no tengo datos para cuestionarlo.", "Si mi mejor sede de retail hace 800€ al mes y las otras hacen 200€ — son 1.200€ al mes que debería estar generando y no genero. Son 14.000€ al año.", "Si pudiera comparar el rendimiento de retail sede por sede y poner objetivos — y luego hacerles seguimiento — el retail podría ser un contribuyente real a los ingresos del grupo."],
+      ["Recibo informes semanales de cada gerente. Me lleva un par de horas cada semana leerlos y compararlos. Los formatos no son consistentes.", "Si quiero comparar el rendimiento entre sedes tengo que armar mi propia hoja de cálculo. Lo hago mensualmente pero siempre está ligeramente desactualizada cuando termino.", "He tomado decisiones con datos incompletos. Moví recursos a una sede que pensé que iba mal — resulta que estaba teniendo su mejor mes.", "Si pudiera abrir una pantalla y ver las tres sedes lado a lado — ingresos, ocupación, rendimiento del equipo — actualizado diariamente, podría dirigir esto como un grupo de verdad."]
+    ],
+    solo: [
+      ["Boca a boca sobre todo. También consigo bastante por Instagram — publico con frecuencia y recibo consultas pero es inconsistente.", "La inconsistencia es el problema. No puedo predecir qué semanas serán tranquilas. Y me siento raro haciendo posts promocionales — no va conmigo.", "Una semana tranquila son unos 400€ menos que una semana llena. Cuando pasa dos o tres veces al mes empiezo a estresarme con los costes fijos — mi alquiler, productos, herramientas.", "Si tuviera un flujo más estable que no dependiera de que yo publique o de que alguien me recomiende — podría relajarme y centrarme en el trabajo que me apasiona."],
+      ["La gente me escribe por Instagram sobre todo, o me envían mensajes a mi número personal. Intento responder rápido pero cuando estoy con un tinte o un corte se me escapan.", "Sé que pierdo gente cuando tardo en responder. He tenido personas que escriben y cuando respondo una hora después ya reservaron en otro sitio.", "Si pierdo dos o tres reservas a la semana así — a mi precio medio son unos 150 a 200€ semanales que simplemente desaparecen.", "Si la gente pudiera reservar sola cuando quiera — sin esperar a que yo responda — llenaría muchos más huecos, especialmente los de última hora."],
+      ["No tengo una política formal realmente. Pido anticipo para servicios grandes como extensiones pero para un corte normal se siente excesivo.", "He tenido incomparecencias en citas de color donde ya había mezclado el producto. Son dos horas de mi tiempo y 20€ en producto que simplemente se perdieron.", "Una incomparecencia de color son unos 80 a 100€ perdidos incluyendo el desperdicio de producto. Incluso una al mes es dinero que no me puedo permitir perder siendo independiente.", "Si todo el mundo pusiera una tarjeta al reservar — creo que ya es normal hoy en día. No se sentiría agresivo, simplemente protegería mi tiempo."],
+      ["Mis días fuertes son de jueves a sábado. Lunes y miércoles van según el día. Me encantaría más consistencia.", "Cuando estoy tranquilo un lunes no puedo recuperar ese tiempo. Mi alquiler es el mismo tenga dos clientes u ocho.", "Un lunes tranquilo me cuesta unos 150€ que no voy a recuperar. En el mes es una mella importante en lo que me llevo a casa.", "Si pudiera mover algunas de esas solicitudes de fin de semana a entre semana — ofrecerles disponibilidad cuando estoy libre — suavizaría toda la semana."],
+      ["Intento reagendar al final de cada visita pero a veces voy con retraso y el cliente tiene prisa. Se pierde.", "No hago seguimiento. Tengo habituales que se han ido perdiendo y solo me di cuenta cuando noté que su nombre no aparecía en meses.", "Un habitual de cada seis semanas vale unos 500€ al año para mí. Perder dos o tres de esos suma — es el tipo de pérdida que se te acumula sin que te des cuenta.", "Si hubiera un empujoncito automático — algo personalizado, no spam — que hiciera volver a la gente, apenas tendría que pensarlo."],
+      ["Cobro con tarjeta con un lector portátil y a veces en efectivo. Hago un total rápido al final del día.", "Normalmente va bien pero he tenido problemas con clientes que quieren dividir pagos o no traen tarjeta. Crea un momento incómodo.", "No es un gran coste de tiempo para mí pero suma. Quizás una hora a la semana gestionando pagos, revisando recibos, registrando cosas.", "Si el pago ocurriera automáticamente y no tuviera que pensar en ello — sería una cosa menos en mi plato. Cada minuto de administración ahorrado cuenta cuando eres solo."],
+      ["Soy solo yo así que el equipo no es el tema — pero trabajo con un aprendiz un día a la semana y organizarlo es más administración de lo que debería.", "Lo del aprendiz significa que tengo que registrar sus horas, revisar lo que hizo, asegurarme de cumplir los requisitos de formación. Es encima de todo lo demás.", "Probablemente una hora a la semana en administración del aprendiz — no suena a mucho pero cuando cada hora podría ser un cliente que paga, suma.", "Si esa administración simplemente se gestionara sola — registro automático, fácil de revisar — podría usar esa hora en lo que realmente sé hacer."],
+      ["Vendo algunos productos — principalmente lo que uso con los clientes. Los menciono si creo que les ayudaría pero no presiono.", "A veces se me olvida mencionar productos al final del servicio porque estoy concentrado en terminar bien y el cliente tiene prisa. El momento pasa.", "Probablemente menciono productos a un tercio de los clientes. Si los otros dos tercios escucharan sobre el producto adecuado — incluso si la mitad comprara — sería un aporte significativo a mi ingreso mensual.", "Si hubiera una forma natural de hacer la recomendación de producto parte del servicio — no ventas agresivas, solo útil — sería mucho más consistente."],
+      ["Reviso lo que gané al final de cada día y eso es todo. Hago un recuento al final del mes para impuestos pero es más necesidad que análisis.", "No tengo idea de qué servicios me generan más por hora, ni qué días son más rentables. Solo intento mantenerme ocupado y espero que cuadre.", "Cobré de menos por un servicio durante un año entero porque nunca analicé bien mi tiempo. Cuando lo calculé estaba ganando menos por hora en ese servicio que en cualquier otro.", "Si pudiera ver de un vistazo — este servicio es tu mejor generador, este día es tu más eficiente — tomaría mejores decisiones sobre qué aceptar y qué cobrar."]
+    ],
+    spa: [
+      ["Tenemos web con reserva online y estamos en un par de directorios. Llegan reservas pero tenemos parches vacíos entre semana que me gustaría llenar.", "Entre semana es consistentemente tranquilo. Estamos casi llenos de viernes a domingo pero lunes, martes, miércoles — especialmente por las mañanas — escasea.", "Una sala de tratamiento vacía entre semana — si debería generar 300€ al día y hace 80€ — en un mes son miles. Y mis gastos fijos no paran los días tranquilos.", "Si pudiera lanzar ofertas de última hora específicas o llenar los huecos entre semana a través de un marketplace sin devaluar la experiencia — eso transformaría el flujo de caja."],
+      ["Recibimos llamadas y consultas online. La reserva online funciona bien para tratamientos regulares pero para paquetes o experiencias a medida la gente tiende a llamar y perdemos algunas.", "Las llamadas que entran durante tratamientos van al buzón. Devolvemos la llamada pero para entonces — especialmente para regalos — suelen haberse ido a otro sitio.", "Las reservas de regalo son de alto valor — media de 120€ — y estacionales. Si perdemos cinco al mes en noviembre y diciembre son 600 a 1.200€ de ingresos por regalos.", "Si las consultas pudieran convertir en un proceso online — incluso para paquetes a medida — sin necesitar devolución de llamada, captaríamos muchas más reservas estacionales."],
+      ["Tomamos anticipos para paquetes pero no para tratamientos individuales. Las incomparecencias en tratamientos individuales sí ocurren y no siempre podemos recuperar la sala.", "Cancelaciones del mismo día en una sala de tratamiento significan que esa sala no genera nada para ese turno. No podemos llenarla con alguien sin cita como haría un salón.", "Una sala de tratamiento de 60 minutos vacía nos cuesta no solo los ingresos sino también el tiempo del terapeuta, el producto usado en preparación, los gastos generales. Es más caro de lo que parece.", "Si los anticipos fueran estándar para todas las reservas — incluso pequeñas para tratamientos individuales — creo que el comportamiento de cancelación cambiaría."],
+      ["Somos buenos llenando los períodos fuertes. El reto es el tiempo de los terapeutas entre citas — los huecos de 20 minutos donde solo esperan.", "Tenemos muchos micro-huecos — 15 a 30 minutos entre tratamientos — que no caben un servicio completo. Los terapeutas están en nómina pero no generan.", "Si tengo cuatro terapeutas con 30 minutos de tiempo muerto cada uno — son dos horas de mano de obra pagada sin producir nada. Diariamente pueden ser 100 a 150€ de coste desperdiciado.", "Si pudiéramos ofrecer tratamientos exprés, masajes de cuero cabelludo, tratamientos de manos — algo que quepa en los huecos — convertiríamos tiempo muerto en ingresos."],
+      ["Pedimos a los clientes que reagenden en recepción. Algunos lo hacen, muchos dicen que llamarán. No tenemos seguimiento automático.", "Tenemos muchos clientes que vienen para un cumpleaños o experiencia de regalo y nunca vuelven — aunque les encantó. No hacemos nada para traerlos de vuelta.", "Un cliente nuevo que tuvo una gran experiencia — si convirtiéramos aunque sea un tercio en una segunda visita es un aumento significativo de ingresos sin coste de adquisición.", "Si los clientes nuevos recibieran un seguimiento automático — un agradecimiento y una oferta para reagendar — en 48 horas, creo que un número significativo volvería."],
+      ["Pagos con tarjeta en recepción, algunos paquetes prepagados. Al final del día la caja tiene que cuadrar con las reservas y lleva un rato.", "Los paquetes prepagados crean complejidad de seguimiento — saber qué se ha usado, qué queda pendiente. Lo hacemos en hoja de cálculo y ha salido mal antes.", "Cuando el seguimiento de paquetes falla — el cliente dice que le quedan dos sesiones, nosotros tenemos una — alguien tiene que ceder. Daña la confianza.", "Si el uso de paquetes se rastreara solo y el cliente pudiera ver su saldo — menos disputas, menos administración, y los clientes confiarían en que lo tenemos controlado."],
+      ["Tengo siete terapeutas con diferentes especialidades. El horario es complejo — emparejar habilidad con solicitud, gestionar asignación de salas, rastrear horas.", "Cuando recibo una reserva de última hora para un tratamiento específico tengo que verificar manualmente quién está capacitado, quién está libre y qué sala está preparada.", "Diez minutos por reserva compleja — si tengo diez de esas al día, es hora y media de pura administración. Y aún cometo errores a veces.", "Si el sistema conociera las cualificaciones de cada terapeuta, su disponibilidad y los requisitos de sala y pudiera emparejarlos automáticamente — recuperaría tiempo y los clientes recibirían confirmación más rápido."],
+      ["Tenemos zona de retail con productos profesionales y cuidado posterior. Los terapeutas recomiendan al final del tratamiento pero es inconsistente.", "La recomendación ocurre quizás la mitad de las veces. Después de un masaje profundo el cliente está relajado y dudamos en empujar retail — pero en realidad el momento es perfecto.", "Si a cada cliente post-tratamiento se le ofreciera el producto de cuidado adecuado — incluso con 20% de conversión a nuestro precio medio de 35€ — en 200 tratamientos al mes son 1.400€ que no estamos generando.", "Si el retail se posicionara como continuación del cuidado en vez de ventas — el producto correcto, bien presentado, ofrecido siempre — creo que los clientes lo agradecerían."],
+      ["Reviso cifras semanales el sábado. Miro ingresos, número de tratamientos, transacción media. No tengo buena visibilidad de ocupación de salas ni productividad de terapeutas.", "Quiero saber qué terapeutas son más productivos y qué tratamientos tienen mejor margen — pero sacarlo del sistema actual lleva tiempo que no siempre tengo.", "Tomé la decisión de invertir en formación para un nuevo tratamiento basándome en intuición. Seis meses después está por debajo de lo esperado.", "Si pudiera ver productividad de terapeutas, margen de tratamiento y ocupación de salas en un solo panel — podría invertir en formación y equipamiento con mucha más confianza."]
+    ],
+    barber: [
+      ["Principalmente los que pasan y boca a boca. Tenemos algunos habituales que reservan pero la mayoría simplemente entra. Sábado ocupado, lunes y martes tranquilos.", "El modelo sin cita funciona pero significa que no puedo planificar la semana. Nunca sé si el lunes será muerto o decente.", "Un lunes muerto con dos barberos — estoy pagando sueldos por tiempo muerto. Si no llegan clientes puedo hacer 200€ en caja contra 180€ de coste de personal. Eso no es negocio.", "Si pudiera mover siquiera el 30% de los clientes a reserva previa — ingresos predecibles, mejor dotación de personal — el negocio se sentiría mucho más estable."],
+      ["Entran sin cita, llaman, y algunos escriben por DM. Los DMs se me dan fatal — llegan cuando estoy cortando y para cuando los veo la persona ya se fue.", "Los DMs de Instagram son lo peor — sé que pierdo reservas ahí. La gente pregunta si estamos llenos, no respondo en una hora, pasan por delante y ven la cola y se van.", "Calculo que pierdo cinco o seis reservas a la semana por respuestas lentas. A mis precios son 150 a 200€ semanales.", "Si los clientes pudieran ver nuestra disponibilidad en directo y reservar online — especialmente los que no quieren entrar y esperar cola — captaríamos todo un segmento que nos falta."],
+      ["Las reservas son bastante informales — la gente reserva por mensaje o llamada y saben que pueden cancelar sin problema. Siempre hemos sido relajados.", "Las incomparecencias en turnos reservados molestan porque he rechazado a gente sin cita para ese turno. Especialmente un sábado ocupado — pierdo un cliente garantizado.", "Un sábado un turno perdido puede costarme un corte y una barba — 45 a 55€. Y le dije a alguien sin cita que volviera y se fue a otro. Es doble pérdida.", "Incluso solo un recordatorio el día anterior probablemente reduciría mucho las incomparecencias. La mayoría no son malintencionados — simplemente se olvidan."],
+      ["Los sábados son sólidos pero de lunes a miércoles es impredecible. Tengo personal para el nivel de fin de semana y arrastro ese coste los días flojos.", "Mi segundo barbero está infrautilizado martes y miércoles. Es bueno — no quiero recortarle horas — pero el trabajo no justifica que esté a tiempo completo esos días.", "Tener un barbero al 50% de utilización dos días a la semana — son unos 200€ semanales en sueldos sin respaldo de ingresos. En el año es significativo.", "Si pudiera dirigir reservas específicamente a esos turnos de entre semana — algo como descuento de fidelidad entre semana — podría justificar mantener al equipo sin el tiempo muerto."],
+      ["Los habituales simplemente vuelven — conocen su ritmo. Pero tengo clientes que no he visto en meses y no tengo forma de contactarles.", "No tengo sistema para rastrear quién ha venido. Algunos vienen cada tres semanas, otros cada tres meses. No puedo distinguir hasta que los veo entrar.", "Un habitual con ciclo de seis semanas vale unos 600 a 800€ al año. Cuando se pierden — quizás se mudaron, quizás probaron otro sitio — ni me entero hasta un año después.", "Si hubiera forma de avisar automáticamente a clientes perdidos — incluso solo un 'hace tiempo que no te vemos' — probablemente recuperaría a algunos sin hacer nada yo."],
+      ["Efectivo y tarjeta. Al final del día se suma todo pero es bastante manual. Uso una app básica pero no conecta con nada.", "Pago a los barberos parcialmente por comisión y calcular lo que se debe a cada uno al final de la semana me lleva una hora con hoja de cálculo.", "Esa hora cada semana son 52 horas al año en administración de comisiones. Y he cometido errores que han causado roces con el equipo.", "Si la comisión se rastreara automáticamente según lo que hizo cada barbero — yo lo vería en tiempo real y ellos también — no habría disputas y recuperaría esa hora cada semana."],
+      ["Tengo tres barberos y yo hago el horario. WhatsApp para cambios de turno. Funciona pero es caótico cuando alguien llama enfermo.", "Cuando alguien está enfermo estoy enviando mensajes buscando cobertura, avisando a clientes, gestionando la cola. Todo a la vez.", "Un día de baja en la silla me cuesta los ingresos de esa silla — unos 250 a 300€ — más el estrés de gestionarlo. Y si no consigo cobertura, los clientes que esperan se van.", "Si cambios de turno, solicitudes de cobertura y avisos a clientes pudieran pasar por un solo lugar — menos caos, menos estrés, menos probabilidad de que los clientes se vayan."],
+      ["Tenemos algunos productos de barbería — pomada, cera, aceite de barba. Los barberos los mencionan ocasionalmente pero no hay un enfoque real.", "Depende del barbero. Uno de mis chicos es genial — recomienda algo a casi cada cliente y compran. Los otros apenas lo mencionan.", "La diferencia entre mi mejor y peor vendedor de producto son unos 150 a 200€ al mes. Si pudiera llevar a todos al nivel del mejor eso es dinero real.", "Si recomendar el producto adecuado fuera simplemente parte del servicio — natural, sin presión — y todos lo hicieran, el retail podría ser una segunda línea de ingresos real."],
+      ["Al final del día sé lo que hemos cobrado. Semanalmente tengo una vista aproximada. Más allá no analizo mucho — me guío por instinto.", "No rastreo qué servicios son más rentables ni qué barbero tiene mejor tasa de repetición. Me gustaría pero no tengo forma fácil de verlo.", "Mantuve un servicio en el menú dos años que no daba dinero realmente porque nunca revisé los números. Cuando lo hice lo quité y nadie lo notó.", "Si pudiera ver semanalmente: ingresos por barbero, mejores servicios, turnos más vacíos — dirigiría el negocio en vez de solo estar en él."]
+    ]
+  },
+  ar: {
+    salon: [
+      ["أغلب عملائنا الجدد يجون عن طريق التوصيات — شخص يوصي فيهم عميل حالي. ننشر شوي بالإنستغرام بس ما أقدر أقول لك إذا فعلاً يجيب أحد.", "موضوع الإنستغرام هو المشكلة — أنشر لما أتذكر وما هو بشكل منتظم. وما عندي فكرة كيف أطلع بقوقل صح. أعرف إننا نفقد ناس هناك.", "بصراحة؟ أكثر مما أحب أعترف. لو يوم ثلاثاء هادي واحد صار يوم كامل، يمكن 300 جنيه ما أشوفها. اضربها بالشهر وتلاقيها تتراكم.", "لو عندي تدفق ثابت بدون ما يعتمد كل شيء على إني أنشر أو شخص يصادف يذكرنا — هذا بيشيل عني ضغط كبير. أقدر أركّز على شغلي."],
+      ["يتّصلون، يرسلون لنا رسائل بالإنستغرام، بعضهم يلقونا بقوقل. الموضوع عشوائي شوي الصراحة.", "الرسائل هي الأسوأ. أشوفها وأنا مع عميل ولما أرد يكونون راحوا لمكان ثاني. أكيد خسرت حجوزات كذا.", "ما أعرف الرقم بالضبط بس يضايقني. حتى لو اثنين أو ثلاثة بالأسبوع يفلتون — هذا جزء كويّس من الإيراد يمشي من الباب.", "لو أي شخص يقدر يبحث عنّا ويحجز فوراً بدون ما ينتظر ردّي — هذا بيكون شيء كبير. نصف رسائلي ناس تسأل إذا فاضيين السبت."],
+      ["نطلب عربون من العملاء الجدد بس الصراحة مو منتظمين فيه. الدائمين نثق فيهم وما دائماً ينفع.", "الإلغاءات المتأخرة هي اللي تقتل. شخص يرسل الساعة 8 يقول ما يقدر يجي الساعة 10 — مافيه طريقة أعبّي الموعد. يروح كذا.", "الغياب يكلّفني قيمة الموعد زائد إني رفضت ناس ثانية لذاك الوقت. في أسبوع سيّئ يمكن 150، 200 جنيه تروح. محبط أكثر من أي شيء.", "لو أقدر على الأقل أحفظ بطاقة — عشان الناس تفكّر مرتين قبل ما تلغي بآخر لحظة — هذا بيغيّر الأمور."],
+      ["السبت مزدحم، الاثنين والثلاثاء متذبذبين. جرّبت عروض للأيام الهادية بس ما تحرّك شيء كثير.", "فترة الغداء يوم الثلاثاء تقريباً دائماً فاضية. وأخصائيتي الجديدة كثير تكون تنتظر بينما الأقدم محجوزة بالكامل.", "ثلاثاء هادي يكلّف تقريباً 200 جنيه مقارنة بيوم كامل. في شهر من ثلاثاءات هادية نتكلم عن ألف تقريباً ما أجنيها.", "لو أقدر أخلّي الثلاثاء يشبه السبت — حتى 70% منه — أقدر أبرّر إني أخلّي الجديدة بدوام كامل."],
+      ["نحاول نعيد الحجز بنهاية الموعد بس متذبذب. بعض العملاء يحجزون فوراً، ثانيين يقولون بنتّصل وما نسمع منهم.", "ما فيه نظام متابعة. لو عميل دائم ما جا لثمان أسابيع ما بعرف إلا إذا صدفة تذكّرته.", "خسارة عميل دائم يجي كل ستة أسابيع — يمكن 400 إلى 500 جنيه بالسنة تمشي من الباب. وعادةً ما تلاحظ إلا لما يفوت الأوان.", "لو العملاء يوصلهم تذكير تلقائي — شيء يقول 'صار لك فترة، تبي تحجز؟' — غالباً بسترجع نصفهم بدون ما أسوّي شيء."],
+      ["جهاز بطاقات، كاش، أحياناً تحويل بنكي للأشغال الكبيرة. آخر اليوم أطابق يدوياً.", "التحويلات هي المشكلة — العملاء أحياناً ينسون، لازم ألاحقهم، يحسّسني بإحراج. والمطابقة تاخذ نص ساعة كل مسا.", "نص ساعة باليوم، خمس أيام بالأسبوع — ساعتين ونص إدارة أسبوعياً فقط على المدفوعات.", "لو كل شيء يدخل من مكان واحد والأرقام تطابق لحالها آخر اليوم — ما أقدر أوصف لك كم بيكون الإقفال أهدأ."],
+      ["عندي ثلاث أخصائيات والجدول نسوّيه بقروب واتساب. أغلب الوقت ينفع بس يصير فوضى لما أحد يبي يوم إجازة أو يبدّل شفت.", "لما أحد يمرض القروب يجن. نص الوقت العملاء ما يعرفون إلا لما يوصلون. محرج.", "العمولات أسوّيها بجدول آخر الشهر. تاخذ ثلاث ساعات تقريباً وعندي خلافين السنة الماضية على الأرقام.", "لو الفريق يقدرون يشوفون جدولهم وعمولاتهم بالوقت الحقيقي — أسئلة أقل لي، فوضى واتساب أقل. أقدر أدير بدل ما أطفئ حرايق."],
+      ["عندنا بعض منتجات العناية، أغلبها العلامات اللي نستخدمها. الأخصائيات يذكرونها أحياناً بس ما فيه نهج حقيقي.", "يعتمد كلّه على مين يخدم العميل. بعض فريقي ممتازين بالتوصية، ثانيين ما يذكرونها أبداً. ونفذ المخزون كم مرة وهذا يبيّن سيّئ.", "أفضل أخصائية عندي في البيع تسوّي أربع خمس أضعاف الباقين. هذي الفجوة هامش ضائع كل أسبوع.", "لو التوصية بالمنتج صارت جزء طبيعي من محادثة الخدمة — مو بيع ضاغط، بس جزء مما نسوّيه — أعتقد البيع بالتجزئة يقدر يصير مصدر دخل حقيقي."],
+      ["أتفقّد الكاش آخر اليوم وعندي فكرة تقريبية عن الأسبوع. شهرياً أجمعها بجدول عشان أشوف وين إحنا.", "لو أبي أعرف أي أخصائية أداؤها الأفضل أو أي خدمات الأكثر شعبية لازم أحفر بالجدول يدوياً. ما أسوّيها بالقدر اللي المفروض.", "السنة الماضية قرّرت أشيل خدمة لأني ظنيتها مو مربحة. طلع كنت غلطان — كانت شعبية بس كنت أتطلّع على الأرقام الغلط.", "لو أقدر أفتح شيء وأشوف بالضبط من وين يجي الفلوس، أي أيام وأي موظفين — بآخذ قرارات أحسن. الحين أغلبها حدس."]
+    ],
+    multi: [
+      ["كل فرع يسوّي شغله — واحد بقوقل، واحد يعتمد على اللي يمرّون. ما فيه نهج موحّد على مستوى المجموعة.", "عدم الاتساق هو المشكلة. فرع دائماً مشغول، الثانيين متذبذبين وما أقدر أقول لك ليش.", "فرع هادي يكلّفني بالمصاريف الثابتة — إيجار، رواتب — مقابل دخل أقل. عندي فرع يكلّفني 4,000 شهرياً ويدخّل 5,000. هذا ضيّق جداً.", "لو أقدر أشوف شو ناجح بالفرع المشغول وأنسخه بالباقي — هذا بيسوى كثير. الحين كلّه تخمين."],
+      ["كل فرع عنده رقم حجز خاص وبعضهم عندهم حجز أونلاين وبعضهم لا. مو منتظم أبداً.", "الفروع بدون حجز أونلاين تخسر استفسارات بعد ساعات العمل. الناس يبحثون عنّا الساعة 9 بالليل، ما يقدرون يحجزون، يروحون لغيرنا.", "لو فرع واحد بس يخسر خمس حجوزات بالأسبوع بعد الساعات هذي 500 أسبوعياً. على ثلاث فروع يصير رقم حقيقي.", "لو الثلاث فروع عندهم نفس تجربة الحجز السلسة أقدر أطلق حملة تسويق حقيقية وأعرف إنها بتحوّل."],
+      ["السياسة تختلف بين الفروع — مدير صارم وآخر أكثر مرونة. ما فيه معيار على مستوى المجموعة.", "اكتشفت الشهر الماضي إن فرع عندي 20% نسبة غياب من العملاء الجدد. المدير ما قالي.", "20% غياب من عملاء جدد بذاك الفرع — واحد من كل خمس مواعيد يروح كذا. بمتوسط السعر ممكن أربع خمس آلاف شهرياً.", "لو أقدر أحط السياسة مرة وتنطبق على الثلاث فروع تلقائياً — بدون استثناءات عربون، بدون موظفين ياخذون قرارات ما تخصّهم — هذا بيغيّر كل شيء."],
+      ["السبت قوي بكل الفروع. وسط الأسبوع يتفاوت. ما عندي رؤية لنسبة الإشغال بكل فرع بدون ما أطلب من كل مدير يطلّع أرقام.", "أعتقد عندي موظفين بأوقات هادية ببعض الفروع بس ما أقدر أشوفها من هنا. لما أعرف يكون التكلفة صارت.", "لو فرع يشتغل بنسبة 50% يوم الأربعاء — هذي رواتب ميتة مقابل كراسي فاضية. تقريباً 300-400 تكلفة عمالة بدون عائد.", "لو أقدر أشوف الإشغال بكل فرع ويوم وأخصائي بالوقت الحقيقي — أقدر أدير هذا بدل ما أتفاعل بس."],
+      ["كل فرع يسوّيها بطريقته. بعضهم يعيدون الحجز بالكرسي، بعضهم يرسلون رسالة. ما فيه معيار.", "عملاء يزورون فرع وبعدين ينتقلون — ممكن يكونون قريبين من فرع ثاني بس ما عندنا طريقة نعرف أو نتواصل معهم.", "عميل يزور شهرياً طول حياته يسوى آلاف للمجموعة. لما يتوقف — حتى على مستوى كل فروعنا — ما عندنا رؤية إنه صار.", "قاعدة بيانات عملاء مشتركة بين الثلاث فروع عشان أي فرع يقدر يشوف التاريخ ويتواصل — هذا بيخلّينا نحس كمجموعة فعلاً."],
+      ["كل فرع عنده نظام كاش مختلف. المطابقة يسوّيها كل مدير لوحده ويرسلها لي أسبوعياً.", "تجميع الثلاث تقارير ياخذ مني أو من مساعدي نص يوم كل أسبوع. والصيغ كلها مختلفة.", "نص يوم بالأسبوع = 26 يوم بالسنة من وقت شخص. بالراتب بسهولة 3,000 إلى 4,000 سنوياً فقط بالمطابقة.", "لو عندي لوحة واحدة تبيّن لي شو دخل بالثلاث فروع أمس — أقدر ألاحظ المشاكل فوراً بدل ما أعرف بعد أسبوع."],
+      ["المدراء يتعاملون مع جداولهم وأنا أثق فيهم. بس صار عندي مواقف اكتشفت بعدها إن التغطية ما تنظّمت صح.", "ما أقدر أشوف أداء الموظفين الأفراد بين الفروع بدون ما أطلب من المدراء يرسلون بيانات. وما دائماً يقدّمونها بنفس الطريقة.", "رقّيت شخص السنة الماضية ظنّيته أداؤه قوي. طلع أرقامه متوسطة — بس ما كنت شايف بيانات الفروع الثانية بوضوح.", "لو أقدر أشوف أداء كل عضو فريق بكل الفروع بعرض واحد — مو بس الإيراد بل الإشغال والاحتفاظ والالتزام — بأدير المجموعة بثقة أكبر."],
+      ["البيع بالتجزئة متروك للمدراء الأفراد. فرع يسوّيها زين، الباقي مو كثير.", "ما أقدر أشوف أداء التجزئة بكل فرع بسهولة. أعتقد فرع بالكاد يبيع بس ما عندي بيانات أتحدّاه فيها.", "لو أفضل فرع تجزئة يسوّي 800 شهرياً والباقي 200 — هذي 1,200 شهرياً المفروض أجنيها وما أجنيها. 14,000 بالسنة.", "لو أقدر أقارن أداء التجزئة فرع بفرع وأحط أهداف — وبعدين أتابعها — التجزئة تقدر تصير مساهم حقيقي لإيرادات المجموعة."],
+      ["أستلم تقارير أسبوعية من كل مدير. تاخذ ساعتين كل أسبوع أقرأها وأقارنها. الصيغ مو متسقة.", "لو أبي أقارن الأداء بين الفروع لازم أبني جدولي الخاص. أسوّيها شهرياً بس دائماً تكون متأخرة شوي لما أخلّص.", "أكيد اتّخذت قرارات ببيانات ناقصة. نقلت موارد لفرع ظنّيته يعاني — طلع كان يعيش أفضل شهر له.", "لو أقدر أفتح شاشة واحدة وأشوف الثلاث فروع جنب بعض — إيرادات، إشغال، أداء الفريق — محدّث يومياً، أقدر أدير هذا كمجموعة فعلاً."]
+    ],
+    solo: [
+      ["بالأساس توصيات. أجيب كثير من الإنستغرام أيضاً — أنشر بانتظام وأستقبل استفسارات بس متذبذب.", "التذبذب هو المشكلة. ما أقدر أتوقّع أي أسابيع بتكون هادية. وأحس بإحراج من البوستات الترويجية — مو أنا.", "أسبوع هادي بالنسبة لي يمكن 400 أقل من أسبوع كامل. لما يصير مرتين ثلاث بالشهر أبدأ أتوتّر من التكاليف الثابتة.", "لو عندي تدفق أثبت ما يعتمد على إني أنشر أو أحد يوصي فيني — أقدر أرتاح وأركّز على الشغل اللي أحبه."],
+      ["الناس يراسلوني بالإنستغرام أغلب الشيء، أو يرسلون لرقمي الشخصي. أحاول أرد بسرعة بس لما أكون بصبغة أو قص يفوتوني.", "أعرف إني أخسر ناس لما أتأخر بالرد. ناس راسلوا ولما رديت بعد ساعة كانوا حجزوا عند غيري.", "لو أخسر حجزتين ثلاث بالأسبوع كذا — بمتوسط سعري يمكن 150 إلى 200 أسبوعياً تروح.", "لو الناس يقدرون يحجزون لحالهم متى ما أرادوا — بدون ما ينتظرون ردّي — بأعبّي فراغات أكثر بكثير."],
+      ["ما عندي سياسة رسمية فعلاً. أطلب عربون للخدمات الكبيرة مثل الإكستنشن بس لقص عادي يحسّسني بالمبالغة.", "صار عندي غياب بمواعيد صبغ وأنا خالط المنتج. ساعتين من وقتي و20 جنيه بالمواد راحت كذا.", "غياب موعد صبغ يمكن 80 إلى 100 خسارة مع هدر المنتج. حتى واحدة بالشهر فلوس ما أقدر أخسرها كمستقل.", "لو كل واحد يحط بطاقة لما يحجز — أعتقد هذا صار عادي الحين. ما بيحسّس بالعدوانية، بس بيحمي وقتي."],
+      ["أيامي القوية من الخميس للسبت. الاثنين والأربعاء حسب اليوم. أتمنى اتساق أكثر.", "لما أكون هادي يوم اثنين ما أقدر أعوّض الوقت. إيجاري نفسه سواء عندي عميلين أو ثمانية.", "اثنين هادي يكلّفني تقريباً 150 ما بشوفها ثاني. بالشهر هذي خصم مهم من اللي آخذه.", "لو أقدر أحوّل بعض طلبات نهاية الأسبوع لوسط الأسبوع — أعرض لهم أوقات فاضية — بينعّم الأسبوع كله."],
+      ["أحاول أعيد الحجز بنهاية كل زيارة بس أحياناً أكون متأخر والعميل مستعجل. يفلت.", "ما أتابع. عندي دائمين انسحبوا وما لاحظت إلا لما شفت اسمهم ما طلع لأشهر.", "عميل دائم كل ستة أسابيع يسوى تقريباً 500 بالسنة لي. خسارة اثنين ثلاثة يتراكم — نوع الخسارة اللي يتسلّل عليك.", "لو فيه دفعة تلقائية — شيء شخصي مو سبام — يرجّع الناس، بالكاد بحتاج أفكّر فيه."],
+      ["آخذ مدفوعات بطاقة بقارئ محمول وكاش أحياناً. أسوّي جمع سريع آخر اليوم.", "أغلب الوقت تمام بس صار عندي مشاكل مع عملاء يبون يقسّمون الدفع أو ما معهم بطاقتهم. يسوّي لحظة محرجة.", "مو تكلفة وقت كبيرة بالنسبة لي بس تتراكم. يمكن ساعة بالأسبوع أرتّب مدفوعات وأتفقّد إيصالات.", "لو الدفع يصير تلقائي وما أحتاج أفكّر فيه — بيكون شيء أقل على كتفي. كل دقيقة إدارة تنحفظ مهمة لما تكون لوحدك."],
+      ["أنا لوحدي فالفريق مو الموضوع — بس أشتغل مع متدرّب يوم بالأسبوع وتنظيم ذلك إدارة أكثر مما لازم.", "موضوع المتدرّب يعني لازم أتتبّع ساعاته، أتفقّد شو سوّى، أتأكد إني أحقّق متطلبات التدريب. فوق كل شيء ثاني.", "تقريباً ساعة بالأسبوع إدارة للمتدرّب — ما تبان كثير بس لما كل ساعة ممكن تكون عميل يدفع تتراكم.", "لو الإدارة كذا تنسوّي لحالها — تسجيل تلقائي، سهلة المراجعة — أقدر أقضي ذيك الساعة بالشيء اللي فعلاً أجيده."],
+      ["أبيع بعض المنتجات — أغلبها اللي أستخدمها على العملاء. أذكرها لو أحس بتفيد بس ما أضغط.", "أحياناً أنسى أذكر المنتجات بنهاية الخدمة لأني مركّز أخلّص زين والعميل مستعجل يروح. اللحظة تفوت.", "غالباً أذكر المنتجات لثلث العملاء. لو الثلثين الباقيين سمعوا عن المنتج المناسب — حتى لو نصهم اشتروا — هذا إضافة مهمة لدخلي الشهري.", "لو فيه طريقة طبيعية أخلّي توصية المنتج جزء من المحادثة — مو بيع، بس مساعدة — بكون أكثر اتساقاً بكثير."],
+      ["أتفقّد شو كسبت آخر كل يوم وبس. أسوّي حساب آخر الشهر للضريبة بس هذا ضرورة مو تحليل.", "ما عندي فكرة أي خدمات تكسّبني أكثر بالساعة أو أي أيام أربح. بس أحاول أبقى مشغول وأتمنى يطلع كويّس.", "سعّرت خدمة أقل لسنة كاملة لأني ما حلّلت وقتي صح. لما حسبتها كنت أكسب أقل بالساعة من أي خدمة ثانية.", "لو أقدر أشوف بنظرة — هذي الخدمة أفضل مكسبك، هذا اليوم أكفأ يوم — بآخذ قرارات أحسن عن شو أقبل وشو أسعّر."]
+    ],
+    spa: [
+      ["عندنا موقع بحجز أونلاين ومسجّلين بكم دليل. الحجوزات تجي بس عندنا فترات هادية وسط الأسبوع أبي أعبّيها.", "وسط الأسبوع هادي بشكل مستمر. تقريباً ممتلئين من الجمعة للأحد بس الاثنين والثلاثاء والأربعاء — خاصة الصباح — قليل.", "غرفة علاج فاضية وسط الأسبوع — لو المفروض تجيب 300 باليوم وتسوّي 80 — بالشهر هذي آلاف. ومصاريفي الثابتة ما توقف.", "لو أقدر أطلق عروض لحظة أخيرة موجّهة أو أعبّي فراغات وسط الأسبوع عبر منصة بدون ما أقلّل من قيمة التجربة — هذا بيغيّر التدفق النقدي."],
+      ["نستقبل مكالمات واستفسارات أونلاين. الحجز الأونلاين يشتغل زين للعلاجات العادية بس للباقات أو التجارب المخصصة الناس تتّصل ونفقد بعضهم.", "المكالمات اللي تجي أثناء العلاجات تروح للبريد الصوتي. نردّ بس لحينها — خاصة للهدايا — غالباً راحوا لمكان ثاني.", "حجوزات الهدايا عالية القيمة — متوسط 120 — وموسمية. لو نفقد خمس بالشهر بنوفمبر وديسمبر هذي 600 إلى 1,200 من إيرادات الهدايا.", "لو الاستفسارات تتحوّل عبر رحلة أونلاين — حتى للباقات المخصصة — بدون ما نحتاج نردّ المكالمة، بنلاقط حجوزات موسمية أكثر بكثير."],
+      ["ناخذ عربون للباقات بس مو للعلاجات المفردة. الغياب على العلاجات المفردة يصير وما دائماً نقدر نعوّض الغرفة.", "إلغاءات نفس اليوم على غرفة علاج يعني الغرفة ما تجيب شيء لذاك الوقت. ما نقدر نعبّيها بشخص بدون موعد — التحضير والتجهيز ياخذ وقت.", "غرفة علاج 60 دقيقة فاضية تكلّفنا مو بس إيراد العلاج بل وقت المعالج والمنتج المستخدم بالتحضير والمصاريف العامة.", "لو العربون صار معيار لكل الحجوزات — حتى الصغيرة للعلاجات المفردة — أعتقد سلوك الإلغاء بيتغيّر."],
+      ["إحنا كويسين بملء الفترات المزدحمة. التحدي هو وقت المعالجين بين المواعيد — فجوات 20 دقيقة يكونون بس ينتظرون.", "عندنا فجوات صغيرة كثيرة — 15 إلى 30 دقيقة بين العلاجات — ما تسع خدمة كاملة. المعالجين على الرواتب بس ما يولّدون إيراد.", "لو عندي أربع معالجين مع 30 دقيقة وقت ميت كل واحد — هذي ساعتين عمالة مدفوعة ما تنتج شيء. يومياً 100 إلى 150 تكلفة مهدرة.", "لو نقدر نقدّم علاجات سريعة، مساج فروة رأس، علاجات يدين — شيء يناسب الفجوات — نحوّل وقت الفراغ لإيراد."],
+      ["نطلب من العملاء يعيدون الحجز بالاستقبال. بعضهم يسوّي، كثير يقولون بنتّصل. ما عندنا متابعة تلقائية.", "عندنا عملاء كثير يجون لعيد ميلاد أو تجربة هدية مرة وحدة وما يرجعون — مع إنهم حبّوها. ما نسوّي شيء نرجّعهم.", "عميل جديد عاش تجربة ممتازة — لو حوّلنا ثلثهم لزيارة ثانية هذا رفع كبير بالإيراد بدون تكلفة اكتساب.", "لو العملاء الجدد يوصلهم متابعة تلقائية — شكر وعرض لإعادة الحجز — خلال 48 ساعة، أعتقد عدد مهم بيرجع."],
+      ["مدفوعات بطاقة بالاستقبال، بعض الباقات مدفوعة مسبقاً. آخر اليوم الكاش لازم يطابق الحجوزات وياخذ وقت.", "الباقات المدفوعة مسبقاً تسوّي تعقيد بالتتبّع — معرفة شو اتّستخدم وشو باقي. نسوّيها بجدول وصار غلط قبل.", "لما تتبّع الباقات يغلط — العميل يقول باقي له جلستين وإحنا عندنا وحدة — شخص لازم يتنازل. يضر الثقة.", "لو استخدام الباقات يتتبّع لحاله والعميل يقدر يشوف رصيده — نزاعات أقل، إدارة أقل، والعملاء يثقون إننا مسيطرين."],
+      ["عندي سبع معالجين بتخصصات مختلفة. الجدولة معقّدة — مطابقة مهارة المعالج مع طلب العلاج وإدارة الغرف وتتبّع الساعات.", "لما أستقبل حجز لحظة أخيرة لعلاج محدّد لازم أتفقّد يدوياً مين مؤهل، مين فاضي، وأي غرفة جاهزة. ممكن ياخذ عشر دقايق أأكّد حجز.", "عشر دقايق لكل حجز معقّد — لو عندي عشرة باليوم هذي ساعة ونص إدارة صرفة. ولسّا أغلط أحياناً.", "لو النظام يعرف مؤهلات كل معالج وتوافرهم ومتطلبات الغرفة ويطابقهم تلقائياً — بسترجع وقت والعملاء يتأكّدون أسرع."],
+      ["عندنا منطقة تجزئة بمنتجات مهنية وعناية بعد العلاج. المعالجين يوصون بنهاية العلاج بس متذبذب.", "التوصية تصير يمكن نص الوقت. بعد مساج عميق العميل مسترخي ونتردّد نضغط بالتجزئة — بس اللحظة مثالية لو تنسوّي صح.", "لو كل عميل بعد العلاج يُعرض عليه منتج العناية المناسب — حتى 20% تحويل بمتوسط سعر 35 — على 200 علاج شهرياً هذي 1,400 ما نجنيها.", "لو التجزئة تتموضع كاستمرار للعناية مو بيع — المنتج الصح، معروض صح، كل مرة — أعتقد العملاء بيقدّرونه."],
+      ["أراجع الأرقام الأسبوعية يوم السبت. أتطلّع على الإيراد وعدد العلاجات ومتوسط المعاملة. ما عندي رؤية جيدة لإشغال الغرف أو إنتاجية المعالجين.", "أبي أعرف أي معالجين أكثر إنتاجية وأي علاجات عندها أفضل هامش — بس طلع هالمعلومة من نظامنا الحالي ياخذ وقت.", "اتّخذت قرار أستثمر بتدريب على علاج جديد السنة الماضية بناءً على حدس. ستة أشهر بعد وأداؤه أقل من المتوقّع.", "لو أقدر أشوف إنتاجية المعالجين وهامش العلاج وإشغال الغرف بلوحة واحدة — أقدر أستثمر بالتدريب والمعدات بثقة أكبر بكثير."]
+    ],
+    barber: [
+      ["أغلبه اللي يمرّون وتوصيات. عندنا بعض الدائمين يحجزون بس أغلب الناس يدخلون بس. السبت مزدحم بس الاثنين والثلاثاء هادي.", "نظام بدون حجز ينفع بس يعني ما أقدر أخطّط الأسبوع. ما أعرف إذا الاثنين بيكون ميت أو زين.", "اثنين ميت مع حلاقين — أدفع رواتب لوقت فاضي. لو ما جا أحد ممكن أسوّي 200 بالكاش مقابل 180 تكلفة. هذا مو بزنس.", "لو أقدر أحوّل حتى 30% من العملاء للحجز المسبق — إيراد متوقّع، توظيف أحسن — البزنس بيحس أكثر استقراراً."],
+      ["يدخلون بدون حجز، يتّصلون، وبعضهم يراسلون. الرسائل أنا سيّئ فيها — تجي وأنا أقص ولما أشوفها الشخص راح.", "رسائل الإنستغرام الأسوأ — أعرف إني أخسر حجوزات هناك. الناس تسأل إذا إحنا مشغولين، ما أرد لساعة، يمرّون ويشوفون الطابور ويمشون.", "أقدّر إني أخسر خمس ست حجوزات بالأسبوع من ردود بطيئة. بأسعاري هذي 150 إلى 200 أسبوعياً.", "لو العملاء يقدرون يشوفون توافرنا الحي ويحجزون أونلاين — خاصة اللي ما يبون يدخلون وينتظرون — هذا بيلاقط شريحة كاملة ناقصتنا."],
+      ["الحجوزات عفوية — الناس يحجزون برسالة أو اتّصال ويعرفون يقدرون يلغون بدون مشكلة. دائماً كنّا مرنين.", "الغياب على مواعيد محجوزة مزعج لأني رفضت ناس بدون حجز لذاك الوقت. خاصة سبت مزدحم — أخسر عميل مضمون لشخص ما جا.", "يوم سبت موعد فائت ممكن يكلّفني قص ولحية — 45 إلى 55. وقلت لشخص بدون حجز يرجع وراح لغيرنا. خسارة مزدوجة.", "حتى بس تذكير قبل يوم غالباً بيقلّل الغياب بشكل كبير. أغلب الناس مو بنيّة سيئة — بس ينسون."],
+      ["السبتات قوية بس من الاثنين للأربعاء غير متوقّع. عندي موظفين لمستوى نهاية الأسبوع وأحمّل التكلفة خلال الأيام البطيئة.", "حلاقي الثاني ما يُستغل كفاية الثلاثاء والأربعاء. هو كويّس — ما أبي أقلّل ساعاته — بس الشغل مو هناك ليبرّر دوام كامل.", "حمل حلاق بنسبة 50% استغلال ليومين بالأسبوع — تقريباً 200 أسبوعياً رواتب بدون إيراد مقابل. بالسنة مهم.", "لو أقدر أوجّه حجوزات لفترات وسط الأسبوع تحديداً — عرض ولاء لوسط الأسبوع مثلاً — أقدر أبرّر إبقاء الفريق بدون وقت ميت."],
+      ["الدائمين يرجعون لحالهم — يعرفون جدولهم. بس عندي عملاء ما شفتهم لأشهر وما عندي طريقة أوصل لهم.", "ما عندي نظام أتتبّع مين جا. بعض العملاء يجون كل ثلاث أسابيع وبعضهم كل ثلاث أشهر. ما أقدر أفرّق إلا لما أشوفهم يدخلون.", "دائم بدورة ستة أسابيع يسوى 600 إلى 800 بالسنة. لما يتسرّبون — يمكن انتقلوا أو جرّبوا مكان ثاني — ما أعرف إلا بعد سنة.", "لو فيه طريقة أنبّه العملاء المتسرّبين تلقائياً — حتى بس رسالة 'صار لك فترة ما شفناك' — غالباً بسترجع بعضهم بدون ما أسوّي شيء."],
+      ["كاش وبطاقة. آخر اليوم يتجمّع بس يدوي. أستخدم تطبيق بسيط بس ما يربط بشيء.", "أدفع للحلاقين جزئياً بعمولة وحساب المستحق لكل واحد آخر الأسبوع ياخذ ساعة بجدول.", "تلك الساعة كل أسبوع = 52 ساعة بالسنة إدارة عمولات. وسوّيت أخطاء قبل سبّبت احتكاك مع الفريق.", "لو العمولة تتتبّع تلقائياً حسب شو سوّى كل حلاق — أشوفها بالوقت الحقيقي وهم بعد — ما بيكون فيه نزاعات وبسترجع الساعة كل أسبوع."],
+      ["عندي ثلاث حلاقين وأنا أسوّي الجدول. واتساب لتغييرات الشفتات. ينفع بس فوضوي لما أحد يتّصل مريض.", "لما أحد يمرض أرسل لكل واحد أدوّر تغطية، أرسل للعملاء أحذّرهم، أحاول أدير طابور اللي بدون حجز. كلّه مرة وحدة.", "يوم مرض بالكرسي يكلّفني إيراد ذاك الكرسي — يمكن 250 إلى 300 — زائد ضغط إدارته. ولو ما لقيت تغطية العملاء المنتظرين يروحون.", "لو تغييرات الشفتات وطلبات التغطية وإشعارات العملاء كلها تصير بمكان واحد — فوضى أقل، ضغط أقل، فرصة أقل إن العملاء يمشون."],
+      ["عندنا بعض منتجات الحلاقة — بوماد، واكس، زيت لحية. الحلاقين يذكرونها أحياناً بس ما فيه نهج.", "يعتمد على الحلاق. واحد من شبابي ممتاز فيها — يوصي لتقريباً كل عميل ويشترون. الباقي بالكاد يذكرونها.", "الفرق بين أفضل وأسوأ واحد بالتجزئة تقريباً 150 إلى 200 بالشهر. لو أقدر أوصّل الكل لمستوى أفضل حلاق هذي فلوس حقيقية.", "لو التوصية بالمنتج المناسب بس جزء من الخدمة — طبيعي مو ضاغط — والكل يسوّيها باتساق، التجزئة تقدر تكون خط إيراد ثاني حقيقي."],
+      ["آخر اليوم أعرف شو أخذنا. أسبوعياً عندي نظرة تقريبية. أبعد من كذا ما أحلّل كثير — أمشي بالإحساس.", "ما أتتبّع أي خدمات أربح أو أي حلاق عنده أفضل معدل تكرار. أبي بس ما عندي طريقة سهلة أشوفها.", "خلّيت خدمة بالقائمة سنتين ما كانت تجيب فلوس فعلاً لأني ما راجعت الأرقام صح. لما سوّيت شلتها وما أحد لاحظ.", "لو أقدر أشوف أسبوعياً: إيراد بكل حلاق، أفضل خدمات، أهدأ فترات — بأدير البزنس بدل ما أكون بس فيه. الحين أغلب قراراتي بالحدس."]
+    ]
+  }
+};
+
+// ── COACHING: model questions per topic × T-step (per language) ──
+const MODEL_QS_I18N = {
+  en: [
+    ["Walk me through where your new clients are coming from at the moment — all the different routes.", "Which of those channels feels the most unpredictable or hardest to control week to week?", "When you have an unexpectedly quiet week — what does that translate to in real terms for you?", "If you had a channel that filled those gaps consistently without depending on you — what would that free you up to do?"],
+    ["When someone discovers you — on Google, Instagram, wherever — what does their journey to actually booking look like?", "At what point in that journey do you feel people drop off or go somewhere else?", "If you had to estimate the bookings that don't happen because of response time or friction — what would that be worth monthly?", "What would it mean to the business if a client could book at 10pm without you needing to be involved?"],
+    ["Walk me through your current approach to no-shows and cancellations — what do you have in place?", "When a same-day cancellation comes in, what happens to that slot?", "If you tracked last month's no-shows and put a number on it — what would it be?", "What would it mean to the business if that number was half what it is now?"],
+    ["How do you currently think about the revenue you're generating across the whole week — not just the busy days?", "Where in the week do you consistently feel like you have more capacity than demand?", "If you looked at the cost of those quieter periods — wages, overheads — against what comes in, what does that gap look like?", "If you could bring those quieter slots up to even 70% of your peak — what would that change for the business?"],
+    ["What does your current process look like for getting clients to come back after their first visit?", "How would you know if a regular client hadn't been in for eight weeks?", "If you think about a client who's been coming monthly for two years and then just stops — what does that represent over a year?", "If rebooking happened automatically — a reminder, a prompt — without you having to do anything, what would that do for your monthly revenue?"],
+    ["Walk me through how end of day looks — taking payment, closing up, reconciling what came in.", "Where in that process does it take longer than it should or create uncertainty?", "If you added up the time spent on payment admin across a week — what would that number be?", "If payment reconciled itself and you could see the day's figures instantly — what would you do with that time?"],
+    ["How do you currently manage the team's schedule and make sure everyone knows where they need to be?", "When something changes last minute — a sick day, a shift swap — what does that process look like?", "What does that kind of disruption cost you — in time, in client experience, in your own stress?", "If scheduling, communication, and commission all ran through one place — what would that free you up to focus on?"],
+    ["How does retail or product recommendation currently work as part of the client experience?", "How consistent is that across your whole team — is everyone doing it or does it depend on who the client has?", "If you compared your best retail performer to your lowest — what does that gap represent in monthly margin?", "If retail was a natural part of every client interaction — not a push, just part of the service — what could that add to the business?"],
+    ["How do you currently get a picture of how the business is performing — what do you look at and when?", "When you want to understand why a week was good or bad, how easy is it to find the answer?", "Are there decisions you're making slowly — or not at all — because the data isn't clear or fast enough?", "If you had a real-time view of performance — revenue, utilisation, team — what would you act on first?"]
   ],
-  multi: [
-    ["Each location does its own thing — one is on Google, one relies on walk-in. There's no joined-up approach across the group.", "The inconsistency is the issue. One site is always busy, the other two are patchy and I can't tell you why. We're not doing anything differently as far as I can see.", "A quiet location costs me in fixed overheads — rent, wages — against lower income. I've got one site that probably costs me £4,000 a month to run and brings in £5,000. That's too tight.", "If I could see what was working at the busy site and replicate it across the others — that would be worth a lot. Right now it's just guesswork."],
-    ["Each site has its own booking number and some have online booking set up, some don't. It's not consistent at all.", "The sites without online booking lose enquiries after hours. People search us at 9pm, can't book, go somewhere else. I know it's happening but I can't quantify it.", "If even one site is losing five bookings a week after hours that's maybe £500 a week gone. Across three sites that starts to be a real number.", "If all three sites had the same frictionless booking experience I could actually run a proper marketing campaign and know it would convert. Right now I'm embarrassed to spend on ads."],
-    ["Policy varies by site — one manager is strict, another is more relaxed. We don't have a group-wide standard.", "I found out last month that one of my sites has a 20% no-show rate on new clients. The manager hadn't told me. I only found out because I asked to see the data.", "At 20% no-show on new clients across that site — that's one in five appointments just gone. At average ticket price that could be four or five thousand pounds a month.", "If I could set policy once and have it enforced across all three sites automatically — no deposit exceptions, no staff making calls they shouldn't be — that would change everything."],
-    ["Saturday is strong across all sites. Mid-week varies. I have no visibility of utilisation rate by site without asking each manager to pull figures.", "I think I've got staff on at quiet times at some locations but I can't see it from here. By the time I find out the cost has already happened.", "If one site is running at 50% utilisation on a Wednesday — that's dead wages against empty chairs. Probably costs me £300-400 in labour that day with no return.", "If I could see utilisation by site, day, and stylist in real time — I could actually manage this rather than reacting. Right now I'm a month behind on everything."],
-    ["Each site handles it differently. Some rebook at the chair, some send a text. There's no group standard.", "Clients who visit one location and then move house — they might be near another of our sites but we have no way of knowing or contacting them.", "A client who visits monthly across their lifetime is worth thousands to the group. When they lapse — even across all our sites — we have no visibility that it's happened.", "A shared client database across all three sites so any location can see their history and reach out — that would actually make us feel like a group rather than three separate businesses."],
-    ["Each site has a different till system. Reconciliation is done separately by each manager and sent to me weekly.", "Consolidating the three reports takes me or my PA half a day every week. And the formats are all different so it's not a quick job.", "Half a day a week is 26 days a year of my time or my PA's time. That's a meaningful cost — salary-wise easily £3,000 to £4,000 a year just in reconciliation time.", "If I got one dashboard showing me what came in across all three sites yesterday — I'd be able to spot problems immediately instead of finding out a week later."],
-    ["Managers handle their own rotas and I trust them to do it. But I've had situations where I find out after the fact that cover wasn't organised properly.", "I can't see individual staff performance across sites without asking managers to send me data. And they don't always frame it the same way so it's hard to compare.", "I promoted someone last year who I thought was a strong performer. Turned out their numbers were average — I just hadn't seen the data from the other sites clearly.", "If I could see every team member's performance across all sites in one view — not just revenue but utilisation, retention, punctuality — I'd manage the group much more confidently."],
-    ["Retail is kind of left to individual managers. One site is good at it, the others not so much. No consistency.", "I can't see retail performance per site in any easy way. I think one site barely sells anything but I don't have the data to challenge it properly.", "If my best retail site did £800 a month and the others do £200 — that's £1,200 a month I should be making across the group that I'm not. That's £14,000 a year.", "If I could benchmark retail performance site by site and set targets — then actually track them — retail could become a proper contributor to group revenue rather than an accident."],
-    ["I get weekly reports from each manager. It takes me a couple of hours each week to read and compare them. The formats aren't consistent so it's harder than it should be.", "If I want to compare like-for-like performance across sites I have to build my own spreadsheet. I do it monthly but it's always slightly out of date by the time I finish.", "I've definitely made decisions with incomplete data. I moved resource to a site I thought was struggling — turns out it was actually having its best month. I just hadn't seen the numbers yet.", "If I could open one screen and see all three sites side by side — revenue, utilisation, team performance — updated daily, I could actually run this as a group not as three separate guesses."]
+  es: [
+    ["Cuéntame de dónde vienen tus clientes nuevos ahora mismo — todas las diferentes vías.", "¿Cuál de esos canales se siente más impredecible o difícil de controlar semana a semana?", "Cuando tienes una semana inesperadamente tranquila — ¿a qué se traduce eso en términos reales para ti?", "Si tuvieras un canal que llenara esos huecos de forma consistente sin depender de ti — ¿qué te liberaría para hacer?"],
+    ["Cuando alguien te descubre — en Google, Instagram, donde sea — ¿cómo es su camino hasta realmente reservar?", "¿En qué punto del camino sientes que la gente se pierde o se va a otro sitio?", "Si tuvieras que estimar las reservas que no se concretan por tiempo de respuesta o fricción — ¿cuánto valdría eso al mes?", "¿Qué significaría para el negocio que un cliente pudiera reservar a las 10 de la noche sin que tú tengas que intervenir?"],
+    ["Cuéntame tu enfoque actual con las incomparecencias y cancelaciones — ¿qué tienes implementado?", "Cuando llega una cancelación del mismo día, ¿qué pasa con ese turno?", "Si rastrearas las incomparecencias del mes pasado y pusieras un número — ¿cuál sería?", "¿Qué significaría para el negocio si ese número fuera la mitad de lo que es ahora?"],
+    ["¿Cómo piensas actualmente los ingresos que generas a lo largo de toda la semana — no solo los días fuertes?", "¿Dónde en la semana sientes consistentemente que tienes más capacidad que demanda?", "Si miraras el coste de esos períodos tranquilos — sueldos, gastos fijos — contra lo que entra, ¿cómo se ve esa brecha?", "Si pudieras llevar esos turnos tranquilos a siquiera el 70% de tu pico — ¿qué cambiaría para el negocio?"],
+    ["¿Cómo es tu proceso actual para hacer que los clientes vuelvan después de su primera visita?", "¿Cómo sabrías si un cliente habitual no ha venido en ocho semanas?", "Si piensas en un cliente que ha venido mensualmente durante dos años y de repente para — ¿qué representa eso en un año?", "Si la reagendación pasara automáticamente — un recordatorio, un empujón — sin que tengas que hacer nada, ¿qué haría eso por tus ingresos mensuales?"],
+    ["Cuéntame cómo es el final del día — cobrar, cerrar, cuadrar lo que entró.", "¿Dónde en ese proceso tarda más de lo que debería o genera incertidumbre?", "Si sumaras el tiempo dedicado a administración de pagos en una semana — ¿qué número sería?", "Si los pagos se cuadraran solos y pudieras ver las cifras del día al instante — ¿qué harías con ese tiempo?"],
+    ["¿Cómo gestionas actualmente el horario del equipo y te aseguras de que todos sepan dónde tienen que estar?", "Cuando algo cambia a última hora — una baja, un cambio de turno — ¿cómo es ese proceso?", "¿Qué te cuesta ese tipo de interrupción — en tiempo, en experiencia del cliente, en tu propio estrés?", "Si horarios, comunicación y comisiones funcionaran todo desde un solo lugar — ¿qué te liberaría para hacer?"],
+    ["¿Cómo funciona actualmente la recomendación de productos o retail como parte de la experiencia del cliente?", "¿Qué tan consistente es eso en todo tu equipo — lo hace todo el mundo o depende de quién atienda al cliente?", "Si comparas a tu mejor vendedor de producto con el peor — ¿qué representa esa brecha en margen mensual?", "Si el retail fuera parte natural de cada interacción con el cliente — no una presión, solo parte del servicio — ¿qué podría aportar al negocio?"],
+    ["¿Cómo obtienes una imagen de cómo va el negocio actualmente — qué miras y cuándo?", "Cuando quieres entender por qué una semana fue buena o mala, ¿qué tan fácil es encontrar la respuesta?", "¿Hay decisiones que estás tomando lentamente — o no tomando — porque los datos no son claros o rápidos?", "Si tuvieras una vista en tiempo real del rendimiento — ingresos, ocupación, equipo — ¿qué sería lo primero que actuarías?"]
   ],
-  solo: [
-    ["Word of mouth mainly. I get a lot from Instagram too — I post regularly and get enquiries but it's inconsistent. Some weeks I'm full, others I'm chasing.", "The inconsistency is the problem. I can't predict which weeks will be quiet so I can't plan properly. And I feel awkward doing promo posts — doesn't feel very me.", "A quiet week for me is maybe £400 less than a full week. When it happens two or three times a month I start to stress about the fixed costs — my chair rent, products, kit.", "If I had a steadier pipeline that didn't depend on me posting or hoping someone recommends me — I could relax a bit and actually focus on the work I love doing."],
-    ["People DM me on Instagram mostly, or text my personal number. I try to reply quickly but when I'm doing a colour or a cut I can miss them.", "I know I lose people when I'm slow to respond. I've had people DM and then when I reply an hour later they've already booked someone else. It happens more than I'd like.", "If I lose two or three bookings a week like that — at my average price that's maybe £150 to £200 a week just gone. Over a year that's a big number.", "If people could just book themselves in when they want — without needing to wait for me to reply — I'd fill so many more gaps, especially the last-minute ones."],
-    ["I don't take deposits — I always felt awkward asking, like it would put people off. So I just trust people to turn up.", "I get probably two or three no-shows a month. Sometimes they text an hour before, sometimes nothing. I sit there with a free slot I can't fill and feel terrible about it.", "Two or three no-shows a month at my prices — that's maybe £150 to £200 I'm not making. And I've already blocked that time so I can't do anything else with it.", "If I could take a small deposit automatically when someone books — just something to hold the appointment — I think most of the no-shows would disappear. People just need a reason to show up."],
-    ["I work four days and I try to fill every slot. I do offer different services but I don't really think about pricing differently for different times.", "My Wednesday morning is almost always quiet. I've tried offering a discount but then I feel like I'm devaluing my work. So I just sit with the gap.", "A quiet Wednesday morning is probably a £120 slot empty. If that happens every week that's close to £500 a month I'm not making. For me that's significant.", "If I had a smart way to fill those quieter slots — maybe visibility to last-minute clients or a waitlist — without it feeling like a sale — that would actually help."],
-    ["I try to rebook at the end of the appointment. Most of my regulars are brilliant but some say they'll message me and then I don't hear for months.", "I have no system for following up. If someone hasn't booked in six weeks I wouldn't know unless I physically went through my messages looking.", "A regular client spending £60 to £70 every six weeks — that's maybe £600 a year. When they just drift away without warning that's a big hole in my income.", "If people got a gentle reminder when it's been a while — just something automatic, not pushy — I think I'd keep a lot more of them without having to be the one chasing."],
-    ["Card reader, cash, and bank transfer — depends on the client. I send invoices manually for some people which is embarrassing really.", "The invoicing takes ages and chasing late payments is awkward when it's someone you've built a relationship with. I hate that part.", "I have about four or five clients who pay late every month. Chasing them takes time and it's uncomfortable. One of them owes me for two months right now.", "If payment was just done at the time of the appointment automatically — like a saved card — I'd never have to chase anyone again. That would remove so much stress."],
-    ["It's just me so team isn't really the issue — but I do work with an apprentice one day a week and organising that is more admin than it should be.", "The apprentice situation means I have to track their hours, check what they did, make sure I'm meeting the training requirements. It's on top of everything else.", "Probably an hour a week on admin related to the apprentice — which doesn't sound like much but when every hour could be a paying client it adds up.", "If admin like that was just handled — logged automatically, easy to review — I could spend that hour doing what I'm actually good at."],
-    ["I sell a few products — mainly what I use on clients. I mention them if I think it'd help but I don't push it.", "Sometimes I forget to mention products at the end of a service because I'm focused on finishing well and the client is in a rush to go. The moment passes.", "I probably mention retail to maybe a third of clients. If the other two thirds heard about the right product for them — even half of them bought it — that's a meaningful add to my monthly income.", "If there was a natural way to make product recommendation part of the service conversation — not salesy, just helpful — I'd be much more consistent. Right now it's purely when I remember."],
-    ["I check what I've made at the end of each day and that's about it. I do a proper tally at the end of the month for tax but that's more necessity than insight.", "I have no idea which services make me the most per hour, or which days are most profitable. I just try to stay busy and hope it adds up.", "I underpriced a service for a whole year because I never analysed my time properly. When I finally worked it out I was making less per hour on that service than anything else.", "If I could see at a glance — this service is your best earner, this day is your most efficient — I'd make better decisions about what to take on and what to charge."]
-  ],
-  spa: [
-    ["We have a website with online booking and we're on a couple of directories. Bookings come in but we have quiet patches mid-week that I'd like to fill.", "Mid-week is consistently quiet. We're nearly full Friday to Sunday but Monday, Tuesday, Wednesday — especially mornings — it's sparse. The marketing we're doing isn't reaching those gaps.", "A quiet treatment room mid-week — if the room should be generating £300 a day and it's doing £80 — over a month that's thousands. And my overheads don't stop for quiet days.", "If I could run targeted last-minute offers or fill the mid-week gaps through a marketplace without devaluing the full experience — that would be transformative for cash flow."],
-    ["We get calls and online enquiries. The online booking works well for regular treatments but for packages or bespoke experiences people tend to call and we miss some of those.", "Calls that come in during treatments go to voicemail. We call back but by then — especially for gift purchases — they've often gone elsewhere. Gift bookings are really sensitive to response time.", "Gift bookings are high value — average £120 — and seasonal. If we're missing even five a month over November and December that's £600 to £1,200 of gift revenue gone.", "If enquiries could convert through an online journey — even for bespoke packages — without needing a callback, we'd catch so many more of those seasonal gift bookings."],
-    ["We take deposits for packages but not for single treatments. No-shows on single treatments do happen and we can't always recover the room.", "Same-day cancellations on a treatment room mean that room generates nothing for that slot. We can't fill it with a walk-in like a salon might — the preparation and set-up time makes it hard.", "A 60-minute treatment room that sits empty costs us not just the treatment revenue but also the therapist's time, the product used in preparation, the overheads. It's more expensive than it looks.", "If deposits were standard across all bookings — even small ones for single treatments — I think cancellation behaviour would change. People think twice when there's something at stake."],
-    ["We're good at filling the busy periods. The challenge is the therapists' time between appointments — the 20-minute gaps when they're just waiting.", "We have a lot of micro-gaps — 15 to 30 minutes between treatments — that can't fit a full service. So therapists are on the clock but not generating revenue.", "If I have four therapists with 30 minutes of dead time each — that's two hours of paid labour producing nothing. Daily that could be £100 to £150 in wasted staff cost.", "If we could offer express treatments, scalp massages, hand treatments — something that fits the gaps — we could turn downtime into revenue without rescheduling anything."],
-    ["We ask clients to rebook at reception. Some do, many say they'll call. We don't have an automated follow-up so it depends on who's on reception that day.", "We have a lot of clients who come for a one-off birthday or gift experience and never come back — even though they loved it. We're not doing anything to bring them back.", "A first-time client who had a great experience — if we converted even a third of them to a second visit that's a significant uplift in revenue without any new client acquisition cost.", "If new clients automatically got a follow-up — a thank you and an offer to rebook — within 48 hours, I think a meaningful number would come back. Right now we just hope they do."],
-    ["Card payments at reception, some packages are pre-paid. End of day the till needs to reconcile against the bookings and it takes a while.", "Pre-paid packages create tracking complexity — knowing what's been used, what's outstanding. We do it in a spreadsheet and it's got wrong before.", "When package tracking goes wrong — client says they have two sessions left, we have one — someone has to back down. It damages trust and it's happened twice this year.", "If package usage tracked itself and the client could see their balance — fewer disputes, less admin, and clients would trust that we're on top of things."],
-    ["I have seven therapists across different specialisms. Scheduling is complex — matching therapist skill to treatment request, managing room allocation, tracking hours.", "When I get a last-minute booking for a specific treatment I have to manually check who's trained, who's free, and which room is set up. It can take ten minutes to confirm a booking.", "Ten minutes per complex booking — if I have ten of those a day, that's an hour and a half of pure admin. And I still make mistakes sometimes, which is embarrassing.", "If the system knew each therapist's qualifications, availability, and room requirements and could match them automatically — I'd get time back and clients would get confirmed faster."],
-    ["We have a retail area with professional products and aftercare. Therapists recommend at the end of treatments but it's inconsistent.", "The recommendation happens maybe half the time. After a deep tissue massage the client is relaxed and we hesitate to push retail — but actually the moment is perfect for it if done right.", "If every client post-treatment was offered the right aftercare product — even a 20% conversion at our average retail price of £35 — across 200 treatments a month that's £1,400 we're not making.", "If retail was positioned as care continuation rather than sales — the right product, framed right, offered every time — I think clients would appreciate it and it would add real revenue."],
-    ["I review weekly figures on a Saturday. I look at revenue, number of treatments, average transaction. I don't have great visibility of room utilisation or therapist productivity.", "I want to know which therapists are most productive and which treatments have the best margin — but pulling that out of our current system takes time I don't always have.", "I made a decision to invest in training for a new treatment last year based on gut feel. Six months in it's underperforming. If I'd had better data I might have chosen differently.", "If I could see therapist productivity, treatment margin, and room utilisation in one dashboard — I'd be able to invest in training and equipment much more confidently."]
-  ],
-  barber: [
-    ["Mainly walk-in and word of mouth. We have some regulars who book but most people just come in. We're busy Saturday but quiet Monday and Tuesday.", "The walk-in model works but it means I can't plan the week. I never know if Monday will be dead or decent. It makes staffing really difficult.", "A dead Monday with two barbers on — I'm paying wages for downtime. If walk-in doesn't pick up I might do £200 in takings against £180 in staff cost. That's not a business.", "If I could shift even 30% of clients to pre-booking — predictable revenue, better staffing, fewer slow starts to the week — the business would feel much more stable."],
-    ["We get walk-ins, calls, and some DMs. The DMs I'm hopeless at — they come in when I'm cutting and by the time I see them the person has gone somewhere else.", "Instagram DMs are the worst — I know I'm losing bookings there. People ask if we're busy, I don't reply for an hour, they walk past and see the queue and just leave.", "I'd guess I'm losing five or six bookings a week from slow responses. At my prices that's £150 to £200 a week. Over a year — actually that's a lot.", "If clients could see our live availability and book online without needing to DM me — especially the ones who don't want to walk in and queue — that would capture a whole segment I'm missing."],
-    ["Bookings are pretty casual — people book over text or call and they know they can cancel without any issue. We've always been relaxed about it.", "No-shows on booked slots are annoying because I've turned away walk-ins for that slot. Especially on a busy Saturday — I lose a guaranteed paying customer for someone who doesn't show.", "On a Saturday a missed booked slot might cost me a cut and a beard — £45 to £55. And I've told a walk-in to come back who then goes to someone else. It's a double loss.", "Even just a reminder the day before would probably reduce no-shows significantly. Most people aren't malicious — they just forget. A text would sort most of it."],
-    ["Saturdays are solid but Monday to Wednesday is unpredictable. I'm staffing for the weekend level and carrying that cost through the slow days.", "My second barber is underused Tuesday and Wednesday. He's good — I don't want to cut his hours — but the work isn't there to justify him being full-time those days.", "Carrying a barber who's only 50% utilised for two days a week — that's probably £200 a week in wages not matched by revenue. Over the year that's significant.", "If I could drive bookings into those mid-week slots specifically — a loyalty deal for mid-week, something like that — I could justify keeping the team without the dead time."],
-    ["Regulars just come back — they know their schedule. But I've got clients I haven't seen in months and I've no way of reaching them.", "I've got no system for keeping track of who's been in. Some clients come every three weeks, some every three months. I can't tell the difference until I see them walk in.", "A regular on a six-week cycle is worth maybe £600 to £800 a year. When they drift — maybe they moved, maybe they tried somewhere else — I don don't even know until a year later.", "If there was a way to ping lapsed clients automatically — even just a we haven't seen you in a while message — I'd probably get some of them back without doing anything myself."],
-    ["Cash and card. End of day it gets totalled up but it's fairly manual. I use a basic app but it doesn't connect to anything.", "I pay barbers partly on commission and working out what each one is owed at the end of the week takes me about an hour with a spreadsheet.", "That hour every week is 52 hours a year on commission admin. And I've made errors before which caused friction with the team. It's not a good use of my time.", "If commission tracked automatically based on what each barber did — I could see it in real time and they could too — there'd be no disputes and I'd get that hour back every week."],
-    ["I've got three barbers and I do the rota. WhatsApp for shift changes. It works but it's chaotic when someone calls in sick.", "When someone's off sick I'm texting round trying to find cover, texting clients to warn them, trying to manage the walk-in queue. It's all happening at once.", "A sick day in the chair costs me the revenue from that chair — maybe £250 to £300 — plus the stress of managing it. And if I can't get cover, the waiting clients leave.", "If shift changes, cover requests, and client notifications could all happen through one place — less chaos, less stress, less chance of clients walking because we look disorganised."],
-    ["We stock some barber products — pomade, wax, beard oil. Barbers mention them occasionally but there's no proper approach.", "It depends on the barber. One of my guys is great at it — he recommends something to nearly every client and they buy. The others barely mention it.", "The difference between my best and worst for retail is probably £150 to £200 a month. If I could get everyone to my best barber's level that's real money.", "If recommending the right product was just part of the service — natural, not pushy — and everyone did it consistently, retail could be a proper second revenue line for the shop."],
-    ["End of day I know what we've taken. Weekly I have a rough view. Beyond that I don't really analyse much — I go on feel.", "I don't track which services are most profitable or which barber has the best repeat rate. I'd like to but I don't have an easy way to see it.", "I kept a service on the menu for two years that wasn't really making money because I never looked at the numbers properly. When I finally did I cut it and nobody even noticed.", "If I could see weekly: revenue by barber, best services, quietest slots — I'd actually run the business instead of just being in it. Right now I make most decisions by instinct."]
+  ar: [
+    ["أخبرني من وين يجون عملاءك الجدد حالياً — كل الطرق المختلفة.", "أي من هالقنوات تحس إنها الأقل توقّعاً أو الأصعب سيطرة من أسبوع لأسبوع؟", "لما يكون عندك أسبوع هادي بشكل غير متوقّع — شو يترجم هذا بالأرقام الحقيقية بالنسبة لك؟", "لو عندك قناة تعبّي هالفراغات باستمرار بدون ما تعتمد عليك — شو بتفرغك تسوّي؟"],
+    ["لما شخص يكتشفك — بقوقل، إنستغرام، أي مكان — كيف تبدو رحلته للحجز الفعلي؟", "بأي نقطة بالرحلة تحس إن الناس تنسحب أو تروح لمكان ثاني؟", "لو لازم تقدّر الحجوزات اللي ما تصير بسبب وقت الرد أو الاحتكاك — كم بتسوى شهرياً؟", "شو بيعني للعمل لو عميل يقدر يحجز الساعة 10 بالليل بدون ما تحتاج تتدخّل؟"],
+    ["أخبرني عن نهجك الحالي مع الغياب والإلغاءات — شو عندك مطبّق؟", "لما يجيك إلغاء نفس اليوم، شو يصير لذاك الموعد؟", "لو تتبّعت غياب الشهر الماضي وحطّيت رقم — كم بيكون؟", "شو بيعني للعمل لو هالرقم صار نصف اللي هو عليه الحين؟"],
+    ["كيف تفكّر حالياً بالإيرادات اللي تولّدها على مدار الأسبوع كله — مو بس الأيام المزدحمة؟", "وين بالأسبوع تحس باستمرار إن عندك طاقة أكثر من الطلب؟", "لو تطلّعت على تكلفة الفترات الهادية — رواتب، مصاريف ثابتة — مقابل اللي يدخل، كيف تبدو الفجوة؟", "لو تقدر ترفع الفترات الهادية لحتى 70% من ذروتك — شو بيتغيّر للعمل؟"],
+    ["كيف تبدو عمليتك الحالية لجعل العملاء يرجعون بعد أول زيارة؟", "كيف بتعرف لو عميل دائم ما جا لثمان أسابيع؟", "لو تفكّر بعميل كان يجي شهرياً لسنتين وفجأة وقف — شو يمثّل هذا بسنة؟", "لو إعادة الحجز تصير تلقائياً — تذكير، دفعة — بدون ما تسوّي شيء، شو بيسوّي هذا لإيراداتك الشهرية؟"],
+    ["أخبرني كيف يبدو نهاية اليوم — تحصيل الدفع، الإقفال، مطابقة اللي دخل.", "وين بهالعملية ياخذ وقت أطول مما لازم أو يسوّي عدم يقين؟", "لو جمعت الوقت المصروف على إدارة المدفوعات بأسبوع — كم بيكون الرقم؟", "لو المدفوعات تطابق لحالها وتقدر تشوف أرقام اليوم فوراً — شو بتسوّي بذاك الوقت؟"],
+    ["كيف تدير حالياً جدول الفريق وتتأكد إن الكل يعرف وين لازم يكون؟", "لما شيء يتغيّر باللحظة الأخيرة — يوم مرض، تبديل شفت — كيف تبدو العملية؟", "كم يكلّفك هالنوع من الإزعاج — بالوقت، بتجربة العميل، بضغطك أنت؟", "لو الجدولة والتواصل والعمولات كلها تمر من مكان واحد — شو بيفرغك تركّز عليه؟"],
+    ["كيف يشتغل حالياً موضوع التجزئة أو توصية المنتج كجزء من تجربة العميل؟", "كم هالشيء متسق عبر كل فريقك — الكل يسوّيه أو يعتمد على مين يخدم العميل؟", "لو تقارن أفضل واحد عندك ببيع المنتجات بالأضعف — شو تمثّل هالفجوة بهامش شهري؟", "لو التجزئة كانت جزء طبيعي من كل تفاعل مع العميل — مو ضغط، بس جزء من الخدمة — شو ممكن تضيف للعمل؟"],
+    ["كيف تحصل حالياً على صورة عن أداء العمل — شو تتطلّع عليه ومتى؟", "لما تبي تفهم ليش أسبوع كان زين أو سيّئ، كم سهل تلاقي الجواب؟", "فيه قرارات تاخذها ببطء — أو ما تاخذها أبداً — لأن البيانات مو واضحة أو سريعة بما فيه الكفاية؟", "لو عندك عرض فوري للأداء — إيرادات، إشغال، فريق — شو أول شيء بتتحرّك عليه؟"]
   ]
 };
 
-// ── COACHING: model questions per topic × T-step ──
-const MODEL_QS = [
-  ["Walk me through where your new clients are coming from at the moment — all the different routes.", "Which of those channels feels the most unpredictable or hardest to control week to week?", "When you have an unexpectedly quiet week — what does that translate to in real terms for you?", "If you had a channel that filled those gaps consistently without depending on you — what would that free you up to do?"],
-  ["When someone discovers you — on Google, Instagram, wherever — what does their journey to actually booking look like?", "At what point in that journey do you feel people drop off or go somewhere else?", "If you had to estimate the bookings that don't happen because of response time or friction — what would that be worth monthly?", "What would it mean to the business if a client could book at 10pm without you needing to be involved?"],
-  ["Walk me through your current approach to no-shows and cancellations — what do you have in place?", "When a same-day cancellation comes in, what happens to that slot?", "If you tracked last month's no-shows and put a number on it — what would it be?", "What would it mean to the business if that number was half what it is now?"],
-  ["How do you currently think about the revenue you're generating across the whole week — not just the busy days?", "Where in the week do you consistently feel like you have more capacity than demand?", "If you looked at the cost of those quieter periods — wages, overheads — against what comes in, what does that gap look like?", "If you could bring those quieter slots up to even 70% of your peak — what would that change for the business?"],
-  ["What does your current process look like for getting clients to come back after their first visit?", "How would you know if a regular client hadn't been in for eight weeks?", "If you think about a client who's been coming monthly for two years and then just stops — what does that represent over a year?", "If rebooking happened automatically — a reminder, a prompt — without you having to do anything, what would that do for your monthly revenue?"],
-  ["Walk me through how end of day looks — taking payment, closing up, reconciling what came in.", "Where in that process does it take longer than it should or create uncertainty?", "If you added up the time spent on payment admin across a week — what would that number be?", "If payment reconciled itself and you could see the day's figures instantly — what would you do with that time?"],
-  ["How do you currently manage the team's schedule and make sure everyone knows where they need to be?", "When something changes last minute — a sick day, a shift swap — what does that process look like?", "What does that kind of disruption cost you — in time, in client experience, in your own stress?", "If scheduling, communication, and commission all ran through one place — what would that free you up to focus on?"],
-  ["How does retail or product recommendation currently work as part of the client experience?", "How consistent is that across your whole team — is everyone doing it or does it depend on who the client has?", "If you compared your best retail performer to your lowest — what does that gap represent in monthly margin?", "If retail was a natural part of every client interaction — not a push, just part of the service — what could that add to the business?"],
-  ["How do you currently get a picture of how the business is performing — what do you look at and when?", "When you want to understand why a week was good or bad, how easy is it to find the answer?", "Are there decisions you're making slowly — or not at all — because the data isn't clear or fast enough?", "If you had a real-time view of performance — revenue, utilisation, team — what would you act on first?"]
-];
+// ════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════
+let currentLang = "en";
+let mode = "build";
+let topicIdx = 0;
+let clientKey = "salon";
+let persona = "Friendly";
+let personaName = "Sarah";
+let buildVals = ["","","",""];
+let practicePhase = "setup";
+let practiceStep = 0;
+let practiceMessages = [];
+let practiceScores = [];
+let micAvailable = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
+function T(){ return TOPICS_I18N[currentLang]; }
+function C(){ return CLIENTS_I18N[currentLang]; }
+function L(){ return UI[currentLang]; }
+function P(){ return PERSONAS_I18N[currentLang]; }
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function scoreColor(n){ return n>=8?"var(--t4)":n>=5?"var(--t2)":"var(--t3)"; }
+
+function freshPersona(){
+  const pIdx = Math.floor(Math.random()*3);
+  persona = PERSONAS_I18N.en[pIdx]; // internal key always English
+  personaName = pick(NAMES[clientKey]);
+}
+
+function personaDisplay(){
+  const pIdx = PERSONAS_I18N.en.indexOf(persona);
+  return PERSONAS_I18N[currentLang][pIdx] || persona;
+}
+
+// ════════════════════════════════════════════════════════════
+// ANALYSIS (stays English-based internally, feedback is localised)
+// ════════════════════════════════════════════════════════════
 function analyseQuestion(raw) {
   if (!raw || raw.trim().length < 2) return null;
-  const q   = raw.trim();
-  const t   = q.toLowerCase();
+  const q = raw.trim();
+  const t = q.toLowerCase();
   const words = t.split(/\s+/);
-  const wc  = words.length;
+  const wc = words.length;
 
-  const isStatement   = !q.includes("?") && !t.match(/^(walk|tell|describe|explain|help me|share|talk me)/);
-  const hasQ          = q.includes("?");
-  const closedOpeners = /^(do you|did you|have you|has your|is your|are you|was your|were you|can you|could you|would you|will you|do they|did they|have they|has the|is the|are the|do most|did most)/;
-  const isClosed      = closedOpeners.test(t);
+  const isStatement = !q.includes("?") && !q.includes("؟") && !t.match(/^(walk|tell|describe|explain|help me|share|talk me|cuéntame|dime|explica|أخبرني|وصف)/);
+  const hasQ = q.includes("?") || q.includes("؟");
+  const closedOpeners = /^(do you|did you|have you|has your|is your|are you|was your|were you|can you|could you|would you|will you|do they|did they|have they|has the|is the|are the|do most|did most|¿tienes|¿es|¿haces|¿puedes|¿está|¿son|¿hay|هل )/;
+  const isClosed = closedOpeners.test(t);
   const leadingPatterns = [
-    /^(so you|so you're|so your|so basically|so it sounds|i imagine|i assume|i bet|i guess|you must|you probably|you likely|that must|that sounds like|sounds like you|it sounds like|i'm sure|clearly|obviously|no doubt)/,
-    /(don't you think|right\?$|isn't it\?$|wouldn't you say|you'd agree|surely)/,
-    /(must be (hard|difficult|frustrating|a pain|tough|stressful))/,
+    /^(so you|so you're|so your|so basically|so it sounds|i imagine|i assume|i bet|i guess|you must|you probably|you likely|that must|that sounds like|sounds like you|it sounds like|i'm sure|clearly|obviously|no doubt|entonces tú|supongo|imagino|apuesto|seguramente|أنا أتخيّل|لابد|أكيد)/,
+    /(don't you think|right\?$|isn't it\?$|wouldn't you say|you'd agree|surely|¿no crees|¿verdad|¿no\?$|أليس كذلك|صح\؟)/,
+    /(must be (hard|difficult|frustrating|a pain|tough|stressful)|debe ser (difícil|frustrante|duro)|لابد (صعب|محبط))/,
     /(bet that('s| is) (annoying|frustrating|hard|difficult))/
   ];
   const isLeading = leadingPatterns.some(p => p.test(t));
   const pitchPatterns = [
     /(fresha|our (platform|system|software|tool|product)|we (can|could|would)|have you (heard|tried|seen|considered|thought about) (fresha|us|our))/,
+    /(nuestra (plataforma|sistema)|podemos|منصتنا|نظامنا|نقدر)/,
     /(what if i told you|what if we could|imagine if|how would.*feel if we)/,
     /(our (clients|customers) (typically|usually|often|find|see|get))/
   ];
@@ -345,78 +753,79 @@ function analyseQuestion(raw) {
     /^(how('s| is) (that|it|business|everything|things) (going|working|been)\??$)/,
     /^(tell me about your business\.?\??$)/,
     /^(what('s| is) your (biggest|main|number one) (challenge|problem|issue|pain point)\??$)/,
-    /^(any (problems|issues|challenges) (with|around|about)\??\s*$)/,
-    /^(so what are your (thoughts|feelings|plans)\??\s*$)/
+    /^(¿cuál es tu mayor (reto|problema|desafío)\??$)/,
+    /^(شو أكبر تحدّي عندك\؟?$)/
   ];
   const isVague = vaguePatterns.some(p => p.test(t)) || (wc <= 4 && hasQ);
   const tooShort = wc < 5;
-  const questionMarks = (q.match(/\?/g) || []).length;
+  const questionMarks = (q.match(/[\?؟]/g) || []).length;
   const isMulti = questionMarks >= 2;
   const selfAnswers = [
     /(or (is it|do you|are you|would you|have you)|or (maybe|perhaps|possibly) (you|it|they).*\?)/,
-    /(\?.*\bor\b.*\?)/
+    /(\?.*\bor\b.*\?)/,
+    /(أو|o ¿)/
   ];
   const selfAnswering = selfAnswers.some(p => p.test(t));
-  const openOpeners = /^(walk me (through|us)|tell me (how|what|about|more)|how (do you|does|did|would|are)|what (does|do|did|would|is|are|happens|would)|where (does|do|did|are|would)|when (does|do|did)|why (do|does|did|would)|describe|explain|help me understand|talk me through|what('s| is) (the|your|a|an)|how (much|many|long|often|quickly))/;
+  const openOpeners = /^(walk me|tell me (how|what|about|more)|how (do you|does|did|would|are)|what (does|do|did|would|is|are|happens)|where (does|do|did|are)|when (does|do|did)|why (do|does|did)|describe|explain|help me understand|talk me through|cuéntame|dime|cómo|qué|dónde|cuándo|por qué|أخبرني|كيف|شو|وين|متى|ليش)/;
   const isOpen = openOpeners.test(t);
-  const gapWords = /(impact|cost|affect|mean|change|different|better|ideal|vision|imagine|result|consequence|lose|lost|miss|gap|fall.?short|struggle|challenge|difficult|break.?down|slip.?through|drain|hurt|waste|bleed)/;
+  const gapWords = /(impact|cost|affect|mean|change|different|better|ideal|vision|imagine|result|consequence|lose|lost|miss|gap|struggle|challenge|difficult|break|slip|drain|hurt|waste|bleed|impacto|coste|cuesta|pierde|perdido|brecha|dolor|lucha|تأثير|تكلفة|يكلّف|خسارة|فجوة|ألم)/;
   const hasGapLanguage = gapWords.test(t);
-  const storyInvite = /(walk me through|talk me through|describe what|tell me more|what does that look like|what does a typical|give me an example|paint me a picture|in your own words)/;
+  const storyInvite = /(walk me through|talk me through|describe what|tell me more|what does that look like|give me an example|cuéntame cómo|descríbeme|أخبرني كيف|وصف لي)/;
   const invitesStory = storyInvite.test(t);
-  const quantify = /(how much|how many|what does that cost|put a number|in real terms|in (£|\$|revenue|money)|per (week|month|year|day)|translate|what would that be worth)/;
+  const quantify = /(how much|how many|what does that cost|put a number|in real terms|per (week|month|year|day)|cuánto|por (semana|mes|año)|كم|بالأسبوع|بالشهر|بالسنة)/;
   const asksForNumber = quantify.test(t);
-  const prospectCentred = /\b(you|your|they|their|the business|for (you|them|the team))\b/.test(t);
 
   let open = 5;
-  if (isOpen)        open += 3;
-  if (invitesStory)  open += 1;
-  if (isClosed)      open -= 3;
-  if (isVague)       open -= 1;
-  if (isMulti)       open -= 1;
-  if (tooShort)      open -= 2;
+  if (isOpen) open += 3;
+  if (invitesStory) open += 1;
+  if (isClosed) open -= 3;
+  if (isVague) open -= 1;
+  if (isMulti) open -= 1;
+  if (tooShort) open -= 2;
   open = Math.max(1, Math.min(10, open));
 
   let gap = 4;
-  if (isOpen)         gap += 1;
+  if (isOpen) gap += 1;
   if (hasGapLanguage) gap += 3;
-  if (asksForNumber)  gap += 2;
-  if (invitesStory)   gap += 1;
-  if (isPitching)     gap -= 4;
-  if (isLeading)      gap -= 2;
-  if (isVague)        gap -= 2;
-  if (isClosed)       gap -= 1;
+  if (asksForNumber) gap += 2;
+  if (invitesStory) gap += 1;
+  if (isPitching) gap -= 4;
+  if (isLeading) gap -= 2;
+  if (isVague) gap -= 2;
+  if (isClosed) gap -= 1;
   gap = Math.max(1, Math.min(10, gap));
 
   let lead = 2;
-  if (isLeading)      lead += 5;
-  if (isPitching)     lead += 4;
-  if (selfAnswering)  lead += 2;
-  if (isClosed)       lead += 1;
+  if (isLeading) lead += 5;
+  if (isPitching) lead += 4;
+  if (selfAnswering) lead += 2;
+  if (isClosed) lead += 1;
   if (isOpen && !isLeading) lead -= 1;
   lead = Math.max(1, Math.min(10, lead));
 
+  const ui = L();
   let issues = [];
   let fb = "";
 
-  if (tooShort && !isOpen) issues.push("Too brief — the prospect doesn't know what territory you're exploring. Add context.");
-  if (isStatement) issues.push("This reads as a statement, not a question — the prospect doesn't know you want an answer. Reframe as a question.");
-  if (isPitching) issues.push("You're pitching, not discovering. Remove any reference to Fresha or what you can offer — stay in their world.");
-  if (isLeading) issues.push("You're leading the witness — you've assumed their answer. Ask it without the assumption and let them tell you.");
-  if (isClosed) issues.push("Closed opener (do/did/is/are) — this gets a yes or no. Swap it for 'Walk me through…', 'How do you…' or 'What does… look like'.");
-  if (isVague) issues.push("Too generic — 'what's your biggest challenge' gets a rehearsed answer. Get specific to this topic.");
-  if (isMulti) issues.push("Two questions in one — pick the most important and ask only that. Two questions lets them answer the easier one.");
-  if (selfAnswering) issues.push("You're offering them the answer — 'or is it X?' lets them just agree. Ask it openly and wait.");
+  if (tooShort && !isOpen) issues.push(ui.fbTooShort);
+  if (isStatement) issues.push(ui.fbStatement);
+  if (isPitching) issues.push(ui.fbPitching);
+  if (isLeading) issues.push(ui.fbLeading);
+  if (isClosed) issues.push(ui.fbClosed);
+  if (isVague) issues.push(ui.fbVague);
+  if (isMulti) issues.push(ui.fbMulti);
+  if (selfAnswering) issues.push(ui.fbSelfAns);
 
   if (issues.length === 0) {
-    if (asksForNumber && hasGapLanguage) fb = "Strong — you're pushing toward real impact. Good gap question.";
-    else if (invitesStory) fb = "Good — inviting them to walk you through it gets a much richer answer than a direct question.";
-    else if (isOpen && hasGapLanguage) fb = "Solid — open and gap-oriented. Make sure you stay quiet after asking it.";
-    else if (isOpen) fb = "Open and neutral — good foundation. Push further toward the cost or impact if you can.";
-    else fb = "Reasonable question. Check it genuinely opens space rather than narrowing it.";
+    if (asksForNumber && hasGapLanguage) fb = ui.fbStrongBoth;
+    else if (invitesStory) fb = ui.fbStory;
+    else if (isOpen && hasGapLanguage) fb = ui.fbOpenGap;
+    else if (isOpen) fb = ui.fbOpenBasic;
+    else fb = ui.fbDefault;
   } else {
     fb = issues[0];
     if (issues.length > 1 && (isPitching || isLeading || isClosed)) {
-      fb += " Also: " + issues[1];
+      fb += " " + ui.fbAlso + issues[1];
     }
   }
 
@@ -424,31 +833,13 @@ function analyseQuestion(raw) {
 }
 
 // ════════════════════════════════════════════════════════════
-// STATE
-// ════════════════════════════════════════════════════════════
-let mode = "build";
-let topicIdx = 0;
-let clientKey = "salon";
-let persona = "Friendly";
-let personaName = "Sarah";
-let buildVals = ["","","",""];
-let practicePhase = "setup"; 
-let practiceStep = 0;
-let practiceMessages = [];
-let practiceScores = [];
-
-function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function scoreColor(n){ return n>=8?"var(--t4)":n>=5?"var(--t2)":"var(--t3)"; }
-
-function freshPersona(){
-  persona = pick(PERSONAS);
-  personaName = pick(NAMES[clientKey]);
-}
-
-// ════════════════════════════════════════════════════════════
 // RENDER
 // ════════════════════════════════════════════════════════════
 function render(){
+  const isRTL = currentLang === "ar";
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = isRTL ? "rtl" : "ltr";
+
   const app = document.getElementById("app");
   app.innerHTML = `
     <div class="app">
@@ -462,7 +853,11 @@ function render(){
 }
 
 function renderSidebar(){
-  const clientBtns = Object.entries(CLIENTS).map(([k,c])=>`
+  const clients = C();
+  const ui = L();
+  const topics = T();
+
+  const clientBtns = Object.entries(clients).map(([k,c])=>`
     <button class="client-btn${clientKey===k?" active":""}" data-client="${k}">
       <span class="client-icon">${c.icon}</span>
       <div>
@@ -471,7 +866,7 @@ function renderSidebar(){
       </div>
     </button>`).join("");
 
-  const topicBtns = TOPICS.map((t,i)=>`
+  const topicBtns = topics.map((t,i)=>`
     <div class="topic-item${topicIdx===i?" active":""}" data-topic="${i}">
       <span class="topic-n">${t.num}</span>
       <span class="topic-ns">${t.title}</span>
@@ -479,14 +874,19 @@ function renderSidebar(){
 
   return `<div class="sidebar">
     <div class="side-top">
-      <div class="logo"><div class="logo-dot"></div> Fresha · Trainer</div>
+      <div class="logo"><div class="logo-dot"></div> ${ui.trainer}</div>
       <div class="mode-row">
-        <button class="mode-btn${mode==="build"?" active":""}" data-mode="build">Build</button>
-        <button class="mode-btn${mode==="practice"?" active":""}" data-mode="practice">Practice</button>
+        <button class="mode-btn${mode==="build"?" active":""}" data-mode="build">${ui.build}</button>
+        <button class="mode-btn${mode==="practice"?" active":""}" data-mode="practice">${ui.practice}</button>
+      </div>
+      <div class="lang-row">
+        <button class="lang-btn${currentLang==="en"?" active":""}" data-lang="en">EN</button>
+        <button class="lang-btn${currentLang==="es"?" active":""}" data-lang="es">ES</button>
+        <button class="lang-btn${currentLang==="ar"?" active":""}" data-lang="ar">عربي</button>
       </div>
     </div>
     <div class="side-sect">
-      <div class="side-lbl">Client Type</div>
+      <div class="side-lbl">${ui.clientType}</div>
       ${clientBtns}
     </div>
     <div class="topic-list">${topicBtns}</div>
@@ -494,37 +894,41 @@ function renderSidebar(){
 }
 
 function renderTopbar(){
-  const t = TOPICS[topicIdx];
+  const topics = T();
+  const ui = L();
+  const t = topics[topicIdx];
   const dotColor = persona==="Friendly"?"var(--t4)":persona==="Sceptical"?"var(--t3)":"var(--t2)";
   return `<div class="topbar">
     <div>
-      <div class="topbar-eye">Topic ${t.num} of 9</div>
+      <div class="topbar-eye">${ui.topicOf(t.num)}</div>
       <div class="topbar-title">${t.title}</div>
     </div>
     <div class="persona-badge">
       <div class="persona-dot" style="background:${dotColor}"></div>
       <span class="persona-name">${personaName}</span>
-      <span>· ${CLIENTS[clientKey].name} · ${persona}</span>
+      <span>· ${C()[clientKey].name} · ${personaDisplay()}</span>
     </div>
   </div>`;
 }
 
-// ── BUILD MODE ──
 function renderBuild(){
-  const topic = TOPICS[topicIdx];
+  const topic = T()[topicIdx];
+  const ui = L();
   const tMeta = [
-    {label:"Today",    color:"var(--t1)",dim:"var(--t1d)"},
-    {label:"Trouble",  color:"var(--t2)",dim:"var(--t2d)"},
-    {label:"True Cost",color:"var(--t3)",dim:"var(--t3d)"},
-    {label:"Tomorrow", color:"var(--t4)",dim:"var(--t4d)"}
+    {label:ui.tLabels[0],color:"var(--t1)",dim:"var(--t1d)"},
+    {label:ui.tLabels[1],color:"var(--t2)",dim:"var(--t2d)"},
+    {label:ui.tLabels[2],color:"var(--t3)",dim:"var(--t3d)"},
+    {label:ui.tLabels[3],color:"var(--t4)",dim:"var(--t4d)"}
   ];
-  const fwDescs = ["Current reality","Where it breaks","Real impact","Ideal future"];
 
   const pills = tMeta.map((tm,i)=>`
     <div class="fw-pill" style="border-color:${tm.color}40;background:${tm.dim}">
       <div class="fw-label" style="color:${tm.color}">${tm.label}</div>
-      <div class="fw-desc">${fwDescs[i]}</div>
+      <div class="fw-desc">${ui.tDescs[i]}</div>
     </div>`).join("");
+
+  const micIcon = micAvailable ? "🎤" : "🎤";
+  const micClass = micAvailable ? "mic-btn" : "mic-btn unavailable";
 
   const blocks = tMeta.map((tm,i)=>`
     <div class="q-block" id="qblock-${i}">
@@ -533,8 +937,8 @@ function renderBuild(){
         <span class="q-prompt">${topic.prompts[i]}</span>
       </div>
       <div class="q-input-row">
-        <button class="mic-btn" id="mic-b${i}" onclick="toggleMic('b${i}','qta-${i}')">🎤</button>
-        <textarea class="q-ta" id="qta-${i}" rows="2" placeholder="Type your ${tm.label} question…">${buildVals[i]||""}</textarea>
+        <button class="${micClass}" id="mic-b${i}" onclick="toggleMic('b${i}','qta-${i}')">${micIcon}</button>
+        <textarea class="q-ta" id="qta-${i}" rows="2" placeholder="${ui.typePlaceholder(tm.label)}">${buildVals[i]||""}</textarea>
       </div>
       <div class="q-fb" id="qfb-${i}"></div>
     </div>`).join("");
@@ -544,8 +948,8 @@ function renderBuild(){
     <div class="fw-bar">${pills}</div>
     ${blocks}
     <div class="print-bar">
-      <span style="font-size:14px;color:var(--muted);font-weight:500">Save your questions as a reference card</span>
-      <button class="print-btn" id="print-btn">🖨 Print reference card</button>
+      <span style="font-size:14px;color:var(--muted);font-weight:500">${ui.printRef}</span>
+      <button class="print-btn" id="print-btn">${ui.printBtn}</button>
     </div>
   </div>`;
 }
@@ -555,49 +959,48 @@ function showBuildFeedback(i){
   if (!q || q.trim().length < 2) return;
   const result = analyseQuestion(q);
   if (!result) return;
-  const modelQ = MODEL_QS[topicIdx][i];
-  const tLabels = ["Today","Trouble","True Cost","Tomorrow"];
+  const ui = L();
+  const modelQ = MODEL_QS_I18N[currentLang][topicIdx][i];
 
   const gc = scoreColor(result.gap), oc = scoreColor(result.open);
   const lc = scoreColor(11-result.lead);
-  const ll = result.lead>=7?"Leading":result.lead>=4?"Watch it":"Clean";
+  const ll = ui.leadLabels(result.lead);
 
   const fb = document.getElementById(`qfb-${i}`);
   if (!fb) return;
   fb.className = "q-fb show";
   fb.innerHTML = `
     <div class="fb-scores">
-      <span class="fb-chip" style="color:${gc};border-color:${gc}">Gap ${result.gap}/10</span>
-      <span class="fb-chip" style="color:${oc};border-color:${oc}">Open ${result.open}/10</span>
+      <span class="fb-chip" style="color:${gc};border-color:${gc}">${ui.gap} ${result.gap}/10</span>
+      <span class="fb-chip" style="color:${oc};border-color:${oc}">${ui.open} ${result.open}/10</span>
       <span class="fb-chip" style="color:${lc};border-color:${lc}">${ll}</span>
     </div>
     <div class="fb-text">${result.fb}</div>
     <div class="fb-model-box">
-      <div class="fb-model-lbl">Strong ${tLabels[i]} question</div>
+      <div class="fb-model-lbl">${ui.strongQ(ui.tLabels[i])}</div>
       <div class="fb-model-q">"${modelQ}"</div>
     </div>`;
 }
 
-// ── PRACTICE MODE ──
 function renderPractice(){
-  const topic = TOPICS[topicIdx];
-  const client = CLIENTS[clientKey];
+  const topic = T()[topicIdx];
+  const client = C()[clientKey];
+  const ui = L();
   const tMeta = [
-    {label:"Today",    color:"var(--t1)",dim:"var(--t1d)"},
-    {label:"Trouble",  color:"var(--t2)",dim:"var(--t2d)"},
-    {label:"True Cost",color:"var(--t3)",dim:"var(--t3d)"},
-    {label:"Tomorrow", color:"var(--t4)",dim:"var(--t4d)"}
+    {label:ui.tLabels[0],color:"var(--t1)",dim:"var(--t1d)"},
+    {label:ui.tLabels[1],color:"var(--t2)",dim:"var(--t2d)"},
+    {label:ui.tLabels[2],color:"var(--t3)",dim:"var(--t3d)"},
+    {label:ui.tLabels[3],color:"var(--t4)",dim:"var(--t4d)"}
   ];
-  const stepDescs = ["Current reality","Where it breaks","Real impact","Ideal future"];
 
   if (practicePhase === "setup"){
     return `<div class="content">
       <div class="setup-card">
         <div>
-          <div class="setup-title">Practise: ${topic.title}</div>
-          <div class="setup-sub">You'll speak to <strong>${personaName}</strong>, a ${persona.toLowerCase()} ${client.name.toLowerCase()}. Work through Today → Trouble → True Cost → Tomorrow.</div>
+          <div class="setup-title">${ui.practiceLabel}: ${topic.title}</div>
+          <div class="setup-sub">${ui.practiceIntro(personaName, personaDisplay(), client.name)}</div>
         </div>
-        <button class="start-btn" id="start-btn">Start session →</button>
+        <button class="start-btn" id="start-btn">${ui.startSession}</button>
       </div>
     </div>`;
   }
@@ -606,12 +1009,13 @@ function renderPractice(){
     const state = i < practiceStep ? "done" : i === practiceStep ? "active" : "";
     return `<div class="ft-step ${state}">
       <div class="ft-step-lbl" style="color:${tm.color}">${tm.label}</div>
-      <div class="ft-step-desc">${stepDescs[i]}</div>
+      <div class="ft-step-desc">${ui.tDescs[i]}</div>
     </div>`;
   }).join("");
 
   const msgs = practiceMessages.map(m => renderMsg(m, tMeta)).join("");
 
+  const micClass = micAvailable ? "mic-btn" : "mic-btn unavailable";
   const inputSection = practicePhase==="active" && practiceStep < 4 ? `
     <div class="input-area">
       <div class="input-head">
@@ -619,10 +1023,10 @@ function renderPractice(){
         <span class="q-prompt">${topic.prompts[practiceStep]}</span>
       </div>
       <div class="input-row">
-        <button class="mic-btn" id="mic-practice" onclick="toggleMic('practice','practice-input')">🎤</button>
-        <textarea class="p-ta" id="practice-input" rows="2" placeholder="Ask your ${tMeta[practiceStep].label} question…"></textarea>
-        <button class="skip-btn" id="skip-btn">Skip</button>
-        <button class="send-btn" id="send-btn">Send →</button>
+        <button class="${micClass}" id="mic-practice" onclick="toggleMic('practice','practice-input')">🎤</button>
+        <textarea class="p-ta" id="practice-input" rows="2" placeholder="${ui.askPlaceholder(tMeta[practiceStep].label)}"></textarea>
+        <button class="skip-btn" id="skip-btn">${ui.skip}</button>
+        <button class="send-btn" id="send-btn">${ui.send}</button>
       </div>
     </div>` : "";
 
@@ -639,11 +1043,12 @@ function renderPractice(){
 }
 
 function renderMsg(m, tMeta){
+  const ui = L();
   if (m.type === "prospect"){
     return `<div class="msg">
       <div class="avatar">💼</div>
       <div class="msg-body">
-        <div class="msg-name prospect">${personaName} · ${persona}</div>
+        <div class="msg-name prospect">${personaName} · ${personaDisplay()}</div>
         <div class="bubble prospect">${esc(m.text)}</div>
       </div>
     </div>`;
@@ -662,22 +1067,21 @@ function renderMsg(m, tMeta){
   if (m.type === "coach"){
     const r = m.result;
     const gc = scoreColor(r.gap), oc = scoreColor(r.open), lc = scoreColor(11-r.lead);
-    const ll = r.lead>=7?"Leading":r.lead>=4?"Watch it":"Clean";
-    const modelQ = MODEL_QS[topicIdx][m.step];
-    const tLabels = ["Today","Trouble","True Cost","Tomorrow"];
+    const ll = ui.leadLabels(r.lead);
+    const modelQ = MODEL_QS_I18N[currentLang][topicIdx][m.step];
     return `<div class="msg">
       <div class="avatar coach">✦</div>
       <div class="msg-body" style="flex:1">
         <div class="msg-name coach">Coach</div>
         <div class="bubble coach">
           <div class="coach-scores">
-            <span class="c-chip" style="color:${gc};border-color:${gc}">Gap ${r.gap}/10</span>
-            <span class="c-chip" style="color:${oc};border-color:${oc}">Open ${r.open}/10</span>
+            <span class="c-chip" style="color:${gc};border-color:${gc}">${ui.gap} ${r.gap}/10</span>
+            <span class="c-chip" style="color:${oc};border-color:${oc}">${ui.open} ${r.open}/10</span>
             <span class="c-chip" style="color:${lc};border-color:${lc}">${ll}</span>
           </div>
-          <div class="coach-fb">${r.fb}${r.issues&&r.issues.length>1?" "+r.issues.slice(1).join(" "):""}</div>
+          <div class="coach-fb">${r.fb}</div>
           <div class="coach-model">
-            <div class="coach-model-lbl">Strong ${tLabels[m.step]} question</div>
+            <div class="coach-model-lbl">${ui.strongQ(ui.tLabels[m.step])}</div>
             <div class="coach-model-q">"${modelQ}"</div>
           </div>
         </div>
@@ -688,45 +1092,46 @@ function renderMsg(m, tMeta){
 }
 
 function renderSummary(topic){
+  const ui = L();
   const scores = practiceScores;
   if (!scores.length) return "";
   const avgGap  = Math.round(scores.reduce((a,s)=>a+s.gap,0)/scores.length*10)/10;
   const avgOpen = Math.round(scores.reduce((a,s)=>a+s.open,0)/scores.length*10)/10;
   const avgLead = Math.round(scores.reduce((a,s)=>a+s.lead,0)/scores.length*10)/10;
   const gc = scoreColor(avgGap), oc = scoreColor(avgOpen), lc = scoreColor(11-avgLead);
-  const ll = avgLead>=7?"High":avgLead>=4?"Medium":"Low";
+  const ll = avgLead>=7?ui.leadLevels.high:avgLead>=4?ui.leadLevels.med:ui.leadLevels.low;
 
   let note = "";
-  if (avgOpen < 5) note = "Focus on opening your questions more — start with 'Walk me through', 'What does that look like', or 'How do you currently'. Closed questions cut the conversation short.";
-  else if (avgLead > 6) note = "Watch the leading tendency — when you assume the answer you're validating rather than discovering. Let them tell you where the gap is.";
-  else if (avgGap < 5) note = "The gap isn't coming through yet. Make sure you're moving from current state, through the pain, to the cost — and then asking them to describe the future. That sequence is what opens the gap.";
-  else note = "Good session — your questions are opening space and staying neutral. Keep pushing the True Cost step — that's where urgency lives.";
+  if (avgOpen < 5) note = ui.noteOpen;
+  else if (avgLead > 6) note = ui.noteLead;
+  else if (avgGap < 5) note = ui.noteGap;
+  else note = ui.noteGood;
 
   return `<div class="summary-card">
     <div class="summary-head">
-      <div class="summary-title">Session complete</div>
-      <div class="summary-sub">${topic.title} · ${personaName} · ${persona}</div>
+      <div class="summary-title">${ui.sessionComplete}</div>
+      <div class="summary-sub">${topic.title} · ${personaName} · ${personaDisplay()}</div>
     </div>
     <div class="summary-scores">
       <div class="sum-score">
         <div class="sum-val" style="color:${gc}">${avgGap}</div>
-        <div class="sum-lbl">Avg Gap</div>
+        <div class="sum-lbl">${ui.avgGap}</div>
       </div>
       <div class="sum-score">
         <div class="sum-val" style="color:${oc}">${avgOpen}</div>
-        <div class="sum-lbl">Avg Openness</div>
+        <div class="sum-lbl">${ui.avgOpen}</div>
       </div>
       <div class="sum-score">
         <div class="sum-val" style="color:${lc}">${ll}</div>
-        <div class="sum-lbl">Leading Risk</div>
+        <div class="sum-lbl">${ui.leadRisk}</div>
       </div>
     </div>
     <div class="summary-body">
-      <div class="sum-fb-title">Coach's note</div>
+      <div class="sum-fb-title">${ui.coachNote}</div>
       <div class="sum-fb-text">${note}</div>
       <div class="sum-btns">
-        <button class="start-btn" id="retry-btn">Try again →</button>
-        <button class="start-btn sec" id="next-topic-btn">Next topic →</button>
+        <button class="start-btn" id="retry-btn">${ui.tryAgain}</button>
+        <button class="start-btn sec" id="next-topic-btn">${ui.nextTopic}</button>
       </div>
     </div>
   </div>`;
@@ -744,6 +1149,14 @@ function attachEvents(){
   });
   document.querySelectorAll("[data-topic]").forEach(el=>{
     el.onclick = ()=>{ topicIdx=parseInt(el.dataset.topic); buildVals=["","","",""]; resetPractice(); render(); };
+  });
+  document.querySelectorAll("[data-lang]").forEach(b=>{
+    b.onclick = ()=>{
+      currentLang = b.dataset.lang;
+      buildVals=["","","",""];
+      resetPractice();
+      render();
+    };
   });
 
   for(let i=0;i<4;i++){
@@ -767,7 +1180,7 @@ function attachEvents(){
   const retryBtn = document.getElementById("retry-btn");
   if(retryBtn) retryBtn.onclick = ()=>{ resetPractice(); render(); };
   const nextBtn = document.getElementById("next-topic-btn");
-  if(nextBtn) nextBtn.onclick = ()=>{ topicIdx=(topicIdx+1)%TOPICS.length; resetPractice(); render(); };
+  if(nextBtn) nextBtn.onclick = ()=>{ topicIdx=(topicIdx+1)%T().length; resetPractice(); render(); };
 
   scrollThread();
 }
@@ -779,7 +1192,8 @@ function resetPractice(){
 
 function startSession(){
   practicePhase="active"; practiceStep=0; practiceMessages=[]; practiceScores=[];
-  const opening = pick(OPENINGS[persona]);
+  const openings = OPENINGS_I18N[currentLang][persona] || OPENINGS_I18N[currentLang]["Friendly"];
+  const opening = pick(openings);
   practiceMessages.push({type:"prospect",text:opening});
   render();
 }
@@ -796,7 +1210,7 @@ function sendQuestion(){
   const result = analyseQuestion(q);
   if(result) practiceScores.push(result);
 
-  const responses = RESPONSES[clientKey];
+  const responses = RESPONSES_I18N[currentLang][clientKey];
   const topicResponses = responses[topicIdx];
   const prospectReply = topicResponses[step];
   practiceMessages.push({type:"prospect",text:prospectReply});
@@ -806,9 +1220,7 @@ function sendQuestion(){
   }
 
   practiceStep++;
-  if(practiceStep >= 4){
-    practicePhase="done";
-  }
+  if(practiceStep >= 4) practicePhase="done";
   render();
 }
 
@@ -824,24 +1236,25 @@ function scrollThread(){
 }
 
 function printCard(){
-  const topic = TOPICS[topicIdx];
-  const tLabels=["Today","Trouble","True Cost","Tomorrow"];
+  const ui = L();
+  const topic = T()[topicIdx];
   const tColors=["#0050FF","#F59E0B","#EF4444","#10B981"];
   const tDims=["rgba(0,80,255,0.08)","rgba(245,158,11,0.12)","rgba(239,68,68,0.12)","rgba(16,185,129,0.12)"];
-  const rows = tLabels.map((l,i)=>`
+  const rows = ui.tLabels.map((l,i)=>`
     <div style="border:1px solid #E5E7EB;border-radius:8px;margin-bottom:12px;overflow:hidden">
       <div style="padding:10px 16px;font-weight:700;font-size:12px;color:${tColors[i]};background:${tDims[i]}">${l}</div>
-      <div style="padding:14px 16px;font-size:14px;color:#0F172A;min-height:48px;line-height:1.6">${buildVals[i]||'<em style="color:#9CA3AF">No question written</em>'}</div>
+      <div style="padding:14px 16px;font-size:14px;color:#0F172A;min-height:48px;line-height:1.6">${buildVals[i]||'<em style="color:#9CA3AF">—</em>'}</div>
     </div>`).join("");
+  const dir = currentLang==="ar"?"rtl":"ltr";
   const w = window.open("","_blank");
-  w.document.write(`<!DOCTYPE html><html><head><title>Fresha 4T · ${topic.title}</title>
+  w.document.write(`<!DOCTYPE html><html dir="${dir}"><head><title>Fresha 4T · ${topic.title}</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <style>body{font-family:'DM Sans',sans-serif;padding:48px;max-width:640px;margin:0 auto;color:#0F172A}
   h2{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-.4px}
   p{color:#64748B;font-size:14px;margin-bottom:32px;font-weight:500}
   @media print{body{padding:20px}}</style></head>
   <body><h2>${topic.title}</h2>
-  <p>Fresha · 4T Discovery · ${CLIENTS[clientKey].name} · ${new Date().toLocaleDateString("en-GB")}</p>
+  <p>Fresha · 4T Discovery · ${C()[clientKey].name} · ${new Date().toLocaleDateString(currentLang==="ar"?"ar-SA":currentLang==="es"?"es-ES":"en-GB")}</p>
   ${rows}</body></html>`);
   w.document.close();
   setTimeout(()=>w.print(),400);
@@ -849,35 +1262,56 @@ function printCard(){
 
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>"); }
 
-// ── MIC ENGINE ──
+// ════════════════════════════════════════════════════════════
+// MIC ENGINE (improved for iframe/Notion embeds)
+// ════════════════════════════════════════════════════════════
 let activeMicKey = null;
 let activeMicRecog = null;
 
+function showToast(msg){
+  const el = document.getElementById("mic-toast");
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(()=> el.classList.remove("show"), 4000);
+}
+
 function toggleMic(key, targetId) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { alert("Microphone not supported in this browser — try Chrome."); return; }
+  if (!SR) { showToast(L().micUnsupported); return; }
 
   const btn = document.getElementById("mic-" + key);
   if (!btn) return;
 
+  // If already recording, stop
   if (activeMicKey) {
-    activeMicRecog && activeMicRecog.stop();
+    if (activeMicRecog) { try { activeMicRecog.stop(); } catch(e){} }
     const oldBtn = document.getElementById("mic-" + activeMicKey);
     if (oldBtn) { oldBtn.classList.remove("recording"); oldBtn.textContent = "🎤"; }
     if (activeMicKey === key) { activeMicKey = null; activeMicRecog = null; return; }
   }
 
   const recog = new SR();
-  recog.lang = "en-GB";
+  recog.lang = LANG_CODES[currentLang] || "en-GB";
   recog.interimResults = false;
   recog.maxAlternatives = 1;
+  recog.continuous = false;
 
   btn.classList.add("recording");
   btn.textContent = "⏹";
   activeMicKey = key;
   activeMicRecog = recog;
 
-  recog.start();
+  try {
+    recog.start();
+  } catch(e) {
+    btn.classList.remove("recording");
+    btn.textContent = "🎤";
+    activeMicKey = null;
+    activeMicRecog = null;
+    showToast(L().micBlocked);
+    return;
+  }
 
   recog.onresult = (e) => {
     const transcript = e.results[0][0].transcript;
@@ -893,9 +1327,8 @@ function toggleMic(key, targetId) {
     btn.textContent = "🎤";
     activeMicKey = null;
     activeMicRecog = null;
-    const taId = targetId.replace("qta-","");
     if (targetId.startsWith("qta-")) {
-      const idx = parseInt(taId);
+      const idx = parseInt(targetId.replace("qta-",""));
       if (!isNaN(idx)) {
         const ta = document.getElementById(targetId);
         if (ta) { buildVals[idx] = ta.value; showBuildFeedback(idx); }
@@ -903,11 +1336,14 @@ function toggleMic(key, targetId) {
     }
   };
 
-  recog.onerror = () => {
+  recog.onerror = (e) => {
     btn.classList.remove("recording");
     btn.textContent = "🎤";
     activeMicKey = null;
     activeMicRecog = null;
+    if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+      showToast(L().micBlocked);
+    }
   };
 }
 
